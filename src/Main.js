@@ -7,10 +7,6 @@ let config = {
     scene: [ Messenger ]
 }
 let game = new Phaser.Game(config);
-game.people = {
-    names: ['Jonathan','Tyler','Apryl','Sam','Alex'],
-    aquired: [true,true,true,true,true]
-}
 game.mHistory = {
     p0: ['hey','hey'],
     p1: ['hey','hi'],
@@ -19,9 +15,15 @@ game.mHistory = {
     p4: ['its nice to hear from you!','oh sorry wrong person']
 }
 game.mHistoryWho = {
-    jonathan: [0,1],
-    tyler: [0,1],
-    apryl: [1,0],
-    sam: [0,1],
-    alex: [1,1]
+    p0: [0,1],
+    p1: [0,1],
+    p2: [1,0],
+    p3: [0,1],
+    p4: [1,1]
+}
+game.people = {
+    names: ['Jonathan','Tyler','Apryl','Sam','Alex'],
+    aquired: [true,true,true,true,true],
+    mHist: [game.mHistory.p0,game.mHistory.p1,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4],
+    mHistWho: [game.mHistoryWho.p0,game.mHistoryWho.p1,game.mHistoryWho.p2,game.mHistoryWho.p3,game.mHistoryWho.p4]
 }
