@@ -78,6 +78,7 @@ class Messenger extends Phaser.Scene {
         this.convoTabs.forEach(tab => {
             tab.setInteractive();
             tab.on('pointerdown', () => { 
+                this.displayName.text = tab.text;
                 this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
                 this.convoWho = game.people.mHistWho[game.people.names.indexOf(tab.text)];
                 this.loadConvo(this.convo,this.convoWho);
