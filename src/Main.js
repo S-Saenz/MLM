@@ -27,7 +27,17 @@ game.people = {
     mHist: [game.mHistory.p0,game.mHistory.p1,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4],
     mHistWho: [game.mHistoryWho.p0,game.mHistoryWho.p1,game.mHistoryWho.p2,game.mHistoryWho.p3,game.mHistoryWho.p4]
 }
-
-game.var1 = new ConvoVar('no');
-game.var2 = new ConvoVar('no');
-game.var3 = new ConvoVar('no');
+game.formal = 'formal';
+game.uniqueResponse = 'thats dumb';
+game.convo1 = [new SentMsg('hi',[],[]), 
+                new SentOpts( new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual']) ), 
+                new SentMsg('wow youre very'+game.formal ,[],[]), 
+                new SentMsg('Yes, I’m quite unique',[],[]), 
+                new SentMsg(game.uniqueResponse,[],[])];
+/*
+‘hi’
+‘hello’
+‘wow you’re very formal’
+‘Yes, I’m quite unique’
+‘thats dumb’
+*/

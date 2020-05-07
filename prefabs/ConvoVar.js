@@ -7,6 +7,10 @@ class ConvoVar{
         this.str = str;
     }
 
+    print(){
+        console.log(this.str);
+    }
+
 
 
 }
