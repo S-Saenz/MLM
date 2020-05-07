@@ -4,8 +4,8 @@ class SentMsg{
         this.changeVars = changeVars;
         this.changeVarsTo = changeVarsTo;
         var num = 0;
-        this.changeVars.forEach(varr => {
-            varr = this.changeVarsTo[num]
+        changeVars.forEach(varr => {
+            varr.set(this.changeVarsTo[num])
             num++;
         });
 

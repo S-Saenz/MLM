@@ -27,3 +27,7 @@ game.people = {
     mHist: [game.mHistory.p0,game.mHistory.p1,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4],
     mHistWho: [game.mHistoryWho.p0,game.mHistoryWho.p1,game.mHistoryWho.p2,game.mHistoryWho.p3,game.mHistoryWho.p4]
 }
+
+game.var1 = new ConvoVar('no');
+game.var2 = new ConvoVar('no');
+game.var3 = new ConvoVar('no');

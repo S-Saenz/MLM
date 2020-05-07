@@ -13,12 +13,9 @@ class Messenger extends Phaser.Scene {
     }
 
     create(){
-        this.var1 = 'no';
-        this.var2 = 'no';
-        this.var3 = 'no';
-        console.log(this.var1+this.var2+this.var3);
-        var sentMsgTest = new SentMsg('i sent this',[this.var1,this.var2,this.var3],['yes','yes','yes']);
-        console.log(this.var1+this.var2+this.var3);
+        console.log(game.var1+game.var2+game.var3);
+        var sentMsgTest = new SentMsg('i sent this',[game.var1,game.var2,game.var3],['yes','yes','yes']);
+        console.log(game.var1+game.var2+game.var3);
         var centerX = game.config.width/2;
         var centerY = game.config.height/2;
         this.sentConfig = {
