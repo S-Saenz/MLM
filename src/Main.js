@@ -21,7 +21,7 @@ game.fullConvos = {
 game.mHistory = {
     p0: [new SentMsg('hi',[],[]), 
     new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])]), 
-    new SentMsg('wow youre very'+game.formal ,[],[]), 
+    new SentMsg('wow youre very '+game.formal ,[],[]), 
     new SentMsg('Yes, I’m quite unique',[],[]), 
     new SentMsg(game.uniqueResponse,[],[])],
     p1: ['hey','hi'],
