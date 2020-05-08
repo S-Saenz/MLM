@@ -64,9 +64,11 @@ class Messenger extends Phaser.Scene {
           },
         }
         this.textArea = this.add.image(game.config.width,game.config.height,'typeArea').setOrigin(1);
-        this.tabHover = this.add.image(0,0, 'nameHover').setOrigin(0);
+        this.tabHover = this.add.image(0,0, 'nameHover').setOrigin(0,0.15);
         this.tabHover.alpha = 0;
         this.options = [''];
+        this.optionsTxt = [];
+        this.optionsBoxes = [];
         this.msgStart = game.config.height-200;
         this.msgX = game.config.width;
         this.displayName = this.add.text(centerX, 60,"tab", buttonConfig).setOrigin(0.5);
@@ -135,10 +137,32 @@ class Messenger extends Phaser.Scene {
 
     }
 
+    initializeOptionButtons(){
+        this.optionsTxt.forEach(optionTxt => {
+            optionTxt.setInteractive();
+            optionTxt.on('pointerdown', () => { 
+            });
+    
+            optionTxt.on('pointerover', () => { 
+                this.optionsBoxes[this.optionsTxt.getIndex(optionTxt.text)].changeTexture('typeAreaHover');
+            });
+            optionTxt.on('pointerout', () => { 
+            });
+        });
+
+    }
+
     presentOptions(options){
-        console.log(options);
+        var num = 0;
         options.forEach(option => {
+            this.optionsBoxes.push(
+                this.add.image(this.textArea.x,this.textArea.y-(50*(num+1)),'typeArea').setOrigin(1)
+            );
+            this.optionsTxt.push(
+                this.add.text(this.textArea.x,this.textArea.y-(50*(num+1)),option.txt,this.sentConfig).setOrigin(1)
+            );
             console.log('option: ' + option.txt);
+            num++
         });
     }
 
@@ -167,7 +191,6 @@ class Messenger extends Phaser.Scene {
             convo.prog++;
             console.log('num: ' + num);
             var msg = convo.messages[num];
-            console.log(msg.txt);
             if(msg.type() == 'recieved'){
                 var txt = this.add.text(this.msgX,this.msgStart-((convo.prog - num)*100), msg.txt,this.recievedConfig).setOrigin(1);
             }else if(msg.type() == 'sent'){
@@ -175,6 +198,7 @@ class Messenger extends Phaser.Scene {
                 reachedSent = true;
             }else if(msg.type() == 'sentOpts'){
                 this.options = msg.options;
+                this.presentOptions(this.options);
                 reachedSent = true;
             }
             this.convoMsgs.push(txt);
