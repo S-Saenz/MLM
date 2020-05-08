@@ -1,8 +1,8 @@
 
 let config = {
     type: Phaser.AUTO,
-    width: 1500,
-    height: 700,
+    width: 960,
+    height: 600,
     backgroundColor: '#FFF',
     scene: [ Messenger ]
 }
