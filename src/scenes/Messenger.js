@@ -79,9 +79,8 @@ class Messenger extends Phaser.Scene {
             tab.setInteractive();
             tab.on('pointerdown', () => { 
                 this.displayName.text = tab.text;
-                this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
-                this.convoWho = game.people.mHistWho[game.people.names.indexOf(tab.text)];
-                this.loadConvo(this.convo,this.convoWho);
+                this.convo = game.fullConvos.p0;
+                this.loadConvo(this.convo);
             });
     
             tab.on('pointerover', () => { 
@@ -102,17 +101,22 @@ class Messenger extends Phaser.Scene {
         
     }
 
-    loadConvo(convo,convoWho){
+    progressConvo(convo, startPoint){
+
+
+    }
+
+    loadConvo(convo){
         this.convoMsgs.forEach(msg => {
             msg.destroy();
         });
-        var num = convo.length;
-        convo.forEach(msg => {
-            console.log(msg);
-            if(convoWho[convo.length-num] == 0){
-                var txt = this.add.text(this.msgX+800,this.msgStart-(num*100), msg,this.sentConfig).setOrigin(1);
-            }else{
-                var txt = this.add.text(this.msgX,this.msgStart-(num*100), msg,this.recievedConfig).setOrigin(0);
+        var num = convo.messages.length;
+        convo.messages.forEach(msg => {
+            console.log(msg.txt);
+            if(msg.type() == 'recieved'){
+                var txt = this.add.text(this.msgX+800,this.msgStart-(num*100), msg.txt,this.sentConfig).setOrigin(1);
+            }else if(msg.type() == 'sent'){
+                var txt = this.add.text(this.msgX,this.msgStart-(num*100), msg.txt,this.recievedConfig).setOrigin(0);
             }
             this.convoMsgs.push(txt);
             num--;

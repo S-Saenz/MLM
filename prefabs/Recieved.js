@@ -1,8 +1,11 @@
 class Recieved{
     constructor(msg) {
-        this.msg = msg;
+        this.txt = msg;
     }
 
+    type(){
+        return 'recieved';
+    }
 
 
 }

@@ -1,12 +1,19 @@
 class SentOpts{
     constructor(options) {
         this.options = options;
+        this.chosen = false;
+        this.choice = 'none';
 
     }
 
-    update(){
-        
-        
+    choose(choice){
+        this.chosen = true;
+        this.choice = choice;
+
+    }
+
+    type(){
+        return 'sentOpts';
     }
 
 }

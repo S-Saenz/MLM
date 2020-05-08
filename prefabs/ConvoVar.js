@@ -8,7 +8,7 @@ class ConvoVar{
     }
 
     print(){
-        console.log(this.str);
+        console.log()
     }
 
 

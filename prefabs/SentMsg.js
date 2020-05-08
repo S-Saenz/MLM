@@ -1,6 +1,6 @@
 class SentMsg{
     constructor(msg,changeVars,changeVarsTo) {
-        this.msg = msg;
+        this.txt = msg;
         this.changeVars = changeVars;
         this.changeVarsTo = changeVarsTo;
 
@@ -14,6 +14,9 @@ class SentMsg{
         });
     }
 
+    type(){
+        return 'sent';
+    }
 
 
 }
