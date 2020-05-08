@@ -138,15 +138,16 @@ class Messenger extends Phaser.Scene {
     }
 
     initializeOptionButtons(){
-        this.optionsTxt.forEach(optionTxt => {
-            optionTxt.setInteractive();
-            optionTxt.on('pointerdown', () => { 
+        this.optionsBoxes.forEach(optionBox => {
+            optionBox.setInteractive();
+            optionBox.on('pointerdown', () => { 
             });
     
-            optionTxt.on('pointerover', () => { 
-                this.optionsBoxes[this.optionsTxt.getIndex(optionTxt.text)].changeTexture('typeAreaHover');
+            optionBox.on('pointerover', () => { 
+                optionBox.setTexture('typeAreaHover');
             });
-            optionTxt.on('pointerout', () => { 
+            optionBox.on('pointerout', () => { 
+                optionBox.setTexture('typeArea');
             });
         });
 
@@ -164,6 +165,7 @@ class Messenger extends Phaser.Scene {
             console.log('option: ' + option.txt);
             num++
         });
+        this.initializeOptionButtons();
     }
 
     loadConvo(convo){
