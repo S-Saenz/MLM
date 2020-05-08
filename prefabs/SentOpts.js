@@ -2,7 +2,7 @@ class SentOpts{
     constructor(options) {
         this.options = options;
         this.chosen = false;
-        this.choice = 'none';
+        this.choice;
 
     }
 

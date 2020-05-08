@@ -16,6 +16,11 @@ game.fullConvos = {
             new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])] ), 
             new Recieved('wow youre very '+game.formal), 
             new SentMsg('Yes, I’m quite unique',[],[]), 
+            new Recieved(game.uniqueResponse)],[]),
+    p1: new Convo([new Recieved('hiya'), 
+            new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])] ), 
+            new Recieved('wow youre very '+game.formal), 
+            new SentMsg('Yes, I’m quite unique',[],[]), 
             new Recieved(game.uniqueResponse)],[])
 }
 game.mHistory = {
@@ -41,9 +46,8 @@ game.mHistoryWho = {
 }
 game.people = {
     names: ['Jonathan','Tyler','Apryl','Sam','Alex'],
-    aquired: [true,false,false,false,false],
-    mHist: [game.mHistory.p0/*,game.mHistory.p1,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4*/],
-    mHistWho: [game.mHistoryWho.p0/*,game.mHistoryWho.p1,game.mHistoryWho.p2,game.mHistoryWho.p3,game.mHistoryWho.p4*/]
+    aquired: [true,true,false,false,false],
+    mHist: [game.fullConvos.p0,game.fullConvos.p1/*,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4*/]
 }
 
 

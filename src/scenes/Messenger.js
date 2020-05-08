@@ -73,7 +73,7 @@ class Messenger extends Phaser.Scene {
         this.msgX = game.config.width;
         this.displayName = this.add.text(centerX, 60,"tab", buttonConfig).setOrigin(0.5);
         this.convoMsgs = [];
-        this.convo = [];
+        this.convo;
         this.convoWho = [];
         this.convoTabs = [];
         var num = 0;
@@ -104,7 +104,7 @@ class Messenger extends Phaser.Scene {
                 this.tabHover.x = tab.x;
                 this.tabHover.y = tab.y;
                 this.tabHover.alpha = 1;
-                this.convo = game.fullConvos.p0;
+                this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
                 if(this.displayName.text != tab.text){
                     this.loadConvo(this.convo);
                 }
@@ -138,10 +138,18 @@ class Messenger extends Phaser.Scene {
 
     }
 
+    chooseOption(option){
+
+        this.convo.prog++;
+
+    }
+
     initializeOptionButtons(){
+        var num = 0;
         this.optionsBoxes.forEach(optionBox => {
             optionBox.setInteractive();
             optionBox.on('pointerdown', () => { 
+                this.chooseOption(this.options[num]);
             });
     
             optionBox.on('pointerover', () => { 
@@ -150,6 +158,7 @@ class Messenger extends Phaser.Scene {
             optionBox.on('pointerout', () => { 
                 optionBox.setTexture('typeArea');
             });
+            num++;
         });
 
     }
@@ -170,6 +179,13 @@ class Messenger extends Phaser.Scene {
     }
 
     loadConvo(convo){
+        var optNum = 0;
+        this.optionsTxt.forEach(opt => {
+            opt.destroy();
+            this.optionsBoxes[optNum].destroy();
+            optNum++;
+            
+        });
         this.convoMsgs.forEach(msg => {
             msg.destroy();
         });
@@ -191,13 +207,13 @@ class Messenger extends Phaser.Scene {
 
 
         while(!reachedSent){
-            convo.prog++;
             console.log('num: ' + num);
             var msg = convo.messages[num];
             if(msg.type() == 'recieved'){
-                var txt = this.add.text(this.msgX,this.msgStart-((convo.prog - num)*100), msg.txt,this.recievedConfig).setOrigin(1);
+                convo.prog++;
+                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((convo.prog - num)*100), msg.txt,this.recievedConfig).setOrigin(0);
             }else if(msg.type() == 'sent'){
-                this.options = [msg.txt];
+                this.options = [msg];
                 reachedSent = true;
             }else if(msg.type() == 'sentOpts'){
                 this.options = msg.options;
