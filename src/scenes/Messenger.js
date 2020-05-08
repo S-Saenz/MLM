@@ -88,6 +88,7 @@ class Messenger extends Phaser.Scene {
         //=============================== set interactive ===========================================
         this.textArea.setInteractive();
         this.textArea.on('pointerdown', () => { 
+            this.presentOptions(this.options);
         });
 
         this.textArea.on('pointerover', () => { 
@@ -200,7 +201,6 @@ class Messenger extends Phaser.Scene {
                 reachedSent = true;
             }else if(msg.type() == 'sentOpts'){
                 this.options = msg.options;
-                this.presentOptions(this.options);
                 reachedSent = true;
             }
             this.convoMsgs.push(txt);
