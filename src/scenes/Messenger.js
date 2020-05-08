@@ -107,6 +107,7 @@ class Messenger extends Phaser.Scene {
     }
 
     presentOptions(options){
+        console.log(options);
         options.forEach(option => {
             console.log('option: ' + option.txt);
         });
