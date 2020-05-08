@@ -57,7 +57,7 @@ class Messenger extends Phaser.Scene {
               bottom: 5,
           },
         }
-        this.msgStart = game.config.height-200;
+        this.msgStart = game.config.height;
         this.msgX = 300;
         this.displayName = this.add.text(centerX, 60,"tab", buttonConfig).setOrigin(0.5);
         this.convoMsgs = [];
@@ -106,17 +106,24 @@ class Messenger extends Phaser.Scene {
 
     }
 
+    presentOptions(options){
+        options.forEach(option => {
+            console.log('option: ' + option.txt);
+        });
+    }
+
     loadConvo(convo){
         this.convoMsgs.forEach(msg => {
             msg.destroy();
         });
         var num = convo.messages.length;
         convo.messages.forEach(msg => {
-            console.log(msg.txt);
             if(msg.type() == 'recieved'){
                 var txt = this.add.text(this.msgX+800,this.msgStart-(num*100), msg.txt,this.sentConfig).setOrigin(1);
             }else if(msg.type() == 'sent'){
                 var txt = this.add.text(this.msgX,this.msgStart-(num*100), msg.txt,this.recievedConfig).setOrigin(0);
+            }else if(msg.type() == 'sentOpts'){
+                this.presentOptions(msg.options);
             }
             this.convoMsgs.push(txt);
             num--;
