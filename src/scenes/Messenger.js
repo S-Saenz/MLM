@@ -117,20 +117,19 @@ class Messenger extends Phaser.Scene {
         this.convoMsgs.forEach(msg => {
             msg.destroy();
         });
-        var num = convo.messages.length;
-        convo.messages.forEach(msg => {
+        for(var num = 0; num <= convo.prog; num++){
+            console.log('num: ' + num);
+            var msg = convo.messages[num];
+            console.log(msg.txt);
             if(msg.type() == 'recieved'){
                 var txt = this.add.text(this.msgX+800,this.msgStart-(num*100), msg.txt,this.sentConfig).setOrigin(1);
             }else if(msg.type() == 'sent'){
                 var txt = this.add.text(this.msgX,this.msgStart-(num*100), msg.txt,this.recievedConfig).setOrigin(0);
+                //this.presentOptions(msg.options);
             }else if(msg.type() == 'sentOpts'){
-                this.presentOptions(msg.options);
+                //this.presentOptions(msg.options);
             }
             this.convoMsgs.push(txt);
-            num--;
-            if(msg.type() == 'sentOpts'){
-                return;
-            }
-        });
+        }
     }
 }
