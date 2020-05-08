@@ -128,6 +128,9 @@ class Messenger extends Phaser.Scene {
             }
             this.convoMsgs.push(txt);
             num--;
+            if(msg.type() == 'sentOpts'){
+                return;
+            }
         });
     }
 }
