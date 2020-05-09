@@ -2,9 +2,9 @@
 let config = {
     type: Phaser.AUTO,
     width: 960,
-    height: 600,
+    height: 900,
     backgroundColor: '#FFF',
-    scene: [ Messenger ]
+    scene: [ Messenger, MusicPlayer ]
 }
 let game = new Phaser.Game(config);
 

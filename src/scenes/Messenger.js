@@ -17,7 +17,7 @@ class Messenger extends Phaser.Scene {
     }
 
     create(){
-        this.bg = this.add.tileSprite(0, 0, 960, 600, 'ui_bg').setOrigin(0, 0);
+        this.bg = this.add.tileSprite(960, 900, 960, 600, 'ui_bg').setOrigin(1,0);
         this.add.tileSprite(0,0,'ui_bg');
         var centerX = game.config.width/2;
         var centerY = game.config.height/2;
@@ -72,7 +72,7 @@ class Messenger extends Phaser.Scene {
         this.optionsBoxes = [];
         this.msgStart = game.config.height-200;
         this.msgX = game.config.width;
-        this.displayName = this.add.text(centerX, 60,"tab", buttonConfig).setOrigin(0.5);
+        this.displayName = this.add.text(centerX, 60,"", buttonConfig).setOrigin(0.5);
         this.convoMsgs = [];
         this.convo;
         this.convoWho = [];
