@@ -10,6 +10,9 @@ class ConvoVar{
     print(){
         console.log()
     }
+    type(){
+        return 'convoVar';
+    }
 
 
 

@@ -14,9 +14,9 @@ game.uniqueResponse = new ConvoVar('thats dumb');
 game.fullConvos = {
     p0: new Convo([new Recieved('hi'), 
             new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])] ), 
-            new Recieved('wow youre very '+game.formal.txt), 
+            new Recieved(['wow youre very ', game.formal]), 
             new SentMsg('Yes, I’m quite unique',[],[]), 
-            new Recieved(game.uniqueResponse.txt)],[]),
+            new Recieved([game.uniqueResponse])],[game.formal,game.uniqueResponse]),
     p1: new Convo([new Recieved('hiya'), 
             new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])] ), 
             new Recieved('wow youre very '+game.formal), 

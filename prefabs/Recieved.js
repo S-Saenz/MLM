@@ -1,6 +1,6 @@
 class Recieved{
     constructor(msg) {
-        this.txt = msg;
+        this.txtArr = msg;
     }
 
     type(){

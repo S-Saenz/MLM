@@ -234,7 +234,16 @@ class Messenger extends Phaser.Scene {
             console.log('num: ' + num);
             var msg = game.people.mHist[convoIndex].messages[num];
             if(msg.type() == 'recieved'){
-                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((prog - num)*100), msg.txt,this.recievedConfig).setOrigin(0);
+                var message;
+                msg.txtArr.forEach(txt => {
+                    console.log(txt);
+                    if(txt.type() != null){
+                        message += txt.txt;
+                    }else{
+                        message += txt;
+                    }
+                });
+                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((prog - num)*100), message,this.recievedConfig).setOrigin(0);
             }else if(msg.type() == 'sent'){
                 var txt = this.add.text(this.msgX,this.msgStart-((prog - num)*100), msg.txt,this.sentConfig).setOrigin(1);
             }else if(msg.type() == 'sentOpts'){
