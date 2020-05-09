@@ -17,8 +17,7 @@ class Messenger extends Phaser.Scene {
     }
 
     create(){
-        this.bg = this.add.tileSprite(960, 900, 960, 600, 'ui_bg').setOrigin(1,0);
-        this.add.tileSprite(0,0,'ui_bg');
+        this.bg = this.add.image(0, 200, 'ui_bg').setOrigin(0, 0);
         var centerX = game.config.width/2;
         var centerY = game.config.height/2;
         this.sentConfig = {
