@@ -8,7 +8,7 @@ class SentMsg{
 
     onSelect(){
         var num = 0;
-        changeVars.forEach(varr => {
+        this.changeVars.forEach(varr => {
             varr.set(this.changeVarsTo[num])
             num++;
         });

@@ -8,15 +8,15 @@ let config = {
 }
 let game = new Phaser.Game(config);
 
-game.formal = 'formal';
-game.uniqueResponse = 'thats dumb';
+game.formal = new ConvoVar('formal');
+game.uniqueResponse = new ConvoVar('thats dumb');
 
 game.fullConvos = {
     p0: new Convo([new Recieved('hi'), 
             new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])] ), 
-            new Recieved('wow youre very '+game.formal), 
+            new Recieved('wow youre very '+game.formal.txt), 
             new SentMsg('Yes, I’m quite unique',[],[]), 
-            new Recieved(game.uniqueResponse)],[]),
+            new Recieved(game.uniqueResponse.txt)],[]),
     p1: new Convo([new Recieved('hiya'), 
             new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])] ), 
             new Recieved('wow youre very '+game.formal), 

@@ -1,10 +1,10 @@
 class ConvoVar{
     constructor(str) {
-        this.str = str;
+        this.txt = str;
     }
 
     set(str){
-        this.str = str;
+        this.txt = str;
     }
 
     print(){

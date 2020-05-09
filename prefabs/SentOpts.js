@@ -9,6 +9,7 @@ class SentOpts{
     choose(choice){
         this.chosen = true;
         this.choice = choice;
+        choice.onSelect();
         console.log('choose ' + choice.txt);
 
     }

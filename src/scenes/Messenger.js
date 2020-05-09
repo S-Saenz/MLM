@@ -74,16 +74,24 @@ class Messenger extends Phaser.Scene {
         this.chatTab = this.add.text(60,10,'Messenger',buttonConfig);
         this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
 
+        //
         this.currSentOpts;
         this.textArea = this.add.image(game.config.width,game.config.height,'typeArea').setOrigin(1);
         this.chatTabHover = this.add.image(0,0, 'nameHover').setOrigin(0,0.15);
         this.chatTabHover.alpha = 0;
+        this.currOptionsIndex;
         this.options = [''];
         this.optionsTxt = [];
         this.optionsBoxes = [];
+
+        //message placement:
         this.msgStart = game.config.height-200;
         this.msgX = game.config.width;
+
         this.displayName = this.add.text(centerX, 60,"", buttonConfig).setOrigin(0.5);
+
+        
+        this.convoIndex = 0;
         this.convoMsgs = [];
         this.convo;
         this.convoWho = [];
@@ -125,15 +133,17 @@ class Messenger extends Phaser.Scene {
             this.musicPlayerTab.setTexture('tab');
         });
 
+        //chat tabs
         this.convoTabs.forEach(tab => {
             tab.setInteractive();
             tab.on('pointerdown', () => { 
                 this.chatTabHover.x = tab.x;
                 this.chatTabHover.y = tab.y;
                 this.chatTabHover.alpha = 1;
+                this.convoIndex = game.people.names.indexOf(tab.text);
                 this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
                 if(this.displayName.text != tab.text){
-                    this.loadConvo(this.convo);
+                    this.loadConvo(this.convoIndex);
                 }
                 this.displayName.text = tab.text;
             });
@@ -166,8 +176,9 @@ class Messenger extends Phaser.Scene {
     }
 
     chooseOption(option){
-        this.currSentOpts.choose(option);
-        this.convo.prog++;
+        //this.currSentOpts.choose(option);
+        game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(option);
+        game.people.mHist[this.convoIndex].prog++;
 
     }
 
@@ -205,7 +216,7 @@ class Messenger extends Phaser.Scene {
         this.initializeOptionButtons();
     }
 
-    loadConvo(convo){
+    loadConvo(convoIndex){
         var optNum = 0;
         this.optionsTxt.forEach(opt => {
             opt.destroy();
@@ -218,36 +229,37 @@ class Messenger extends Phaser.Scene {
         });
         var reachedSent = false;
         var num;
-        for(num = 0; num <= convo.prog-1; num++){
+        for(num = 0; num <= game.people.mHist[convoIndex].prog-1; num++){
+            var prog = game.people.mHist[convoIndex].prog;
             console.log('num: ' + num);
-            var msg = convo.messages[num];
+            var msg = game.people.mHist[convoIndex].messages[num];
             if(msg.type() == 'recieved'){
-                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((convo.prog - num)*100), msg.txt,this.recievedConfig).setOrigin(0);
+                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((prog - num)*100), msg.txt,this.recievedConfig).setOrigin(0);
             }else if(msg.type() == 'sent'){
-                var txt = this.add.text(this.msgX,this.msgStart-((convo.prog - num)*100), msg.txt,this.sentConfig).setOrigin(1);
+                var txt = this.add.text(this.msgX,this.msgStart-((prog - num)*100), msg.txt,this.sentConfig).setOrigin(1);
             }else if(msg.type() == 'sentOpts'){
-                var txt = this.add.text(this.msgX,this.msgStart-((convo.prog - num)*100), msg.choice,this.sentConfig).setOrigin(1);
+                var txt = this.add.text(this.msgX,this.msgStart-((prog - num)*100), msg.choice.txt,this.sentConfig).setOrigin(1);
             }
             this.convoMsgs.push(txt);
         }
 
 
         while(!reachedSent){
-            console.log('num: ' + num);
-            var msg = convo.messages[num];
+            var msg = game.people.mHist[this.convoIndex].messages[num];
             if(msg.type() == 'recieved'){
-                convo.prog++;
-                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((convo.prog - num)*100), msg.txt,this.recievedConfig).setOrigin(0);
+                game.people.mHist[this.convoIndex].prog++;
+                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((game.people.mHist[this.convoIndex].prog - num)*100), msg.txt,this.recievedConfig).setOrigin(0);
             }else if(msg.type() == 'sent'){
                 this.options = [msg];
                 reachedSent = true;
             }else if(msg.type() == 'sentOpts'){
+                this.currOptionsIndex = num;
                 this.options = msg.options;
                 this.currSentOpts = msg;
                 reachedSent = true;
             }
             this.convoMsgs.push(txt);
-            if(num == convo.messages.length){
+            if(num == game.people.mHist[this.convoIndex].messages.length){
                 reachedSent = true;
             }
             num++;
