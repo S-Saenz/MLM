@@ -72,7 +72,7 @@ class Messenger extends Phaser.Scene {
         this.tabSelected = this.add.tileSprite(0,0,270,60,'tabSelected').setOrigin(0);
         this.bg = this.add.tileSprite(0, 50, 960, 600, 'ui_bg').setOrigin(0, 0);
         this.chatTab = this.add.text(60,10,'Messenger',buttonConfig);
-        this.musicPlayerTabTxt = this.add.text(270*1.5,10,'Music Player',buttonConfig).setOrigin(0.5,0);
+        this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
 
         this.currSentOpts;
         this.textArea = this.add.image(game.config.width,game.config.height,'typeArea').setOrigin(1);

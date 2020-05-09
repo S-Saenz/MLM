@@ -1,6 +1,6 @@
-class Messenger extends Phaser.Scene {
+class MusicPlayer extends Phaser.Scene {
     constructor(){
-        super("messengerScene");
+        super("musicPlayerScene");
     }
     preload() {
 
@@ -71,7 +71,7 @@ class Messenger extends Phaser.Scene {
         this.messengerTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0);
         this.tabSelected = this.add.tileSprite(250,0,270,60,'tabSelected').setOrigin(0);
         this.bg = this.add.tileSprite(0, 50, 960, 600, 'ui_bg').setOrigin(0, 0);
-        this.chatTab = this.add.text(270*1.5,10,'Music Player',buttonConfig).setOrigin(0.5,0);
+        this.chatTab = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
         this.messengerTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
 
         
@@ -81,7 +81,7 @@ class Messenger extends Phaser.Scene {
         //set interactive for tab
         this.messengerTab.setInteractive();
         this.messengerTab.on('pointerdown', () => { 
-            this.scene.start("musicPlayerScene");
+            this.scene.start("messengerScene");
         });
 
         this.messengerTab.on('pointerover', () => { 
