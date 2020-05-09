@@ -14,10 +14,14 @@ class Messenger extends Phaser.Scene {
         this.load.image('typeAreaHover', '././assets/typeAreaHover.png');
         this.load.image('nameHover', '././assets/nameHover.png');
 
+        this.load.image('tabLine', '././assets/tabLine.png');
+        this.load.image('tab', '././assets/tab.png');
+        this.load.image('tabHover', '././assets/tabHover.png');
+        this.load.image('tabSelected', '././assets/tabSelected.png');
+
     }
 
     create(){
-        this.bg = this.add.image(0, 200, 'ui_bg').setOrigin(0, 0);
         var centerX = game.config.width/2;
         var centerY = game.config.height/2;
         this.sentConfig = {
@@ -52,7 +56,7 @@ class Messenger extends Phaser.Scene {
         let buttonConfig = {
           fontFamily: 'Helvetica',
           fontStyle: 'bold',
-          fontSize: '30px',
+          fontSize: '20px',
           color: '#000',
           align: 'center',
           padding: {
@@ -62,10 +66,18 @@ class Messenger extends Phaser.Scene {
               bottom: 5,
           },
         }
+        // set up background and tabs
+        this.tabLine = this.add.tileSprite(0,0,960,200,'tabLine').setOrigin(0);
+        this.musicPlayerTab = this.add.tileSprite(250,0,270,60,'tab').setOrigin(0);
+        this.tabSelected = this.add.tileSprite(0,0,270,60,'tabSelected').setOrigin(0);
+        this.bg = this.add.tileSprite(0, 50, 960, 600, 'ui_bg').setOrigin(0, 0);
+        this.chatTab = this.add.text(60,10,'Messenger',buttonConfig);
+        this.musicPlayerTabTxt = this.add.text(270*1.5,10,'Music Player',buttonConfig).setOrigin(0.5,0);
+
         this.currSentOpts;
         this.textArea = this.add.image(game.config.width,game.config.height,'typeArea').setOrigin(1);
-        this.tabHover = this.add.image(0,0, 'nameHover').setOrigin(0,0.15);
-        this.tabHover.alpha = 0;
+        this.chatTabHover = this.add.image(0,0, 'nameHover').setOrigin(0,0.15);
+        this.chatTabHover.alpha = 0;
         this.options = [''];
         this.optionsTxt = [];
         this.optionsBoxes = [];
@@ -86,6 +98,8 @@ class Messenger extends Phaser.Scene {
         });
         
         //=============================== set interactive ===========================================
+
+        //text area is the part where you type your message at the bottom of messenger
         this.textArea.setInteractive();
         this.textArea.on('pointerdown', () => { 
             this.presentOptions(this.options);
@@ -98,12 +112,25 @@ class Messenger extends Phaser.Scene {
             this.textArea.setTexture('typeArea');
         });
 
+        //set interactive for tab
+        this.musicPlayerTab.setInteractive();
+        this.musicPlayerTab.on('pointerdown', () => { 
+            this.scene.start("musicPlayerScene");
+        });
+
+        this.musicPlayerTab.on('pointerover', () => { 
+            this.musicPlayerTab.setTexture('tabHover');
+        });
+        this.musicPlayerTab.on('pointerout', () => { 
+            this.musicPlayerTab.setTexture('tab');
+        });
+
         this.convoTabs.forEach(tab => {
             tab.setInteractive();
             tab.on('pointerdown', () => { 
-                this.tabHover.x = tab.x;
-                this.tabHover.y = tab.y;
-                this.tabHover.alpha = 1;
+                this.chatTabHover.x = tab.x;
+                this.chatTabHover.y = tab.y;
+                this.chatTabHover.alpha = 1;
                 this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
                 if(this.displayName.text != tab.text){
                     this.loadConvo(this.convo);
@@ -112,14 +139,14 @@ class Messenger extends Phaser.Scene {
             });
     
             tab.on('pointerover', () => { 
-                this.tabHover.x = tab.x;
-                this.tabHover.y = tab.y;
-                this.tabHover.alpha = 1;
+                this.chatTabHover.x = tab.x;
+                this.chatTabHover.y = tab.y;
+                this.chatTabHover.alpha = 1;
                 tab.setDepth(2);
             });
             tab.on('pointerout', () => { 
                 if(this.displayName.text != tab.text){
-                    this.tabHover.alpha = 0;
+                    this.chatTabHover.alpha = 0;
                 }
             });
     

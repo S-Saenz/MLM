@@ -2,7 +2,7 @@
 let config = {
     type: Phaser.AUTO,
     width: 960,
-    height: 900,
+    height: 650,
     backgroundColor: '#FFF',
     scene: [ Messenger, MusicPlayer ]
 }
