@@ -179,6 +179,7 @@ class Messenger extends Phaser.Scene {
         //this.currSentOpts.choose(option);
         game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(option);
         game.people.mHist[this.convoIndex].prog++;
+        this.loadConvo(this.convoIndex)
 
     }
 
@@ -210,7 +211,6 @@ class Messenger extends Phaser.Scene {
             this.optionsTxt.push(
                 this.add.text(this.textArea.x,this.textArea.y-(50*(num+1)),option.txt,this.sentConfig).setOrigin(1)
             );
-            console.log('option: ' + option.txt);
             num++
         });
         this.initializeOptionButtons();
@@ -231,13 +231,11 @@ class Messenger extends Phaser.Scene {
         var num;
         for(num = 0; num <= game.people.mHist[convoIndex].prog-1; num++){
             var prog = game.people.mHist[convoIndex].prog;
-            console.log('num: ' + num);
             var msg = game.people.mHist[convoIndex].messages[num];
             if(msg.type() == 'recieved'){
-                var message;
+                var message = '';
                 msg.txtArr.forEach(txt => {
-                    console.log(txt);
-                    if(typeof txt == 'string'){
+                    if(typeof txt == "string"){
                         message += txt;
                     }else{
                         message += txt.txt;
@@ -257,7 +255,15 @@ class Messenger extends Phaser.Scene {
             var msg = game.people.mHist[this.convoIndex].messages[num];
             if(msg.type() == 'recieved'){
                 game.people.mHist[this.convoIndex].prog++;
-                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((game.people.mHist[this.convoIndex].prog - num)*100), msg.txt,this.recievedConfig).setOrigin(0);
+                var message = '';
+                msg.txtArr.forEach(txt => {
+                    if(typeof txt == "string"){
+                        message += txt;
+                    }else{
+                        message += txt.txt;
+                    }
+                });
+                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((game.people.mHist[this.convoIndex].prog - num)*100), message,this.recievedConfig).setOrigin(0);
             }else if(msg.type() == 'sent'){
                 this.options = [msg];
                 reachedSent = true;

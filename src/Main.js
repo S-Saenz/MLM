@@ -17,11 +17,11 @@ game.fullConvos = {
             new Recieved(['wow youre very ', game.formal]), 
             new SentMsg('Yes, I’m quite unique',[],[]), 
             new Recieved([game.uniqueResponse])],[game.formal,game.uniqueResponse]),
-    p1: new Convo([new Recieved('hiya'), 
+    p1: new Convo([new Recieved(['hi']), 
             new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])] ), 
-            new Recieved('wow youre very '+game.formal), 
+            new Recieved(['wow youre very ', game.formal]), 
             new SentMsg('Yes, I’m quite unique',[],[]), 
-            new Recieved(game.uniqueResponse)],[])
+            new Recieved([game.uniqueResponse])],[game.formal,game.uniqueResponse])
 }
 game.mHistory = {
     p0: [new SentMsg('hi',[],[]), 
