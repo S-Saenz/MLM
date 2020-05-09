@@ -237,10 +237,10 @@ class Messenger extends Phaser.Scene {
                 var message;
                 msg.txtArr.forEach(txt => {
                     console.log(txt);
-                    if(txt.type() != null){
-                        message += txt.txt;
-                    }else{
+                    if(typeof txt == 'string'){
                         message += txt;
+                    }else{
+                        message += txt.txt;
                     }
                 });
                 var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((prog - num)*100), message,this.recievedConfig).setOrigin(0);
