@@ -11,16 +11,25 @@ let game = new Phaser.Game(config);
 game.formal = new ConvoVar('formal');
 game.uniqueResponse = new ConvoVar('thats dumb');
 
+game.convo0Vars = {
+    formal: new ConvoVar('formal'),
+    uniqueResponse: new ConvoVar('thats dumb')
+}
+game.convo0Vars = {
+    formal: new ConvoVar('formal'),
+    uniqueResponse: new ConvoVar('thats dumb')
+}
+
 game.fullConvos = {
     p0: new Convo([new Recieved(['hi']), 
-            new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])] ), 
-            new Recieved(['wow youre very ', game.formal]), 
-            new SentMsg('Yes, I’m quite unique',[],[]), 
-            new Recieved([game.uniqueResponse])],[game.formal,game.uniqueResponse]),
+            new SentOpts( [new SentMsg('hello',[game.convo0Vars.formal],['formal'], -1), new SentMsg('sup',[game.convo0Vars.formal],['casual'], 1)] ), 
+            new Recieved(['wow youre very ', game.convo0Vars.formal]), 
+            new SentMsg('Yes, I’m quite unique',[],[], 0), 
+            new Recieved([game.convo0Vars.uniqueResponse])],[game.formal,game.uniqueResponse]),
     p1: new Convo([new Recieved(['hiya']), 
-            new SentOpts( [new SentMsg('good evening',[game.formal],['weird']), new SentMsg('hella hi',[game.formal],['dumb'])] ), 
+            new SentOpts( [new SentMsg('good evening',[game.formal],['weird'], 1), new SentMsg('hella hi',[game.formal],['dumb'], -1)]), 
             new Recieved(['wow youre very ', game.formal]), 
-            new SentMsg('Yes, I’m quite unique',[],[]), 
+            new SentMsg('Yes, I’m quite unique',[],[], 0), 
             new Recieved([game.uniqueResponse])],[game.formal,game.uniqueResponse])
 }
 game.mHistory = {

@@ -7,10 +7,12 @@ class SentOpts{
     }
 
     choose(choice){
-        choice.onSelect();
-        this.choice = choice;
-        this.chosen = true;
-        console.log('choose ' + choice.txt);
+        if(!this.chosen){
+            choice.onSelect();
+            this.choice = choice;
+            this.chosen = true;
+            console.log('choose ' + choice.txt);
+        }
 
     }
 

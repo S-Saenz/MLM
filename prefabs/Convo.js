@@ -1,5 +1,5 @@
 class Convo{
-    constructor(messages, variables) {
+    constructor(messages,variables) {
         this.messages = messages;
         this.variables = variables;
         this.prog = 0;
