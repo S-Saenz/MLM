@@ -175,9 +175,11 @@ class Messenger extends Phaser.Scene {
 
     }
 
-    chooseOption(option){
+    chooseOption(optionIndex){
         //this.currSentOpts.choose(option);
-        game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(option);
+        console.log(game.people.mHist[this.convoIndex].messages[this.currOptionsIndex]);
+        console.log('trying to choose at index: ' + optionIndex);
+        game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(this.options[optionIndex]);
         game.people.mHist[this.convoIndex].prog++;
         this.loadConvo(this.convoIndex)
 
@@ -188,7 +190,7 @@ class Messenger extends Phaser.Scene {
         this.optionsBoxes.forEach(optionBox => {
             optionBox.setInteractive();
             optionBox.on('pointerdown', () => { 
-                this.chooseOption(this.options[this.optionsBoxes.indexOf(optionBox)]);
+                this.chooseOption(this.optionsBoxes.indexOf(optionBox));
             });
     
             optionBox.on('pointerover', () => { 
@@ -224,6 +226,8 @@ class Messenger extends Phaser.Scene {
             optNum++;
             
         });
+        this.optionsTxt = [];
+        this.optionsBoxes = [];
         this.convoMsgs.forEach(msg => {
             msg.destroy();
         });
