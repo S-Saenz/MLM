@@ -9,7 +9,7 @@ class MusicPlayer extends Phaser.Scene {
 
         //buttons
         //this.load.image('audioOff', '././assets/audioOff.png');
-        this.load.image('ui_bg', '././assets/ui_bg.png');
+        this.load.image('ui_bg', '././assets/musicPlayer.png');
         this.load.image('typeArea', '././assets/typeArea.png');
         this.load.image('typeAreaHover', '././assets/typeAreaHover.png');
         this.load.image('nameHover', '././assets/nameHover.png');
