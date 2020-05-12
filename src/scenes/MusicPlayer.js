@@ -9,10 +9,11 @@ class MusicPlayer extends Phaser.Scene {
 
         //buttons
         //this.load.image('audioOff', '././assets/audioOff.png');
-        this.load.image('ui_bg', '././assets/musicPlayer.png');
-        this.load.image('typeArea', '././assets/typeArea.png');
-        this.load.image('typeAreaHover', '././assets/typeAreaHover.png');
-        this.load.image('nameHover', '././assets/nameHover.png');
+        this.load.image('mp_bg', '././assets/musicPlayer.png');
+        this.load.image('bigPlay', '././assets/bigPlay.png');
+        this.load.image('bigPause', '././assets/bigPause.png');
+        this.load.image('smallPlay', '././assets/smallPlay.png');
+        this.load.image('smallPause', '././assets/smallPause.png');
 
         this.load.image('tabLine', '././assets/tabLine.png');
         this.load.image('tab', '././assets/tab.png');
@@ -70,9 +71,12 @@ class MusicPlayer extends Phaser.Scene {
         this.tabLine = this.add.tileSprite(0,0,960,200,'tabLine').setOrigin(0);
         this.messengerTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0);
         this.tabSelected = this.add.tileSprite(250,0,270,60,'tabSelected').setOrigin(0);
-        this.bg = this.add.tileSprite(0, 50, 960, 600, 'ui_bg').setOrigin(0, 0);
-        this.chatTab = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
+        this.bg = this.add.tileSprite(0, 50, 1920, 1200, 'mp_bg').setOrigin(0, 0).setScale(0.5);
+        this.mpTab = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
         this.messengerTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
+
+        //music player ui buttons
+        this.bigPlay = this.add.image(100,200,'bigPlay').setScale(0.5);
 
         
         //=============================== set interactive ===========================================
