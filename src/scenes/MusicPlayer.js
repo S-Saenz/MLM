@@ -31,8 +31,10 @@ class MusicPlayer extends Phaser.Scene {
         this.load.image('audioOffHover', '././assets/audioOffHover.png');
 
         //playlist song stuff
+        this.load.image('songPlay', '././assets/songPlay.png');
         this.load.image('songNote', '././assets/songNote.png');
-        this.load.image('songArea', '././assets/songHover.png');
+        this.load.image('songAreaHover', '././assets/songHover.png');
+        this.load.image('songArea', '././assets/songArea.png');
 
         //tab stuff
         this.load.image('tabLine', '././assets/tabLine.png');
@@ -59,10 +61,11 @@ class MusicPlayer extends Phaser.Scene {
         this.song0 = this.sound.add(game.playlist[0].songName);
         this.song1 = this.sound.add(game.playlist[1].songName);
         this.song2 = this.sound.add(game.playlist[2].songName);
-        this.currSong = this.song0;
+        this.songs = [this.song0, this.song1,this.song2];
+        game.currSong = this.song0;
 
-        this.currSong.play(this.musicConfig);
-        this.playSong(this.song1);
+        game.currSong.stop();
+        game.currSong.play(this.musicConfig);
 
         this.sentConfig = {
             fontFamily: 'Helvetica',
@@ -127,7 +130,7 @@ class MusicPlayer extends Phaser.Scene {
             this.add.text(250,songListStartY+playlistNum*40,song.songName,songNameConfig).setDepth(2);
             this.add.text(250,songListStartY+20+playlistNum*40,song.artist + ' · ' + song.album,songInfoConfig).setDepth(2);
             this.playlistSongAreas.push(
-                this.add.image(190,songListStartY+20+playlistNum*40, 'songArea').setScale(0.5).setDepth(1).setOrigin(0,0.5).setAlpha(0)
+                this.add.image(190,songListStartY+20+playlistNum*40, 'songArea').setScale(0.5).setDepth(1).setOrigin(0,0.5)
             );
             this.playlistNotes.push(
                 this.add.image(215,songListStartY+20+playlistNum*40, 'songNote').setScale(0.5).setDepth(2).setOrigin(0,0.5)
@@ -172,19 +175,44 @@ class MusicPlayer extends Phaser.Scene {
         //=============================== button functionality ===========================================
 
         //song buttons
+        playlistNum = 0;
         this.playlistSongAreas.forEach(area => {
             area.setInteractive();
                 
             area.on('pointerdown', () => { 
+                //if you click on a song
+                //set all buttons to original look
+                this.playlistSongAreas.forEach(ar => {
+                    ar.setTexture('songArea');
+                    this.playlistNotes[this.playlistSongAreas.indexOf(ar)].setTexture('songNote');
+                });
+                //play the song
+                this.playSong(this.songs[this.playlistSongAreas.indexOf(area)]);
+                //set this song area to clicked look
+                area.setTexture('songAreaHover');
+                this.playlistNotes[this.playlistSongAreas.indexOf(area)].setTexture('songPlay');
+                //set audio on
+                this.audio.setTexture('audioOn');
+                game.audio = true;
+                game.currSong.setMute(false);
+                this.musicConfig.mute = false;
+                //set play buttons to pause
+                this.bigPlay.setTexture('bigPause');
+                this.smallPlay.setTexture('smallPause');
             });
 
             area.on('pointerover', () => { 
-                area.alpha = 1;
+                area.setTexture('songAreaHover');
+                this.playlistNotes[this.playlistSongAreas.indexOf(area)].setTexture('songPlay');
             });
             area.on('pointerout', () => { 
-                area.alpha = 0;
+                if(game.currSong != this.songs[this.playlistSongAreas.indexOf(area)]){
+                    area.setTexture('songArea');
+                    this.playlistNotes[this.playlistSongAreas.indexOf(area)].setTexture('songNote');
+                }
             });
 
+            playlistNum++;
         });
 
         //set interactive for tab
@@ -210,8 +238,10 @@ class MusicPlayer extends Phaser.Scene {
                 this.audio.setTexture('audioOn');
             }
             game.audio = !game.audio;
-            this.currSong.setMute(!this.musicConfig.mute);
-            console.log(this.currSong);
+            if(game.musicPlay){
+                game.currSong.setMute(!this.musicConfig.mute);
+            }
+            console.log(game.currSong);
             this.musicConfig.mute = !this.musicConfig.mute;
         });
 
@@ -239,9 +269,15 @@ class MusicPlayer extends Phaser.Scene {
             if(game.musicPlay){
                 this.bigPlay.setTexture('bigPlay');
                 this.smallPlay.setTexture('smallPlay');
+                game.currSong.setMute(true);
+                this.musicConfig.mute = true;
             }else{
                 this.bigPlay.setTexture('bigPause');
                 this.smallPlay.setTexture('smallPause');
+                if(game.audio){
+                    game.currSong.setMute(false);
+                    this.musicConfig.mute = false;
+                }
             }
             game.musicPlay = !game.musicPlay;
         });
@@ -269,9 +305,15 @@ class MusicPlayer extends Phaser.Scene {
             if(game.musicPlay){
                 this.bigPlay.setTexture('bigPlay');
                 this.smallPlay.setTexture('smallPlay');
+                game.currSong.setMute(true);
+                this.musicConfig.mute = true;
             }else{
                 this.bigPlay.setTexture('bigPause');
                 this.smallPlay.setTexture('smallPause');
+                if(game.audio){
+                    game.currSong.setMute(false);
+                    this.musicConfig.mute = false;
+                }
             }
             game.musicPlay = !game.musicPlay;
         });
@@ -298,9 +340,9 @@ class MusicPlayer extends Phaser.Scene {
     }
 
     playSong(song){
-        this.currSong.stop();
-        this.currSong = song;
-        this.currSong.play(this.musicConfig);
+        game.currSong.stop();
+        game.currSong = song;
+        game.currSong.play(this.musicConfig);
     }
     
 }

@@ -65,6 +65,7 @@ game.playlist = [new Song('Faith and Company','Roadside Worship','Wait, There is
                 new Song('Essential Toils','First Stone','Multiple Levels of Love'),
                 new Song('Marketing Mindfulness','A Sale on Salvation','Door to Door Deliverance')];
 
+game.currSong;
 /*
 ‘hi’
 ‘hello’
