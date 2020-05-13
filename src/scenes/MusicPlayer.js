@@ -5,7 +5,9 @@ class MusicPlayer extends Phaser.Scene {
     preload() {
 
         // load audio
-        //this.load.audio('select', '././assets/RR_delivery3.wav');
+        this.load.audio(game.playlist[0], '././assets/music/MLM_song1.wav');
+        this.load.audio(game.playlist[1], '././assets/music/MLM_song2.wav');
+        this.load.audio(game.playlist[2], '././assets/music/MLM_song3.wav');
 
         //buttons
         //this.load.image('audioOff', '././assets/audioOff.png');
@@ -37,6 +39,19 @@ class MusicPlayer extends Phaser.Scene {
     create(){
         var centerX = game.config.width/2;
         var centerY = game.config.height/2;
+
+        //music config
+        this.musicConfig = {
+            mute: true,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 1
+        }
+
+
         this.sentConfig = {
             fontFamily: 'Helvetica',
             fontStyle: 'bold',
