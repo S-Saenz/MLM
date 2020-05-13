@@ -5,9 +5,9 @@ class MusicPlayer extends Phaser.Scene {
     preload() {
 
         // load audio
-        this.load.audio(game.playlist[0], '././assets/music/MLM_song1.wav');
-        this.load.audio(game.playlist[1], '././assets/music/MLM_song2.wav');
-        this.load.audio(game.playlist[2], '././assets/music/MLM_song3.wav');
+        this.load.audio(game.playlist[0].songName, '././assets/music/MLM_song1.wav');
+        this.load.audio(game.playlist[1].songName, '././assets/music/MLM_song2.wav');
+        this.load.audio(game.playlist[2].songName, '././assets/music/MLM_song3.wav');
 
         //buttons
         //this.load.image('audioOff', '././assets/audioOff.png');
@@ -24,11 +24,17 @@ class MusicPlayer extends Phaser.Scene {
         this.load.image('smallPlayHover', '././assets/smallPlayHover.png');
         this.load.image('smallPauseHover', '././assets/smallPauseHover.png');
 
+        //audio stuff
         this.load.image('audioOn', '././assets/audioOn.png');
         this.load.image('audioOff', '././assets/audioOff.png');
         this.load.image('audioOnHover', '././assets/audioOnHover.png');
         this.load.image('audioOffHover', '././assets/audioOffHover.png');
 
+        //playlist song stuff
+        this.load.image('songNote', '././assets/songNote.png');
+        this.load.image('songArea', '././assets/songHover.png');
+
+        //tab stuff
         this.load.image('tabLine', '././assets/tabLine.png');
         this.load.image('tab', '././assets/tab.png');
         this.load.image('tabHover', '././assets/tabHover.png');
@@ -50,9 +56,9 @@ class MusicPlayer extends Phaser.Scene {
             loop: true,
             delay: 1
         }
-        this.song0 = this.sound.add(game.playlist[0]);
-        this.song1 = this.sound.add(game.playlist[1]);
-        this.song2 = this.sound.add(game.playlist[2]);
+        this.song0 = this.sound.add(game.playlist[0].songName);
+        this.song1 = this.sound.add(game.playlist[1].songName);
+        this.song2 = this.sound.add(game.playlist[2].songName);
         this.currSong = this.song0;
 
         this.currSong.play(this.musicConfig);
@@ -85,6 +91,50 @@ class MusicPlayer extends Phaser.Scene {
             },
         }
 
+        let songNameConfig = {
+            fontFamily: 'Helvetica',
+            fontStyle: 'bold',
+            fontSize: '15px',
+            color: '#FFF',
+            align: 'center',
+            padding: {
+                right: 10,
+                left: 10,
+                top: 5,
+                bottom: 5,
+            },
+        }
+
+        let songInfoConfig = {
+            fontFamily: 'Helvetica',
+            fontStyle: 'bold',
+            fontSize: '10px',
+            color: '#9E9E9E',
+            align: 'center',
+            padding: {
+                right: 10,
+                left: 10,
+                top: 5,
+                bottom: 5,
+            },
+        }
+        
+        this.playlistSongAreas = [];
+        this.playlistNotes = [];
+        var playlistNum = 0;
+        var songListStartY = 270
+        game.playlist.forEach(song => {
+            this.add.text(250,songListStartY+playlistNum*40,song.songName,songNameConfig).setDepth(2);
+            this.add.text(250,songListStartY+20+playlistNum*40,song.artist + ' · ' + song.album,songInfoConfig).setDepth(2);
+            this.playlistSongAreas.push(
+                this.add.image(190,songListStartY+20+playlistNum*40, 'songArea').setScale(0.5).setDepth(1).setOrigin(0,0.5).setAlpha(0)
+            );
+            this.playlistNotes.push(
+                this.add.image(215,songListStartY+20+playlistNum*40, 'songNote').setScale(0.5).setDepth(2).setOrigin(0,0.5)
+            );
+            playlistNum++;
+        });
+
 
         // =============================== add buttons ===============================
         let buttonConfig = {
@@ -100,6 +150,7 @@ class MusicPlayer extends Phaser.Scene {
               bottom: 5,
           },
         }
+        
         // set up background and tabs
         this.tabLine = this.add.tileSprite(0,0,960,200,'tabLine').setOrigin(0);
         this.messengerTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0);
@@ -118,8 +169,23 @@ class MusicPlayer extends Phaser.Scene {
         }
 
         
-        //=============================== set interactive ===========================================
+        //=============================== button functionality ===========================================
 
+        //song buttons
+        this.playlistSongAreas.forEach(area => {
+            area.setInteractive();
+                
+            area.on('pointerdown', () => { 
+            });
+
+            area.on('pointerover', () => { 
+                area.alpha = 1;
+            });
+            area.on('pointerout', () => { 
+                area.alpha = 0;
+            });
+
+        });
 
         //set interactive for tab
         this.messengerTab.setInteractive();
@@ -145,6 +211,7 @@ class MusicPlayer extends Phaser.Scene {
             }
             game.audio = !game.audio;
             this.currSong.setMute(!this.musicConfig.mute);
+            console.log(this.currSong);
             this.musicConfig.mute = !this.musicConfig.mute;
         });
 
@@ -233,7 +300,7 @@ class MusicPlayer extends Phaser.Scene {
     playSong(song){
         this.currSong.stop();
         this.currSong = song;
-        this.currSong.play();
+        this.currSong.play(this.musicConfig);
     }
     
 }
