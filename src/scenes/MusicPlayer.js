@@ -12,8 +12,20 @@ class MusicPlayer extends Phaser.Scene {
         this.load.image('mp_bg', '././assets/musicPlayer.png');
         this.load.image('bigPlay', '././assets/bigPlay.png');
         this.load.image('bigPause', '././assets/bigPause.png');
+
+        this.load.image('bigPlayHover', '././assets/bigPlayHover.png');
+        this.load.image('bigPauseHover', '././assets/bigPauseHover.png');
+
         this.load.image('smallPlay', '././assets/smallPlay.png');
         this.load.image('smallPause', '././assets/smallPause.png');
+
+        this.load.image('smallPlayHover', '././assets/smallPlayHover.png');
+        this.load.image('smallPauseHover', '././assets/smallPauseHover.png');
+
+        this.load.image('audioOn', '././assets/audioOn.png');
+        this.load.image('audioOff', '././assets/audioOff.png');
+        this.load.image('audioOnHover', '././assets/audioOnHover.png');
+        this.load.image('audioOffHover', '././assets/audioOffHover.png');
 
         this.load.image('tabLine', '././assets/tabLine.png');
         this.load.image('tab', '././assets/tab.png');
@@ -76,7 +88,13 @@ class MusicPlayer extends Phaser.Scene {
         this.messengerTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
 
         //music player ui buttons
-        this.bigPlay = this.add.image(100,200,'bigPlay').setScale(0.5);
+        this.bigPlay = this.add.image(220,230,'bigPlay').setScale(0.5);
+        this.smallPlay = this.add.image(480,585,'smallPlay').setScale(0.5);
+
+        this.audio = this.add.image(game.config.width-100,game.config.height-50,'audioOn').setScale(0.5);
+        if(!game.audio){
+            this.audio.setTexture('audioOff');
+        }
 
         
         //=============================== set interactive ===========================================
@@ -95,6 +113,94 @@ class MusicPlayer extends Phaser.Scene {
             this.messengerTab.setTexture('tab');
         });
 
+        //audio button
+        
+        this.audio.setInteractive();
+        this.audio.on('pointerdown', () => { 
+            if(game.audio){
+                this.audio.setTexture('audioOff');
+            }else{
+                this.audio.setTexture('audioOn');
+            }
+            game.audio = !game.audio;
+        });
+
+        this.audio.on('pointerover', () => { 
+            if(game.audio){
+                this.audio.setTexture('audioOnHover');
+            }else{
+                this.audio.setTexture('audioOffHover');
+            }
+        });
+        this.audio.on('pointerout', () => { 
+            if(game.audio){
+                this.audio.setTexture('audioOn');
+            }else{
+                this.audio.setTexture('audioOff');
+            }
+        });
+
+
+        //==================== play buttons ========================
+        
+        //big play button
+        this.bigPlay.setInteractive();
+        this.bigPlay.on('pointerdown', () => { 
+            if(game.musicPlay){
+                this.bigPlay.setTexture('bigPlay');
+                this.smallPlay.setTexture('smallPlay');
+            }else{
+                this.bigPlay.setTexture('bigPause');
+                this.smallPlay.setTexture('smallPause');
+            }
+            game.musicPlay = !game.musicPlay;
+        });
+
+        this.bigPlay.on('pointerover', () => { 
+            if(!game.musicPlay){
+                this.bigPlay.setTexture('bigPlayHover');
+            }else{
+                this.bigPlay.setTexture('bigPauseHover');
+            }
+        });
+        this.bigPlay.on('pointerout', () => { 
+            
+            if(!game.musicPlay){
+                this.bigPlay.setTexture('bigPlay');
+            }else{
+                this.bigPlay.setTexture('bigPause');
+            }
+        });
+
+        //small play button
+        
+        this.smallPlay.setInteractive();
+        this.smallPlay.on('pointerdown', () => { 
+            if(game.musicPlay){
+                this.bigPlay.setTexture('bigPlay');
+                this.smallPlay.setTexture('smallPlay');
+            }else{
+                this.bigPlay.setTexture('bigPause');
+                this.smallPlay.setTexture('smallPause');
+            }
+            game.musicPlay = !game.musicPlay;
+        });
+
+        this.smallPlay.on('pointerover', () => { 
+            if(!game.musicPlay){
+                this.smallPlay.setTexture('smallPlayHover');
+            }else{
+                this.smallPlay.setTexture('smallPauseHover');
+            }
+        });
+        this.smallPlay.on('pointerout', () => { 
+            
+            if(!game.musicPlay){
+                this.smallPlay.setTexture('smallPlay');
+            }else{
+                this.smallPlay.setTexture('smallPause');
+            }
+        });
         
     }
     

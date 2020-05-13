@@ -7,6 +7,8 @@ let config = {
     scene: [ MusicPlayer, Messenger ]
 }
 let game = new Phaser.Game(config);
+game.audio = false;
+game.musicPlay = false;
 
 game.formal = new ConvoVar('formal');
 game.uniqueResponse = new ConvoVar('thats dumb');
