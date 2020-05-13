@@ -50,7 +50,13 @@ class MusicPlayer extends Phaser.Scene {
             loop: true,
             delay: 1
         }
+        this.song0 = this.sound.add(game.playlist[0]);
+        this.song1 = this.sound.add(game.playlist[1]);
+        this.song2 = this.sound.add(game.playlist[2]);
+        this.currSong = this.song0;
 
+        this.currSong.play(this.musicConfig);
+        this.playSong(this.song1);
 
         this.sentConfig = {
             fontFamily: 'Helvetica',
@@ -138,6 +144,8 @@ class MusicPlayer extends Phaser.Scene {
                 this.audio.setTexture('audioOn');
             }
             game.audio = !game.audio;
+            this.currSong.setMute(!this.musicConfig.mute);
+            this.musicConfig.mute = !this.musicConfig.mute;
         });
 
         this.audio.on('pointerover', () => { 
@@ -220,6 +228,12 @@ class MusicPlayer extends Phaser.Scene {
     }
     
     update() {
+    }
+
+    playSong(song){
+        this.currSong.stop();
+        this.currSong = song;
+        this.currSong.play();
     }
     
 }
