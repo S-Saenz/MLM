@@ -77,6 +77,7 @@ class Messenger extends Phaser.Scene {
         //
         this.currSentOpts;
         this.textArea = this.add.image(game.config.width,game.config.height,'typeArea').setOrigin(1);
+        this.textArea.alpha = 0;
         this.chatTabHover = this.add.image(0,0, 'nameHover').setOrigin(0,0.15);
         this.chatTabHover.alpha = 0;
         this.currOptionsIndex;
@@ -146,6 +147,7 @@ class Messenger extends Phaser.Scene {
                     this.loadConvo(this.convoIndex);
                 }
                 this.displayName.text = tab.text;
+                this.textArea.alpha = 1;
             });
     
             tab.on('pointerover', () => { 
