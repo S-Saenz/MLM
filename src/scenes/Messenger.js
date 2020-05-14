@@ -179,9 +179,9 @@ class Messenger extends Phaser.Scene {
 
     chooseOption(optionIndex){
         //this.currSentOpts.choose(option);
-        console.log(game.people.mHist[this.convoIndex].messages[this.currOptionsIndex]);
-        console.log('trying to choose at index: ' + optionIndex);
         game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(this.options[optionIndex]);
+        game.ppl[this.convoIndex].trust += this.options[optionIndex].effect;
+        console.log('trust level: ' + game.ppl[this.convoIndex].trust);
         game.people.mHist[this.convoIndex].prog++;
         this.loadConvo(this.convoIndex)
 

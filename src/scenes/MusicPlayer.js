@@ -7,7 +7,7 @@ class MusicPlayer extends Phaser.Scene {
         // load audio
         this.load.audio(game.playlist[0].songName, '././assets/music/MLM_song1.wav');
         this.load.audio(game.playlist[1].songName, '././assets/music/MLM_song2.wav');
-        this.load.audio(game.playlist[2].songName, '././assets/music/MLM_song3.wav');
+        this.load.audio(game.playlist[2].songName, '././assets/music/synthySong.wav');
 
         //buttons
         //this.load.image('audioOff', '././assets/audioOff.png');

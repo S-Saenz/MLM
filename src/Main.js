@@ -4,7 +4,7 @@ let config = {
     width: 960,
     height: 650,
     backgroundColor: '#FFF',
-    scene: [ MusicPlayer, Messenger ]
+    scene: [ End, Messenger, MusicPlayer ]
 }
 let game = new Phaser.Game(config);
 game.audio = false;
@@ -17,22 +17,22 @@ game.convo0Vars = {
     formal: new ConvoVar('formal'),
     uniqueResponse: new ConvoVar('thats dumb')
 }
-game.convo0Vars = {
+game.convo1Vars = {
     formal: new ConvoVar('formal'),
     uniqueResponse: new ConvoVar('thats dumb')
 }
 
 game.fullConvos = {
     p0: new Convo([new Recieved(['hi']), 
-            new SentOpts( [new SentMsg('hello',[game.convo0Vars.formal],['formal'], -1), new SentMsg('sup',[game.convo0Vars.formal],['casual'], 1)] ), 
+            new SentOpts( [new SentMsg('hello',[game.convo0Vars.formal],['formal'], -1), new SentMsg('sup',[game.convo0Vars.formal,game.convo0Vars.uniqueResponse],['casual','thats cool'], 1)] ), 
             new Recieved(['wow youre very ', game.convo0Vars.formal]), 
             new SentMsg('Yes, I’m quite unique',[],[], 0), 
             new Recieved([game.convo0Vars.uniqueResponse])],[game.formal,game.uniqueResponse]),
     p1: new Convo([new Recieved(['hiya']), 
-            new SentOpts( [new SentMsg('good evening',[game.formal],['weird'], 1), new SentMsg('hella hi',[game.formal],['dumb'], -1)]), 
-            new Recieved(['wow youre very ', game.formal]), 
+            new SentOpts( [new SentMsg('good evening',[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['weird','thats interesting I guess'], 1), new SentMsg('hella hi',[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['dumb','I hate you and your dumb face'], -1)]), 
+            new Recieved(['wow youre very ', game.convo1Vars.formal]), 
             new SentMsg('Yes, I’m quite unique',[],[], 0), 
-            new Recieved([game.uniqueResponse])],[game.formal,game.uniqueResponse])
+            new Recieved([game.convo1Vars.uniqueResponse])],[game.formal,game.uniqueResponse])
 }
 game.mHistory = {
     p0: [new SentMsg('hi',[],[]), 
@@ -56,7 +56,7 @@ game.mHistoryWho = {
     p4: [1,1]
 }
 game.people = {
-    names: ['Jonathan','Tyler','Apryl','Sam','Alex'],
+    names: ['Brett','Apryl','Betty','Sam','Alex'],
     aquired: [true,true,false,false,false],
     mHist: [game.fullConvos.p0,game.fullConvos.p1/*,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4*/]
 }
