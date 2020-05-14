@@ -190,8 +190,10 @@ class Messenger extends Phaser.Scene {
         game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(this.options[optionIndex]);
         game.ppl[this.convoIndex].trust += this.options[optionIndex].effect;
         console.log('trust level: ' + game.ppl[this.convoIndex].trust);
-        if(game.ppl[this.convoIndex].trust <= 0){
+        if(game.ppl[this.convoIndex].trust == 0){
+            console.log('add a quitter');
             game.quitters++;
+            game.ppl[this.convoIndex].trust--;
         }
         game.people.mHist[this.convoIndex].prog++;
         this.loadConvo(this.convoIndex)
@@ -269,6 +271,11 @@ class Messenger extends Phaser.Scene {
 
 
         while(!reachedSent){
+            if(num >= game.people.mHist[this.convoIndex].messages.length){
+                this.options = [];
+                reachedSent = true;
+                break;
+            }
             var msg = game.people.mHist[this.convoIndex].messages[num];
             if(msg.type() == 'recieved'){
                 game.people.mHist[this.convoIndex].prog++;
