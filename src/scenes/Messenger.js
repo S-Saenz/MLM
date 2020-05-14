@@ -275,13 +275,17 @@ class Messenger extends Phaser.Scene {
                 var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((game.people.mHist[this.convoIndex].prog - num)*100), message,this.recievedConfig).setOrigin(0);
             }else if(msg.type() == 'sent'){
                 if(game.quitters >= 2){
-                    this.scene.start("endScene");
+                    this.timer = this.time.delayedCall(500, () => {
+                        this.scene.start("endScene");
+                    }, null, this);
                 }
                 this.options = [msg];
                 reachedSent = true;
             }else if(msg.type() == 'sentOpts'){
                 if(game.quitters >= 2){
-                    this.scene.start("endScene");
+                    this.timer = this.time.delayedCall(500, () => {
+                        this.scene.start("endScene");
+                    }, null, this);
                 }
                 this.currOptionsIndex = num;
                 this.options = msg.options;
