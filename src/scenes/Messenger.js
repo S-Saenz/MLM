@@ -185,9 +185,6 @@ class Messenger extends Phaser.Scene {
         if(game.ppl[this.convoIndex].trust <= 0){
             game.quitters++;
         }
-        if(game.quitters >= 2){
-            this.scene.start("EndScene");
-        }
         game.people.mHist[this.convoIndex].prog++;
         this.loadConvo(this.convoIndex)
 
@@ -277,9 +274,15 @@ class Messenger extends Phaser.Scene {
                 });
                 var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((game.people.mHist[this.convoIndex].prog - num)*100), message,this.recievedConfig).setOrigin(0);
             }else if(msg.type() == 'sent'){
+                if(game.quitters >= 2){
+                    this.scene.start("endScene");
+                }
                 this.options = [msg];
                 reachedSent = true;
             }else if(msg.type() == 'sentOpts'){
+                if(game.quitters >= 2){
+                    this.scene.start("endScene");
+                }
                 this.currOptionsIndex = num;
                 this.options = msg.options;
                 this.currSentOpts = msg;
