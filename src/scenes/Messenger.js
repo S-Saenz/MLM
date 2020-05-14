@@ -98,9 +98,9 @@ class Messenger extends Phaser.Scene {
         this.convoWho = [];
         this.convoTabs = [];
         var num = 0;
-        game.people.aquired.forEach(aq => {
-            if(aq){
-                var txt = this.add.text(0,200+(num*50), game.people.names[num],buttonConfig).setOrigin(0);
+        game.ppl.forEach(person => {
+            if(person.aquired){
+                var txt = this.add.text(0,200+(num*50), person.name,buttonConfig).setOrigin(0);
                 this.convoTabs.push(txt);
             }
             num++;

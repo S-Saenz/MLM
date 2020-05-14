@@ -60,6 +60,7 @@ game.people = {
     aquired: [true,true,false,false,false],
     mHist: [game.fullConvos.p0,game.fullConvos.p1/*,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4*/]
 }
+game.ppl = [new Person('Brett',game.fullConvos.p0, 10), new Person('Apryl',game.fullConvos.p1, 10)];
 
 game.playlist = [new Song('Faith and Company','Roadside Worship','Wait, There is More'),
                 new Song('Essential Toils','First Stone','Multiple Levels of Love'),
