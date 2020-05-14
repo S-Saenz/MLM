@@ -14,7 +14,7 @@ class Messenger extends Phaser.Scene {
         this.load.image('typeAreaHover', '././assets/typeAreaHover.png');
         this.load.image('nameHover', '././assets/nameHover.png');
 
-        //icons
+        //profile icons
         this.load.image('Betty', '././assets/BettyIcon.png');
         this.load.image('Brett', '././assets/BrettIcon.png');
         this.load.image('Jamie', '././assets/JamieIcon.png');
