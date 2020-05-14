@@ -182,6 +182,12 @@ class Messenger extends Phaser.Scene {
         game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(this.options[optionIndex]);
         game.ppl[this.convoIndex].trust += this.options[optionIndex].effect;
         console.log('trust level: ' + game.ppl[this.convoIndex].trust);
+        if(game.ppl[this.convoIndex].trust <= 0){
+            game.quitters++;
+        }
+        if(game.quitters >= 2){
+            this.scene.start("EndScene");
+        }
         game.people.mHist[this.convoIndex].prog++;
         this.loadConvo(this.convoIndex)
 

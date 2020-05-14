@@ -4,7 +4,7 @@ let config = {
     width: 960,
     height: 650,
     backgroundColor: '#FFF',
-    scene: [ End, Messenger, MusicPlayer ]
+    scene: [ Messenger, MusicPlayer, End ]
 }
 let game = new Phaser.Game(config);
 game.audio = false;
@@ -60,13 +60,15 @@ game.people = {
     aquired: [true,true,false,false,false],
     mHist: [game.fullConvos.p0,game.fullConvos.p1/*,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4*/]
 }
-game.ppl = [new Person('Brett',game.fullConvos.p0, 10), new Person('Apryl',game.fullConvos.p1, 10)];
+game.ppl = [new Person('Brett',game.fullConvos.p0, 1), new Person('Apryl',game.fullConvos.p1, 1)];
 
 game.playlist = [new Song('Faith and Company','Roadside Worship','Wait, There is More'),
                 new Song('Essential Toils','First Stone','Multiple Levels of Love'),
                 new Song('Marketing Mindfulness','A Sale on Salvation','Door to Door Deliverance')];
 
 game.currSong;
+//how many people have quit
+game.quitters = 0;
 /*
 ‘hi’
 ‘hello’
