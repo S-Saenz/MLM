@@ -206,7 +206,7 @@ class MusicPlayer extends Phaser.Scene {
                 this.playlistNotes[this.playlistSongAreas.indexOf(area)].setTexture('songPlay');
             });
             area.on('pointerout', () => { 
-                if(game.currSong != this.songs[this.playlistSongAreas.indexOf(area)]){
+                if(game.currSong != this.songs[this.playlistSongAreas.indexOf(area)] || !game.audio){
                     area.setTexture('songArea');
                     this.playlistNotes[this.playlistSongAreas.indexOf(area)].setTexture('songNote');
                 }

@@ -14,6 +14,11 @@ class Messenger extends Phaser.Scene {
         this.load.image('typeAreaHover', '././assets/typeAreaHover.png');
         this.load.image('nameHover', '././assets/nameHover.png');
 
+        //icons
+        this.load.image('Betty', '././assets/bettyIcon.png');
+        this.load.image('Brett', '././assets/BrettIcon.png');
+        this.load.image('Jamie', '././assets/jamieIcon.png');
+
         this.load.image('tabLine', '././assets/tabLine.png');
         this.load.image('tab', '././assets/tab.png');
         this.load.image('tabHover', '././assets/tabHover.png');
@@ -78,7 +83,7 @@ class Messenger extends Phaser.Scene {
         this.currSentOpts;
         this.textArea = this.add.image(game.config.width,game.config.height,'typeArea').setOrigin(1);
         this.textArea.alpha = 0;
-        this.chatTabHover = this.add.image(0,0, 'nameHover').setOrigin(0,0.15);
+        this.chatTabHover = this.add.image(0,0, 'nameHover').setOrigin(0,0.15).setScale(1,2);
         this.chatTabHover.alpha = 0;
         this.currOptionsIndex;
         this.options = [''];
@@ -89,7 +94,8 @@ class Messenger extends Phaser.Scene {
         this.msgStart = game.config.height-200;
         this.msgX = game.config.width;
 
-        this.displayName = this.add.text(centerX, 60,"", buttonConfig).setOrigin(0.5);
+        this.displayName = this.add.text(centerX-165, 115,"", buttonConfig).setOrigin(0.5);
+        this.displayIcon = this.add.image(centerX-225, 125, 'Betty').setScale(0.25);
 
         
         this.convoIndex = 0;
@@ -100,7 +106,8 @@ class Messenger extends Phaser.Scene {
         var num = 0;
         game.ppl.forEach(person => {
             if(person.aquired){
-                var txt = this.add.text(0,200+(num*50), person.name,buttonConfig).setOrigin(0);
+                var txt = this.add.text(100,170+(num*100), person.name,buttonConfig).setOrigin(0).setDepth(2);
+                var icon = this.add.image(10,200+(num*100), person.name).setScale(0.4).setOrigin(0,0.5).setDepth(2);
                 this.convoTabs.push(txt);
             }
             num++;
@@ -138,8 +145,8 @@ class Messenger extends Phaser.Scene {
         this.convoTabs.forEach(tab => {
             tab.setInteractive();
             tab.on('pointerdown', () => { 
-                this.chatTabHover.x = tab.x;
-                this.chatTabHover.y = tab.y;
+                this.chatTabHover.x = tab.x-100;
+                this.chatTabHover.y = tab.y-15;
                 this.chatTabHover.alpha = 1;
                 this.convoIndex = game.people.names.indexOf(tab.text);
                 this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
@@ -147,12 +154,13 @@ class Messenger extends Phaser.Scene {
                     this.loadConvo(this.convoIndex);
                 }
                 this.displayName.text = tab.text;
+                this.displayIcon.setTexture(tab.text);
                 this.textArea.alpha = 1;
             });
     
             tab.on('pointerover', () => { 
-                this.chatTabHover.x = tab.x;
-                this.chatTabHover.y = tab.y;
+                this.chatTabHover.x = tab.x-100;
+                this.chatTabHover.y = tab.y-15;
                 this.chatTabHover.alpha = 1;
                 tab.setDepth(2);
             });
