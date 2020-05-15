@@ -7,6 +7,14 @@ class Messenger extends Phaser.Scene {
         // load sfx
         this.load.audio('recievedSFX', '././assets/sfx/recieved.wav');
         this.load.audio('sentSFX', '././assets/sfx/sent.wav');
+        //hover sounds
+        this.load.audio('hover1SFX', '././assets/sfx/hover1.wav');
+        this.load.audio('hover2SFX', '././assets/sfx/hover2.wav');
+        this.load.audio('hover3SFX', '././assets/sfx/hover3.wav');
+        this.load.audio('hover4SFX', '././assets/sfx/hover4.wav');
+        //click sounds
+        this.load.audio('click1SFX', '././assets/sfx/click1.wav');
+        this.load.audio('click2SFX', '././assets/sfx/click2.wav');
 
         //buttons
         //this.load.image('audioOff', '././assets/audioOff.png');
@@ -120,6 +128,7 @@ class Messenger extends Phaser.Scene {
         //text area is the part where you type your message at the bottom of messenger
         this.textArea.setInteractive();
         this.textArea.on('pointerdown', () => { 
+            this.sound.play('click1SFX');
             this.presentOptions(this.options);
         });
 
@@ -133,10 +142,12 @@ class Messenger extends Phaser.Scene {
         //set interactive for tab
         this.musicPlayerTab.setInteractive();
         this.musicPlayerTab.on('pointerdown', () => { 
+            this.sound.play('click2SFX');
             this.scene.start("musicPlayerScene");
         });
 
         this.musicPlayerTab.on('pointerover', () => { 
+            this.sound.play('hover4SFX');
             this.musicPlayerTab.setTexture('tabHover');
         });
         this.musicPlayerTab.on('pointerout', () => { 
@@ -161,6 +172,7 @@ class Messenger extends Phaser.Scene {
             });
     
             tab.on('pointerover', () => { 
+                this.sound.play('hover3SFX');
                 this.chatTabHover.x = tab.x-100;
                 this.chatTabHover.y = tab.y-15;
                 this.chatTabHover.alpha = 1;
@@ -197,6 +209,7 @@ class Messenger extends Phaser.Scene {
 
     chooseOption(optionIndex){
         //this.currSentOpts.choose(option);
+        console.log('option chosen: ' + this.options[optionIndex]);
         this.replied = false;
         this.sound.play('sentSFX');
         game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(this.options[optionIndex]);
@@ -213,14 +226,17 @@ class Messenger extends Phaser.Scene {
     }
 
     initializeOptionButtons(){
+        
         var num = 0;
         this.optionsBoxes.forEach(optionBox => {
             optionBox.setInteractive();
             optionBox.on('pointerdown', () => { 
+                this.sound.play('click1SFX');
                 this.chooseOption(this.optionsBoxes.indexOf(optionBox));
             });
     
             optionBox.on('pointerover', () => { 
+                this.sound.play('hover1SFX');
                 optionBox.setTexture('typeAreaHover');
             });
             optionBox.on('pointerout', () => { 
@@ -333,6 +349,10 @@ class Messenger extends Phaser.Scene {
             }
             num++;
 
+        }
+        
+        if(this.options.length == 0){
+            this.textArea.alpha = 0;
         }
     }
 }

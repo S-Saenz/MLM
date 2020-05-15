@@ -4,6 +4,7 @@ class SentMsg{
         this.txt = msg;
         this.changeVars = changeVars;
         this.changeVarsTo = changeVarsTo;
+        this.chosen = false;
 
     }
 
