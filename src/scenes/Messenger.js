@@ -15,6 +15,7 @@ class Messenger extends Phaser.Scene {
         //click sounds
         this.load.audio('click1SFX', '././assets/sfx/click1.wav');
         this.load.audio('click2SFX', '././assets/sfx/click2.wav');
+        this.load.audio('click3SFX', '././assets/sfx/click3.wav');
 
         //buttons
         //this.load.image('audioOff', '././assets/audioOff.png');
@@ -128,7 +129,7 @@ class Messenger extends Phaser.Scene {
         //text area is the part where you type your message at the bottom of messenger
         this.textArea.setInteractive();
         this.textArea.on('pointerdown', () => { 
-            this.sound.play('click1SFX');
+            this.sound.play('click3SFX');
             this.presentOptions(this.options);
         });
 
@@ -142,7 +143,7 @@ class Messenger extends Phaser.Scene {
         //set interactive for tab
         this.musicPlayerTab.setInteractive();
         this.musicPlayerTab.on('pointerdown', () => { 
-            this.sound.play('click2SFX');
+            this.sound.play('click1SFX');
             this.scene.start("musicPlayerScene");
         });
 
@@ -231,7 +232,7 @@ class Messenger extends Phaser.Scene {
         this.optionsBoxes.forEach(optionBox => {
             optionBox.setInteractive();
             optionBox.on('pointerdown', () => { 
-                this.sound.play('click1SFX');
+                this.sound.play('click2SFX');
                 this.chooseOption(this.optionsBoxes.indexOf(optionBox));
             });
     
