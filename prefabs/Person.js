@@ -1,8 +1,8 @@
 class Person{
-    constructor(name,convo,trust) {
+    constructor(name,convo,trust,aquired) {
         this.name = name;
         this.convo = convo;
-        this.aquired = true;
+        this.aquired = aquired;
         this.trust = trust;
     }
 }

@@ -32,13 +32,13 @@ game.fullConvos = {
             new Recieved(['Oh thanks dear, I just love cute animals!  I just added a new member to the family recently too!  Her name is Mittens and I love her to bits!']),
             new SentOpts( [
                 new SentMsg(
-                    'Oh yeah congrats!  Well with that new pet you could really benefit from selling our products! Are you interested?',
+                    ['Oh yeah congrats!  Well with that new pet you could really benefit from selling our products! Are you interested?'],
                     [game.convo0Vars.likesSpiders,game.convo0Vars.spiderResponse],
                     ['Yeah I love the cute little webs she makes in the corner of the house!' , 'Oh thats great!  I know spiders can be a hard pet to take care of, so I think my offer could really help you!'],
                     1
                     ), 
                 new SentMsg(
-                    'Thats great!  I love cats too!',
+                    ['Thats great!  I love cats too!'],
                     [game.convo0Vars.likesSpiders,game.convo0Vars.spiderResponse],
                     ['Cats?  Well, im glad you like them so that they get housing somewhere, but theres certainly no cats in my house.  At least I dearly hope so, because Im deathly allergic.' , 'Oh, Im sorry for assuming what pets you had!  Although I do know that no matter what kind of animal you have they certainly are a hassle to take care of, so I think my offer could really help you!'], 
                     -1
@@ -47,23 +47,23 @@ game.fullConvos = {
             new Recieved([game.convo0Vars.likesSpiders]), 
             new SentMsg([game.convo0Vars.spiderResponse],[],[], 0), 
             new Recieved(['Oh dear, I don’t know.  What is the product?']),
-            new SentMsg('Our company sells many different potions and charms to help keep you and your little friends healthy!  And our beginners kit is only $500!',[],[], 0), 
+            new SentMsg(['Our company sells many different potions and charms to help keep you and your little friends healthy!  And our beginners kit is only $500!'],[],[], 0), 
             new Recieved(['Oh that sounds great!  Although I don’t know if I have the money for it right now because I’m supposed to send my grandchildren their birthday money.']),
             new SentOpts( [
                 new SentMsg(
-                    'Oh I have a great idea!  If you buy our kit instead, you could make not only the money to give your grandchildren, but have so much more to take care of yourself and your pets!  It won’t take too long, I’m sure they can wait!',
+                    ['Oh I have a great idea!  If you buy our kit instead, you could make not only the money to give your grandchildren, but have so much more to take care of yourself and your pets!  It won’t take too long, I’m sure they can wait!'],
                     [game.convo0Vars.recruitResponse],
                     ['Well they sure should be able to,  I know Abbys really good at waiting!  Shes waiting for me to finish texting so I can give her a belly rub!  Its so cute to see them on their backs waiting for you to pet them!' ],
                     1
                     ), 
                 new SentMsg(
-                    'Oh I know!  What if you got them some of our great products instead!  I can guarantee that they’d love it!  And for such a nice gift for their birthday, I’d be willing to give you 40% off!  How’s that sound?',
+                    ['Oh I know!  What if you got them some of our great products instead!  I can guarantee that they’d love it!  And for such a nice gift for their birthday, I’d be willing to give you 40% off!  How’s that sound?'],
                     [game.convo0Vars.recruitResponse],
                     ['Oh dear that sounds wonderful!  I cant turn down an deal like that!  Especially if it finally gets my daughter to stop pestering me about gifts.' ],
                     1
                     ), 
                 new SentMsg(
-                    'Oh well I know a great place to take out a loan!  Then you could pay your grandchildren, and start making money with our company!',
+                    ['Oh well I know a great place to take out a loan!  Then you could pay your grandchildren, and start making money with our company!'],
                     [game.convo0Vars.recruitResponse],
                     ['Oh dear, a loan?  Im not sure if Im allowed to yet, since last time I took out a loan my kids got mad at me for buying adorable little shoes for my family members.  But I think after hearing about your product theyll let me!'], 
                     -1
@@ -104,7 +104,7 @@ game.people = {
     aquired: [true,true,false,false,false],
     mHist: [game.fullConvos.p0,game.fullConvos.p1/*,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4*/]
 }
-game.ppl = [new Person('Brett',game.fullConvos.p0, 1), new Person('Jamie',game.fullConvos.p1, 1)];
+game.ppl = [new Person('Brett',game.fullConvos.p0, 1,true), new Person('Jamie',game.fullConvos.p1, 1,false)];
 
 game.playlist = [new Song('Faith and Company','Roadside Worship','Wait, There is More'),
                 new Song('Essential Toils','First Stone','Multiple Levels of Love'),

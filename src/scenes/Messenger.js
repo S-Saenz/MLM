@@ -229,7 +229,7 @@ class Messenger extends Phaser.Scene {
         this.replied = false;
         this.sound.play('sentSFX');
         if(this.options.length > 1){
-            game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(this.options[optionIndex]);
+            game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].options[optionIndex]);
         }
         game.ppl[this.convoIndex].trust += this.options[optionIndex].effect;
         if(game.ppl[this.convoIndex].trust == 0){
@@ -300,7 +300,6 @@ class Messenger extends Phaser.Scene {
         });
         this.optionsTxt = [];
         this.optionsBoxes = [];
-        console.log(this.convoMsgs);
         this.convoMsgs.forEach(msg => {
             msg.destroy();
         });
@@ -309,6 +308,7 @@ class Messenger extends Phaser.Scene {
         for(num = 0; num <= game.people.mHist[convoIndex].prog-1; num++){
             var prog = game.people.mHist[convoIndex].prog;
             var msg = game.people.mHist[convoIndex].messages[num];
+            console.log(msg);
             if(msg.type() == 'recieved'){
                 var message = this.extractMsg(msg);
                 var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((prog - num)*100), message,this.recievedConfig).setOrigin(0);
@@ -335,14 +335,7 @@ class Messenger extends Phaser.Scene {
             if(msg.type() == 'recieved' && this.replied){
                 this.sound.play('recievedSFX');
                 game.people.mHist[this.convoIndex].prog++;
-                var message = '';
-                msg.txtArr.forEach(txt => {
-                    if(typeof txt == "string"){
-                        message += txt;
-                    }else{
-                        message += txt.txt;
-                    }
-                });
+                var message = this.extractMsg(msg);
                 var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((game.people.mHist[this.convoIndex].prog - num)*100), message,this.recievedConfig).setOrigin(0);
                 //get out of loop and wait
                 this.replied = false;
