@@ -156,11 +156,23 @@ class MusicPlayer extends Phaser.Scene {
         
         // set up background and tabs
         this.tabLine = this.add.tileSprite(0,0,960,200,'tabLine').setOrigin(0);
-        this.messengerTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0);
-        this.tabSelected = this.add.tileSprite(250,0,270,60,'tabSelected').setOrigin(0);
-        this.bg = this.add.tileSprite(0, 50, 1920, 1200, 'mp_bg').setOrigin(0, 0).setScale(0.5);
-        this.mpTab = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
-        this.messengerTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
+        //music tab
+        this.tabSelected = this.add.tileSprite(250,0,270,60,'tabSelected').setOrigin(0).setDepth(1);
+        this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0).setDepth(1);
+
+        //feed tab
+        this.feedTab = this.add.tileSprite(500,0,270,60,'tab').setOrigin(0);
+        this.feedTabTxt = this.add.text(450*1.4,10,'Feed',buttonConfig).setOrigin(0.5,0);
+        
+
+        this.chatTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0);
+        this.chatTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
+
+        
+        this.bg = this.add.tileSprite(0, 50, 1920, 1200, 'mp_bg').setOrigin(0, 0).setScale(0.5).setDepth(2);
+
+        this.tabs = [this.chatTab,this.feedTab];
+        this.tabLinks = ['messengerScene','feedScene'];
 
         //music player ui buttons
         this.bigPlay = this.add.image(220,230,'bigPlay').setScale(0.5);
@@ -215,17 +227,22 @@ class MusicPlayer extends Phaser.Scene {
             playlistNum++;
         });
 
-        //set interactive for tab
-        this.messengerTab.setInteractive();
-        this.messengerTab.on('pointerdown', () => { 
-            this.scene.start("messengerScene");
-        });
-
-        this.messengerTab.on('pointerover', () => { 
-            this.messengerTab.setTexture('tabHover');
-        });
-        this.messengerTab.on('pointerout', () => { 
-            this.messengerTab.setTexture('tab');
+        //set interactive for tabs
+        this.tabs.forEach(tab => {
+            tab.setInteractive();
+            tab.on('pointerdown', () => { 
+                this.sound.play('click3SFX');
+                this.scene.start(this.tabLinks[this.tabs.indexOf(tab)]);
+            });
+    
+            tab.on('pointerover', () => { 
+                this.sound.play('hover4SFX');
+                tab.setTexture('tabHover');
+            });
+            tab.on('pointerout', () => { 
+                tab.setTexture('tab');
+            });
+            
         });
 
         //audio button

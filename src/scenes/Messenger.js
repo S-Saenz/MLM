@@ -52,6 +52,7 @@ class Messenger extends Phaser.Scene {
                 top: 5,
                 bottom: 5,
             },
+            wordWrap: { width: 700, useAdvancedWrap: true }
         }
         this.recievedConfig = {
             fontFamily: 'Helvetica',
@@ -65,6 +66,7 @@ class Messenger extends Phaser.Scene {
                 top: 5,
                 bottom: 5,
             },
+            wordWrap: { width: 700, useAdvancedWrap: true }
         }
 
 
@@ -84,11 +86,22 @@ class Messenger extends Phaser.Scene {
         }
         // set up background and tabs
         this.tabLine = this.add.tileSprite(0,0,960,200,'tabLine').setOrigin(0);
+        //music tab
         this.musicPlayerTab = this.add.tileSprite(250,0,270,60,'tab').setOrigin(0);
+        this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
+
+        //feed tab
+        this.feedTab = this.add.tileSprite(500,0,270,60,'tab').setOrigin(0);
+        this.feedTabTxt = this.add.text(450*1.4,10,'Feed',buttonConfig).setOrigin(0.5,0);
+
+        this.tabs = [this.feedTab,this.musicPlayerTab];
+        this.tabsTxt = [this.feedTabTxt,this.musicPlayerTabTxt];
+        this.tabLinks = ['feedScene','musicPlayerScene'];
+
+
         this.tabSelected = this.add.tileSprite(0,0,270,60,'tabSelected').setOrigin(0);
         this.bg = this.add.tileSprite(0, 50, 960, 600, 'ui_bg').setOrigin(0, 0);
         this.chatTab = this.add.text(60,10,'Messenger',buttonConfig);
-        this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
 
         //
         this.currSentOpts;
@@ -129,7 +142,7 @@ class Messenger extends Phaser.Scene {
         //text area is the part where you type your message at the bottom of messenger
         this.textArea.setInteractive();
         this.textArea.on('pointerdown', () => { 
-            this.sound.play('click3SFX');
+            this.sound.play('click2SFX');
             this.presentOptions(this.options);
         });
 
@@ -140,19 +153,22 @@ class Messenger extends Phaser.Scene {
             this.textArea.setTexture('typeArea');
         });
 
-        //set interactive for tab
-        this.musicPlayerTab.setInteractive();
-        this.musicPlayerTab.on('pointerdown', () => { 
-            this.sound.play('click1SFX');
-            this.scene.start("musicPlayerScene");
-        });
-
-        this.musicPlayerTab.on('pointerover', () => { 
-            this.sound.play('hover4SFX');
-            this.musicPlayerTab.setTexture('tabHover');
-        });
-        this.musicPlayerTab.on('pointerout', () => { 
-            this.musicPlayerTab.setTexture('tab');
+        //set interactive for tabs
+        this.tabs.forEach(tab => {
+            tab.setInteractive();
+            tab.on('pointerdown', () => { 
+                this.sound.play('click3SFX');
+                this.scene.start(this.tabLinks[this.tabs.indexOf(tab)]);
+            });
+    
+            tab.on('pointerover', () => { 
+                this.sound.play('hover4SFX');
+                tab.setTexture('tabHover');
+            });
+            tab.on('pointerout', () => { 
+                tab.setTexture('tab');
+            });
+            
         });
 
         //chat tabs
@@ -210,14 +226,13 @@ class Messenger extends Phaser.Scene {
 
     chooseOption(optionIndex){
         //this.currSentOpts.choose(option);
-        console.log('option chosen: ' + this.options[optionIndex]);
         this.replied = false;
         this.sound.play('sentSFX');
-        game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(this.options[optionIndex]);
+        if(this.options.length > 1){
+            game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(this.options[optionIndex]);
+        }
         game.ppl[this.convoIndex].trust += this.options[optionIndex].effect;
-        console.log('trust level: ' + game.ppl[this.convoIndex].trust);
         if(game.ppl[this.convoIndex].trust == 0){
-            console.log('add a quitter');
             game.quitters++;
             game.ppl[this.convoIndex].trust--;
         }
@@ -255,11 +270,24 @@ class Messenger extends Phaser.Scene {
                 this.add.image(this.textArea.x,this.textArea.y-(50*(num+1)),'typeArea').setOrigin(1)
             );
             this.optionsTxt.push(
-                this.add.text(this.textArea.x,this.textArea.y-(50*(num+1)),option.txt,this.sentConfig).setOrigin(1)
+                this.add.text(this.textArea.x,this.textArea.y-(50*(num+1)),this.extractMsg(option),this.sentConfig).setOrigin(1)
             );
             num++
         });
         this.initializeOptionButtons();
+    }
+
+    extractMsg(msg){
+        var message = '';
+        msg.txtArr.forEach(txt => {
+            if(typeof txt == "string"){
+                message += txt;
+            }else{
+                //if its not a string then its a convoVar
+                message += txt.txt;
+            }
+        });
+        return message;
     }
 
     loadConvo(convoIndex){
@@ -272,6 +300,7 @@ class Messenger extends Phaser.Scene {
         });
         this.optionsTxt = [];
         this.optionsBoxes = [];
+        console.log(this.convoMsgs);
         this.convoMsgs.forEach(msg => {
             msg.destroy();
         });
@@ -281,28 +310,21 @@ class Messenger extends Phaser.Scene {
             var prog = game.people.mHist[convoIndex].prog;
             var msg = game.people.mHist[convoIndex].messages[num];
             if(msg.type() == 'recieved'){
-                var message = '';
-                msg.txtArr.forEach(txt => {
-                    if(typeof txt == "string"){
-                        message += txt;
-                    }else{
-                        message += txt.txt;
-                    }
-                });
+                var message = this.extractMsg(msg);
                 var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((prog - num)*100), message,this.recievedConfig).setOrigin(0);
             }else if(msg.type() == 'sent'){
-                var txt = this.add.text(this.msgX,this.msgStart-((prog - num)*100), msg.txt,this.sentConfig).setOrigin(1);
+                var txt = this.add.text(this.msgX,this.msgStart-((prog - num)*100),this.extractMsg(msg),this.sentConfig).setOrigin(1);
             }else if(msg.type() == 'sentOpts'){
-                var txt = this.add.text(this.msgX,this.msgStart-((prog - num)*100), msg.choice.txt,this.sentConfig).setOrigin(1);
+                var txt = this.add.text(this.msgX,this.msgStart-((prog - num)*100), this.extractMsg(msg.choice),this.sentConfig).setOrigin(1);
             }
             this.convoMsgs.push(txt);
         }
-
-        if(this.convoMsgs.length == 0){
-            this.replied = true;
-        }
-
         this.lastMsgWasRecieved = false;
+
+        if(num == 0){
+            this.replied = true;
+            this.lastMsgWasRecieved = true;
+        }
         while(!reachedSent){
             if(num >= game.people.mHist[this.convoIndex].messages.length){
                 this.options = [];
@@ -325,6 +347,7 @@ class Messenger extends Phaser.Scene {
                 //get out of loop and wait
                 this.replied = false;
                 this.lastMsgWasRecieved = true;
+                this.convoMsgs.push(txt);
             }else if(msg.type() == 'sent' && this.lastMsgWasRecieved){
                 if(game.quitters >= 2){
                     this.timer = this.time.delayedCall(500, () => {
@@ -344,7 +367,6 @@ class Messenger extends Phaser.Scene {
                 this.currSentOpts = msg;
                 reachedSent = true;
             }
-            this.convoMsgs.push(txt);
             if(num == game.people.mHist[this.convoIndex].messages.length){
                 reachedSent = true;
             }

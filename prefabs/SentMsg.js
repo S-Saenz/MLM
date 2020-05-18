@@ -1,7 +1,7 @@
 class SentMsg{
     constructor(msg,changeVars,changeVarsTo,effect) {
         this.effect = effect;
-        this.txt = msg;
+        this.txtArr = msg;
         this.changeVars = changeVars;
         this.changeVarsTo = changeVarsTo;
         this.chosen = false;
