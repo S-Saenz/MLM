@@ -1,11 +1,11 @@
-class Feed extends Phaser.Scene {
+class Pdf extends Phaser.Scene {
     constructor(){
-        super("feedScene");
+        super("pdfScene");
     }
     preload() {
 
         //this.load.image('audioOff', '././assets/audioOff.png');
-        this.load.image('feed_bg', '././assets/feed_ui.png');
+        this.load.image('pdf_bg', '././assets/pdf_ui.png');
 
         //tab stuff
         this.load.image('tabLine', '././assets/tabLine.png');
@@ -72,13 +72,13 @@ class Feed extends Phaser.Scene {
         this.musicPlayerTab = this.add.tileSprite(250,0,270,60,'tab').setOrigin(0);
         this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
 
-        //feed tab
-        this.feedTab = this.add.tileSprite(500,0,270,60,'tab').setOrigin(0);
-        this.feedTabTxt = this.add.text(450*1.4,10,'Feed',buttonConfig).setOrigin(0.5,0);
+        //pdf tab
+        this.pdfTab = this.add.tileSprite(500,0,270,60,'tab').setOrigin(0);
+        this.pdfTabTxt = this.add.text(450*1.4,10,'pdf',buttonConfig).setOrigin(0.5,0);
 
-        this.tabs = [this.feedTab,this.musicPlayerTab];
-        this.tabsTxt = [this.feedTabTxt,this.musicPlayerTabTxt];
-        this.tabLinks = ['feedScene','musicPlayerScene'];
+        this.tabs = [this.pdfTab,this.musicPlayerTab];
+        this.tabsTxt = [this.pdfTabTxt,this.musicPlayerTabTxt];
+        this.tabLinks = ['pdfScene','musicPlayerScene'];
 
 
         this.tabSelected = this.add.tileSprite(0,0,270,60,'tabSelected').setOrigin(0);

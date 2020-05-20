@@ -160,9 +160,9 @@ class MusicPlayer extends Phaser.Scene {
         this.tabSelected = this.add.tileSprite(250,0,270,60,'tabSelected').setOrigin(0).setDepth(1);
         this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0).setDepth(1);
 
-        //feed tab
-        this.feedTab = this.add.tileSprite(500,0,270,60,'tab').setOrigin(0);
-        this.feedTabTxt = this.add.text(450*1.4,10,'Feed',buttonConfig).setOrigin(0.5,0);
+        //pdf tab
+        this.pdfTab = this.add.tileSprite(500,0,270,60,'tab').setOrigin(0);
+        this.pdfTabTxt = this.add.text(450*1.4,10,'pdf',buttonConfig).setOrigin(0.5,0);
         
 
         this.chatTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0);
@@ -171,8 +171,8 @@ class MusicPlayer extends Phaser.Scene {
         
         this.bg = this.add.tileSprite(0, 50, 1920, 1200, 'mp_bg').setOrigin(0, 0).setScale(0.5).setDepth(2);
 
-        this.tabs = [this.chatTab,this.feedTab];
-        this.tabLinks = ['messengerScene','feedScene'];
+        this.tabs = [this.chatTab,this.pdfTab];
+        this.tabLinks = ['messengerScene','pdfScene'];
 
         //music player ui buttons
         this.bigPlay = this.add.image(220,230,'bigPlay').setScale(0.5).setDepth(2).setDepth(2);;
