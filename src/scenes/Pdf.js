@@ -73,15 +73,17 @@ class Pdf extends Phaser.Scene {
         this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
 
         //pdf tab
-        this.pdfTab = this.add.tileSprite(500,0,270,60,'tab').setOrigin(0);
+        this.tabSelected = this.add.tileSprite(500,0,270,60,'tabSelected').setOrigin(0);
         this.pdfTabTxt = this.add.text(450*1.4,10,'pdf',buttonConfig).setOrigin(0.5,0);
+        
+        this.chatTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0);
+        this.chatTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
 
-        this.tabs = [this.pdfTab,this.musicPlayerTab];
-        this.tabsTxt = [this.pdfTabTxt,this.musicPlayerTabTxt];
-        this.tabLinks = ['pdfScene','musicPlayerScene'];
+        this.tabs = [this.chatTab,this.musicPlayerTab];
+        this.tabsTxt = [this.chatTabTxt,this.musicPlayerTabTxt];
+        this.tabLinks = ['chatScene','musicPlayerScene'];
 
 
-        this.tabSelected = this.add.tileSprite(0,0,270,60,'tabSelected').setOrigin(0);
         this.bg = this.add.tileSprite(0, 50, 960, 600, 'ui_bg').setOrigin(0, 0);
         this.chatTab = this.add.text(60,10,'Messenger',buttonConfig);
 

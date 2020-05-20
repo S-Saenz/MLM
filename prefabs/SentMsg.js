@@ -25,7 +25,7 @@ class SentMsg{
         this.txtArr.forEach(txt => {
             num += txt.length;
         });
-        return num/500;
+        return num;
     }
 
 
