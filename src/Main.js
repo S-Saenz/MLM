@@ -73,10 +73,11 @@ game.fullConvos = {
 
         ]),
     p1: new Convo([new Recieved(['hiya']), 
-            new SentOpts( [new SentMsg('good evening',[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['weird','thats interesting I guess'], 1), new SentMsg('hella hi',[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['dumb','I hate you and your dumb face'], -1)]), 
+            new SentOpts( [new SentMsg(['good evening'],[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['weird','thats interesting I guess'], 1), new SentMsg(['hella hi'],[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['dumb','I hate you and your dumb face'], -1)]), 
             new Recieved(['wow youre very ', game.convo1Vars.formal]), 
-            new SentMsg('Yes, I’m quite unique',[],[], 0), 
-            new Recieved([game.convo1Vars.uniqueResponse])],[game.formal,game.uniqueResponse])
+            new SentMsg(['Yes, I’m quite unique'],[],[], 0), 
+            new Recieved([game.convo1Vars.uniqueResponse])
+    ])
 }
 game.mHistory = {
     p0: [new SentMsg('hi',[],[]), 
@@ -104,7 +105,7 @@ game.people = {
     aquired: [true,true,false,false,false],
     mHist: [game.fullConvos.p0,game.fullConvos.p1/*,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4*/]
 }
-game.ppl = [new Person('Brett',game.fullConvos.p0, 1,true), new Person('Jamie',game.fullConvos.p1, 1,false)];
+game.ppl = [new Person('Brett',game.fullConvos.p0, 1,false), new Person('Jamie',game.fullConvos.p1, 1,true)];
 
 game.playlist = [new Song('Faith and Company','Roadside Worship','Wait, There is More'),
                 new Song('Essential Toils','First Stone','Multiple Levels of Love'),

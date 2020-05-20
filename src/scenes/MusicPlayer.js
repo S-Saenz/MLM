@@ -127,13 +127,13 @@ class MusicPlayer extends Phaser.Scene {
         var playlistNum = 0;
         var songListStartY = 270
         game.playlist.forEach(song => {
-            this.add.text(250,songListStartY+playlistNum*40,song.songName,songNameConfig).setDepth(2);
-            this.add.text(250,songListStartY+20+playlistNum*40,song.artist + ' · ' + song.album,songInfoConfig).setDepth(2);
+            this.add.text(250,songListStartY+playlistNum*40,song.songName,songNameConfig).setDepth(4);
+            this.add.text(250,songListStartY+20+playlistNum*40,song.artist + ' · ' + song.album,songInfoConfig).setDepth(4);
             this.playlistSongAreas.push(
-                this.add.image(190,songListStartY+20+playlistNum*40, 'songArea').setScale(0.5).setDepth(1).setOrigin(0,0.5)
+                this.add.image(190,songListStartY+20+playlistNum*40, 'songArea').setScale(0.5).setDepth(3).setOrigin(0,0.5)
             );
             this.playlistNotes.push(
-                this.add.image(215,songListStartY+20+playlistNum*40, 'songNote').setScale(0.5).setDepth(2).setOrigin(0,0.5)
+                this.add.image(215,songListStartY+20+playlistNum*40, 'songNote').setScale(0.5).setDepth(4).setOrigin(0,0.5)
             );
             playlistNum++;
         });
@@ -175,10 +175,10 @@ class MusicPlayer extends Phaser.Scene {
         this.tabLinks = ['messengerScene','feedScene'];
 
         //music player ui buttons
-        this.bigPlay = this.add.image(220,230,'bigPlay').setScale(0.5);
-        this.smallPlay = this.add.image(480,585,'smallPlay').setScale(0.5);
+        this.bigPlay = this.add.image(220,230,'bigPlay').setScale(0.5).setDepth(2).setDepth(2);;
+        this.smallPlay = this.add.image(480,585,'smallPlay').setScale(0.5).setDepth(2).setDepth(2);;
 
-        this.audio = this.add.image(game.config.width-100,game.config.height-50,'audioOn').setScale(0.5);
+        this.audio = this.add.image(game.config.width-100,game.config.height-50,'audioOn').setScale(0.5).setDepth(2);;
         if(!game.audio){
             this.audio.setTexture('audioOff');
         }

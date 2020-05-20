@@ -220,6 +220,9 @@ class Messenger extends Phaser.Scene {
     }
 
     progressConvo(){
+        if(!this.replied){
+            this.sound.play('recievedSFX');
+        }
         this.replied = true;
 
     }
@@ -332,8 +335,7 @@ class Messenger extends Phaser.Scene {
                 break;
             }
             var msg = game.people.mHist[this.convoIndex].messages[num];
-            if(msg.type() == 'recieved' && this.replied){
-                this.sound.play('recievedSFX');
+            if(msg.type() == 'recieved' /*&& this.replied*/){
                 game.people.mHist[this.convoIndex].prog++;
                 var message = this.extractMsg(msg);
                 var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((game.people.mHist[this.convoIndex].prog - num)*100), message,this.recievedConfig).setOrigin(0);
@@ -342,8 +344,8 @@ class Messenger extends Phaser.Scene {
                 this.lastMsgWasRecieved = true;
                 this.convoMsgs.push(txt);
             }else if(msg.type() == 'sent' && this.lastMsgWasRecieved){
-                if(game.quitters >= 2){
-                    this.timer = this.time.delayedCall(500, () => {
+                if(game.quitters >= 1){
+                    this.timer = this.time.delayedCall(5000, () => {
                         this.scene.start("endScene");
                     }, null, this);
                 }
