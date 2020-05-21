@@ -115,7 +115,7 @@ class Messenger extends Phaser.Scene {
         this.optionsBoxes = [];
 
         //message placement:
-        this.msgY = game.config.height-200;
+        this.msgStart = game.config.height-200;
         this.msgX = game.config.width;
 
         this.displayName = this.add.text(centerX-165, 115,"", buttonConfig).setOrigin(0.5);
@@ -314,13 +314,11 @@ class Messenger extends Phaser.Scene {
             console.log(msg);
             if(msg.type() == 'recieved'){
                 var message = this.extractMsg(msg);
-                this.msgY -= msg.length();
-                console.log(msg.length());
-                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgY-((prog - num)*100), message,this.recievedConfig).setOrigin(0);
+                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((prog - num)*100), message,this.recievedConfig).setOrigin(0);
             }else if(msg.type() == 'sent'){
-                var txt = this.add.text(this.msgX,this.msgY-((prog - num)*100),this.extractMsg(msg),this.sentConfig).setOrigin(1);
+                var txt = this.add.text(this.msgX,this.msgStart-((prog - num)*100),this.extractMsg(msg),this.sentConfig).setOrigin(1);
             }else if(msg.type() == 'sentOpts'){
-                var txt = this.add.text(this.msgX,this.msgY-((prog - num)*100), this.extractMsg(msg.choice),this.sentConfig).setOrigin(1);
+                var txt = this.add.text(this.msgX,this.msgStart-((prog - num)*100), this.extractMsg(msg.choice),this.sentConfig).setOrigin(1);
             }
             this.convoMsgs.push(txt);
         }
@@ -340,7 +338,7 @@ class Messenger extends Phaser.Scene {
             if(msg.type() == 'recieved' /*&& this.replied*/){
                 game.people.mHist[this.convoIndex].prog++;
                 var message = this.extractMsg(msg);
-                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgY-((game.people.mHist[this.convoIndex].prog - num)*100), message,this.recievedConfig).setOrigin(0);
+                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((game.people.mHist[this.convoIndex].prog - num)*100), message,this.recievedConfig).setOrigin(0);
                 //get out of loop and wait
                 this.replied = false;
                 this.lastMsgWasRecieved = true;
