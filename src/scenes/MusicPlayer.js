@@ -127,8 +127,8 @@ class MusicPlayer extends Phaser.Scene {
         var playlistNum = 0;
         var songListStartY = 270;
         game.playlist.forEach(song => {
-            this.add.text(250,songListStartY+playlistNum*40,song.songName,songNameConfig).setDepth(4);
-            this.add.text(250,songListStartY+20+playlistNum*40,song.artist + ' · ' + song.album,songInfoConfig).setDepth(4);
+            this.add.text(500,songListStartY+playlistNum*40,song.songName,songNameConfig).setDepth(4);
+            this.add.text(500,songListStartY+20+playlistNum*40,song.artist + ' · ' + song.album,songInfoConfig).setDepth(4);
             this.playlistSongAreas.push(
                 this.add.image(190,songListStartY+20+playlistNum*40, 'songArea').setDepth(3).setOrigin(0,0.5)
             );
