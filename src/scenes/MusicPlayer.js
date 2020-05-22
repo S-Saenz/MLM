@@ -170,7 +170,7 @@ class MusicPlayer extends Phaser.Scene {
         this.chatTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
 
         
-        this.mp_bg = this.add.tileSprite(0, 50, 1060, 800, 'mp_bg').setOrigin(0, 0).setDepth(2);
+        this.mp_bg = this.add.tileSprite(0, 50, 960, 600, 'mp_bg').setOrigin(0, 0).setDepth(2);
 
         this.tabs = [this.chatTab,this.pdfTab];
         this.tabLinks = ['messengerScene','pdfScene'];
