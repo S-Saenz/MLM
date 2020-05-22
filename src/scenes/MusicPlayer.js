@@ -125,7 +125,7 @@ class MusicPlayer extends Phaser.Scene {
         this.playlistSongAreas = [];
         this.playlistNotes = [];
         var playlistNum = 0;
-        var songListStartY = 270
+        var songListStartY = 270;
         game.playlist.forEach(song => {
             this.add.text(250,songListStartY+playlistNum*40,song.songName,songNameConfig).setDepth(4);
             this.add.text(250,songListStartY+20+playlistNum*40,song.artist + ' · ' + song.album,songInfoConfig).setDepth(4);
@@ -175,10 +175,11 @@ class MusicPlayer extends Phaser.Scene {
         this.tabLinks = ['messengerScene','pdfScene'];
 
         //music player ui buttons
-        this.bigPlay = this.add.image(220,230,'bigPlay').setScale(0.5).setDepth(2).setDepth(2);;
-        this.smallPlay = this.add.image(480,585,'smallPlay').setScale(0.5).setDepth(2).setDepth(2);;
+        this.bigPlay = this.add.image(220,230,'bigPlay').setScale(0.5).setDepth(2).setDepth(2);
+        this.smallPlay = this.add.image(480,585,'smallPlay').setScale(0.5).setDepth(2).setDepth(2);
 
-        this.audio = this.add.image(game.config.width-100,game.config.height-50,'audioOn').setScale(0.5).setDepth(2);;
+        this.audio = this.add.image(game.config.width-100,game.config.height-50,'audioOn').setScale(0.5).setDepth(2);
+        
         if(!game.audio){
             this.audio.setTexture('audioOff');
         }

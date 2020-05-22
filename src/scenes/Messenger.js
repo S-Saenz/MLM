@@ -126,6 +126,7 @@ class Messenger extends Phaser.Scene {
         this.convoMsgs = [];
         this.convo;
         this.convoWho = [];
+
         this.convoTabs = [];
         var num = 0;
         game.ppl.forEach(person => {
@@ -328,6 +329,7 @@ class Messenger extends Phaser.Scene {
             this.replied = true;
             this.lastMsgWasRecieved = true;
         }
+        
         while(!reachedSent){
             if(num >= game.people.mHist[this.convoIndex].messages.length){
                 this.options = [];

@@ -10,8 +10,6 @@ let game = new Phaser.Game(config);
 game.audio = false;
 game.musicPlay = false;
 
-game.formal = new ConvoVar('formal');
-game.uniqueResponse = new ConvoVar('thats dumb');
 
 //Betty's convoVars
 game.convo0Vars = {
@@ -21,6 +19,7 @@ game.convo0Vars = {
     formal: new ConvoVar('formal'),
     uniqueResponse: new ConvoVar('thats dumb')
 }
+//brett
 game.convo1Vars = {
     formal: new ConvoVar('formal'),
     uniqueResponse: new ConvoVar('thats dumb')
@@ -79,6 +78,8 @@ game.fullConvos = {
             new Recieved([game.convo1Vars.uniqueResponse])
     ])
 }
+
+
 game.mHistory = {
     p0: [new SentMsg('hi',[],[]), 
     new SentOpts( [new SentMsg('hello',[game.formal],['formal']), new SentMsg('sup',[game.formal],['casual'])]), 
