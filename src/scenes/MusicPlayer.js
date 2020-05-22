@@ -11,7 +11,7 @@ class MusicPlayer extends Phaser.Scene {
 
         //buttons
         //this.load.image('audioOff', '././assets/audioOff.png');
-        this.load.image('mp_bg', '././assets/musicPlayer.png');
+        this.load.image('mp_bg', '././assets/musicPlayer_bg.png');
         this.load.image('bigPlay', '././assets/bigPlay.png');
         this.load.image('bigPause', '././assets/bigPause.png');
 
@@ -169,7 +169,7 @@ class MusicPlayer extends Phaser.Scene {
         this.chatTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
 
         
-        this.bg = this.add.tileSprite(0, 50, 1920, 1200, 'mp_bg').setOrigin(0, 0).setScale(0.5).setDepth(2);
+        this.bg = this.add.tileSprite(0, 50, 960, 600, 'mp_bg').setOrigin(0, 0).setDepth(2);
 
         this.tabs = [this.chatTab,this.pdfTab];
         this.tabLinks = ['messengerScene','pdfScene'];
@@ -179,7 +179,7 @@ class MusicPlayer extends Phaser.Scene {
         this.smallPlay = this.add.image(480,585,'smallPlay').setScale(0.5).setDepth(2).setDepth(2);
 
         this.audio = this.add.image(game.config.width-100,game.config.height-50,'audioOn').setScale(0.5).setDepth(2);
-        
+
         if(!game.audio){
             this.audio.setTexture('audioOff');
         }
