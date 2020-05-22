@@ -130,10 +130,11 @@ class MusicPlayer extends Phaser.Scene {
             this.add.text(250,songListStartY+playlistNum*40,song.songName,songNameConfig).setDepth(4);
             this.add.text(250,songListStartY+20+playlistNum*40,song.artist + ' · ' + song.album,songInfoConfig).setDepth(4);
             this.playlistSongAreas.push(
-                this.add.image(190,songListStartY+20+playlistNum*40, 'songArea').setScale(0.5).setDepth(3).setOrigin(0,0.5)
+                this.add.image(190,songListStartY+20+playlistNum*40, 'songArea').setDepth(3).setOrigin(0,0.5)
             );
+            this.add.text(215,songListStartY+20+playlistNum*40, playlistNum+1, songInfoConfig).setDepth(4).setOrigin(0,0.5)
             this.playlistNotes.push(
-                this.add.image(215,songListStartY+20+playlistNum*40, 'songNote').setScale(0.5).setDepth(4).setOrigin(0,0.5)
+                this.add.image(215,songListStartY+20+playlistNum*40, 'songPlay').setDepth(4).setOrigin(0,0.5).setAlpha(0)
             );
             playlistNum++;
         });
@@ -169,7 +170,7 @@ class MusicPlayer extends Phaser.Scene {
         this.chatTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
 
         
-        this.bg = this.add.tileSprite(0, 50, 960, 600, 'mp_bg').setOrigin(0, 0).setDepth(2);
+        this.mp_bg = this.add.tileSprite(0, 50, 960, 600, 'mp_bg').setOrigin(0, 0).setDepth(2);
 
         this.tabs = [this.chatTab,this.pdfTab];
         this.tabLinks = ['messengerScene','pdfScene'];
@@ -203,7 +204,7 @@ class MusicPlayer extends Phaser.Scene {
                 this.playSong(this.songs[this.playlistSongAreas.indexOf(area)]);
                 //set this song area to clicked look
                 area.setTexture('songAreaHover');
-                this.playlistNotes[this.playlistSongAreas.indexOf(area)].setTexture('songPlay');
+                this.playlistNotes[this.playlistSongAreas.indexOf(area)].alpha = 1;
                 //set audio on
                 this.audio.setTexture('audioOn');
                 game.audio = true;
@@ -215,11 +216,13 @@ class MusicPlayer extends Phaser.Scene {
             });
 
             area.on('pointerover', () => { 
+                this.playlistNotes[this.playlistSongAreas.indexOf(area)].alpha = 1;
                 area.setTexture('songAreaHover');
                 this.playlistNotes[this.playlistSongAreas.indexOf(area)].setTexture('songPlay');
             });
             area.on('pointerout', () => { 
                 if(game.currSong != this.songs[this.playlistSongAreas.indexOf(area)] || !game.audio){
+                    this.playlistNotes[this.playlistSongAreas.indexOf(area)].alpha = 0;
                     area.setTexture('songArea');
                     this.playlistNotes[this.playlistSongAreas.indexOf(area)].setTexture('songNote');
                 }
