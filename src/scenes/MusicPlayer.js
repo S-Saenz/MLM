@@ -9,14 +9,21 @@ class MusicPlayer extends Phaser.Scene {
         this.load.audio(game.playlist[1].songName, '././assets/music/MLM_song2.wav');
         this.load.audio(game.playlist[2].songName, '././assets/music/synthySong.wav');
 
+        
+        //hover sounds
+        this.load.audio('hover1SFX', '././assets/sfx/hover1.wav');
+        this.load.audio('hover2SFX', '././assets/sfx/hover2.wav');
+        this.load.audio('hover3SFX', '././assets/sfx/hover3.wav');
+        this.load.audio('hover4SFX', '././assets/sfx/hover4.wav');
+        //click sounds
+        this.load.audio('click1SFX', '././assets/sfx/click1.wav');
+        this.load.audio('click2SFX', '././assets/sfx/click2.wav');
+        this.load.audio('click3SFX', '././assets/sfx/click3.wav');
+        
+
         //buttons
         //this.load.image('audioOff', '././assets/audioOff.png');
         this.load.image('mp_bg', '././assets/musicPlayer_bg.png');
-        this.load.image('bigPlay', '././assets/bigPlay.png');
-        this.load.image('bigPause', '././assets/bigPause.png');
-
-        this.load.image('bigPlayHover', '././assets/bigPlayHover.png');
-        this.load.image('bigPauseHover', '././assets/bigPauseHover.png');
 
         this.load.image('smallPlay', '././assets/smallPlay.png');
         this.load.image('smallPause', '././assets/smallPause.png');
@@ -35,6 +42,11 @@ class MusicPlayer extends Phaser.Scene {
         this.load.image('songNote', '././assets/songNote.png');
         this.load.image('songAreaHover', '././assets/songHover.png');
         this.load.image('songArea', '././assets/songArea.png');
+
+        //album covers
+        this.load.image(game.playlist[0].albumCover, '././assets/songImage1.png');
+        this.load.image(game.playlist[1].albumCover, '././assets/songImage2.png');
+        this.load.image(game.playlist[2].albumCover, '././assets/songImage3.png');
 
         //tab stuff
         this.load.image('tabLine', '././assets/tabLine.png');
@@ -67,33 +79,6 @@ class MusicPlayer extends Phaser.Scene {
         game.currSong.stop();
         game.currSong.play(this.musicConfig);
 
-        this.sentConfig = {
-            fontFamily: 'Helvetica',
-            fontStyle: 'bold',
-            fontSize: '30px',
-            color: '#FACADE',
-            align: 'center',
-            padding: {
-                right: 10,
-                left: 10,
-                top: 5,
-                bottom: 5,
-            },
-        }
-        this.recievedConfig = {
-            fontFamily: 'Helvetica',
-            fontStyle: 'bold',
-            fontSize: '30px',
-            color: '#FAA',
-            align: 'center',
-            padding: {
-                right: 10,
-                left: 10,
-                top: 5,
-                bottom: 5,
-            },
-        }
-
         let songNameConfig = {
             fontFamily: 'Helvetica',
             fontStyle: 'bold',
@@ -111,6 +96,22 @@ class MusicPlayer extends Phaser.Scene {
         let songInfoConfig = {
             fontFamily: 'Helvetica',
             fontStyle: 'bold',
+            fontSize: '15px',
+            color: '#9E9E9E',
+            align: 'center',
+            padding: {
+                right: 10,
+                left: 10,
+                top: 5,
+                bottom: 5,
+            },
+            wordWrap: { width: 250, useAdvancedWrap: true }
+        }
+        
+
+        let numbersConfig = {
+            fontFamily: 'Helvetica',
+            fontStyle: 'bold',
             fontSize: '10px',
             color: '#9E9E9E',
             align: 'center',
@@ -125,20 +126,21 @@ class MusicPlayer extends Phaser.Scene {
         this.playlistSongAreas = [];
         this.playlistNotes = [];
         var playlistNum = 0;
-        var songListStartY = 270;
+        var songListStartY = 250;
+        var songListStartX = 460;
         game.playlist.forEach(song => {
-            this.add.text(500,songListStartY+playlistNum*40,song.songName,songNameConfig).setDepth(4);
-            this.add.text(500,songListStartY+20+playlistNum*40,song.artist + ' · ' + song.album,songInfoConfig).setDepth(4);
+            this.add.text(songListStartX,songListStartY+5+playlistNum*40,song.songName,songNameConfig).setDepth(4);
             this.playlistSongAreas.push(
-                this.add.image(190,songListStartY+20+playlistNum*40, 'songArea').setDepth(3).setOrigin(0,0.5)
+                this.add.image(songListStartX-30,songListStartY+20+playlistNum*40, 'songArea').setScale(1.4).setDepth(3).setOrigin(0,0.5)
             );
-            this.add.text(215,songListStartY+20+playlistNum*40, playlistNum+1, songInfoConfig).setDepth(4).setOrigin(0,0.5)
+            this.add.text(songListStartX-20,songListStartY+20+playlistNum*40, playlistNum+1, numbersConfig).setDepth(4).setOrigin(0,0.5)
             this.playlistNotes.push(
-                this.add.image(215,songListStartY+20+playlistNum*40, 'songPlay').setDepth(4).setOrigin(0,0.5).setAlpha(0)
+                this.add.image(songListStartX-15,songListStartY+20+playlistNum*40, 'songPlay').setScale(0.3).setDepth(4).setOrigin(0,0.5).setAlpha(0)
             );
             playlistNum++;
         });
 
+        this.albumCoverImg = this.add.image(170,200,game.playlist[0].albumCover).setOrigin(0);
 
         // =============================== add buttons ===============================
         let buttonConfig = {
@@ -176,10 +178,12 @@ class MusicPlayer extends Phaser.Scene {
         this.tabLinks = ['messengerScene','pdfScene'];
 
         //music player ui buttons
-        this.bigPlay = this.add.image(220,230,'bigPlay').setScale(0.5).setDepth(2).setDepth(2);
-        this.smallPlay = this.add.image(480,585,'smallPlay').setScale(0.5).setDepth(2).setDepth(2);
+        
+        this.currSongInfo = this.add.text(game.config.width-80,game.config.height-70,'INFO',songInfoConfig).setOrigin(1,0.5).setDepth(4);
 
-        this.audio = this.add.image(game.config.width-100,game.config.height-50,'audioOn').setScale(0.5).setDepth(2);
+        this.smallPlay = this.add.image(300,480,'smallPlay').setScale(0.5).setDepth(2).setDepth(2);
+
+        this.audio = this.add.image(game.config.width-150,220,'audioOn').setScale(0.5).setDepth(2);
 
         if(!game.audio){
             this.audio.setTexture('audioOff');
@@ -192,13 +196,16 @@ class MusicPlayer extends Phaser.Scene {
         playlistNum = 0;
         this.playlistSongAreas.forEach(area => {
             area.setInteractive();
+            var song = game.playlist[this.playlistSongAreas.indexOf(area)];
                 
             area.on('pointerdown', () => { 
+                this.albumCoverImg.setTexture(song.albumCover);
+                this.currSongInfo.text = song.artist + ' · ' + song.album;
                 //if you click on a song
                 //set all buttons to original look
                 this.playlistSongAreas.forEach(ar => {
                     ar.setTexture('songArea');
-                    this.playlistNotes[this.playlistSongAreas.indexOf(ar)].setTexture('songNote');
+                    this.playlistNotes[this.playlistSongAreas.indexOf(ar)].alpha = 0;
                 });
                 //play the song
                 this.playSong(this.songs[this.playlistSongAreas.indexOf(area)]);
@@ -211,7 +218,6 @@ class MusicPlayer extends Phaser.Scene {
                 game.currSong.setMute(false);
                 this.musicConfig.mute = false;
                 //set play buttons to pause
-                this.bigPlay.setTexture('bigPause');
                 this.smallPlay.setTexture('smallPause');
             });
 
@@ -284,52 +290,14 @@ class MusicPlayer extends Phaser.Scene {
 
         //==================== play buttons ========================
         
-        //big play button
-        this.bigPlay.setInteractive();
-        this.bigPlay.on('pointerdown', () => { 
-            if(game.musicPlay){
-                this.bigPlay.setTexture('bigPlay');
-                this.smallPlay.setTexture('smallPlay');
-                game.currSong.setMute(true);
-                this.musicConfig.mute = true;
-            }else{
-                this.bigPlay.setTexture('bigPause');
-                this.smallPlay.setTexture('smallPause');
-                if(game.audio){
-                    game.currSong.setMute(false);
-                    this.musicConfig.mute = false;
-                }
-            }
-            game.musicPlay = !game.musicPlay;
-        });
-
-        this.bigPlay.on('pointerover', () => { 
-            if(!game.musicPlay){
-                this.bigPlay.setTexture('bigPlayHover');
-            }else{
-                this.bigPlay.setTexture('bigPauseHover');
-            }
-        });
-        this.bigPlay.on('pointerout', () => { 
-            
-            if(!game.musicPlay){
-                this.bigPlay.setTexture('bigPlay');
-            }else{
-                this.bigPlay.setTexture('bigPause');
-            }
-        });
-
-        //small play button
         
         this.smallPlay.setInteractive();
         this.smallPlay.on('pointerdown', () => { 
             if(game.musicPlay){
-                this.bigPlay.setTexture('bigPlay');
                 this.smallPlay.setTexture('smallPlay');
                 game.currSong.setMute(true);
                 this.musicConfig.mute = true;
             }else{
-                this.bigPlay.setTexture('bigPause');
                 this.smallPlay.setTexture('smallPause');
                 if(game.audio){
                     game.currSong.setMute(false);
