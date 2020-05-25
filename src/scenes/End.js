@@ -1,3 +1,5 @@
+/** @type {import("../../typings/phaser")} */
+
 class End extends Phaser.Scene {
     constructor(){
         super("endScene");

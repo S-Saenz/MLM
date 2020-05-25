@@ -1,3 +1,5 @@
+/** @type {import("../typings/phaser")} */
+
 class ConvoVar{
     constructor(str) {
         this.txt = str;

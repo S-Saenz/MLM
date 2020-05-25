@@ -1,3 +1,4 @@
+/** @type {import("../typings/phaser")} */
 
 let config = {
     type: Phaser.AUTO,

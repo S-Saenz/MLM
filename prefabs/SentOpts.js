@@ -1,3 +1,5 @@
+/** @type {import("../typings/phaser")} */
+
 class SentOpts{
     constructor(options) {
         this.options = options;
