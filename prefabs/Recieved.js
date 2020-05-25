@@ -1,3 +1,6 @@
+/** @type {import("../typings/phaser")} */
+
+
 class Recieved{
     constructor(msg) {
         this.txtArr = msg;

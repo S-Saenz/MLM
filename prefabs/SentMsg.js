@@ -1,3 +1,5 @@
+/** @type {import("../typings/phaser")} */
+
 class SentMsg{
     constructor(msg,changeVars,changeVarsTo,effect) {
         this.effect = effect;

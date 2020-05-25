@@ -1,3 +1,5 @@
+/** @type {import("../typings/phaser")} */
+
 class Song{
     constructor(songName,artist,album,albumCover) {
         this.songName = songName;

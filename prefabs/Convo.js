@@ -1,3 +1,5 @@
+/** @type {import("../typings/phaser")} */
+
 class Convo{
     constructor(messages,variables) {
         this.messages = messages;

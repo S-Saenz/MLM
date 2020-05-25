@@ -1,3 +1,5 @@
+/** @type {import("../typings/phaser")} */
+
 class Person{
     constructor(name,convo,trust,aquired) {
         this.name = name;

@@ -1,3 +1,5 @@
+/** @type {import("../../typings/phaser")} */
+
 class Pdf extends Phaser.Scene {
     constructor(){
         super("pdfScene");
@@ -81,7 +83,7 @@ class Pdf extends Phaser.Scene {
 
         this.tabs = [this.chatTab,this.musicPlayerTab];
         this.tabsTxt = [this.chatTabTxt,this.musicPlayerTabTxt];
-        this.tabLinks = ['chatScene','musicPlayerScene'];
+        this.tabLinks = ['messengerScene','musicPlayerScene'];
 
 
         this.bg = this.add.tileSprite(0, 50, 960, 600, 'ui_bg').setOrigin(0, 0);
@@ -95,7 +97,7 @@ class Pdf extends Phaser.Scene {
             tab.setInteractive();
             tab.on('pointerdown', () => { 
                 this.sound.play('click3SFX');
-                this.scene.start(this.tabLinks[this.tabs.indexOf(tab)]);
+                this.scene.bringToTop(this.tabLinks[this.tabs.indexOf(tab)]);
             });
     
             tab.on('pointerover', () => { 

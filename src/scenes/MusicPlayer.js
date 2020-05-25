@@ -1,3 +1,5 @@
+/** @type {import("../../typings/phaser")} */
+
 class MusicPlayer extends Phaser.Scene {
     constructor(){
         super("musicPlayerScene");
@@ -242,7 +244,7 @@ class MusicPlayer extends Phaser.Scene {
             tab.setInteractive();
             tab.on('pointerdown', () => { 
                 this.sound.play('click3SFX');
-                this.scene.start(this.tabLinks[this.tabs.indexOf(tab)]);
+                this.scene.bringToTop(this.tabLinks[this.tabs.indexOf(tab)]);
             });
     
             tab.on('pointerover', () => { 
