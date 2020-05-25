@@ -5,7 +5,7 @@ let config = {
     width: 960,
     height: 650,
     backgroundColor: '#FFF',
-    scene: [ MusicPlayer, Messenger,  Pdf, End ]
+    scene: [ Messenger, MusicPlayer, Pdf, End ]
 }
 let game = new Phaser.Game(config);
 game.audio = false;
