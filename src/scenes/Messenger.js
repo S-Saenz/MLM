@@ -58,7 +58,7 @@ class Messenger extends Phaser.Scene {
         this.sentConfig = {
             fontFamily: 'Helvetica',
             fontStyle: 'bold',
-            fontSize: '30px',
+            fontSize: '25px',
             color: '#FACADE',
             align: 'center',
             padding: {
@@ -72,7 +72,7 @@ class Messenger extends Phaser.Scene {
         this.recievedConfig = {
             fontFamily: 'Helvetica',
             fontStyle: 'bold',
-            fontSize: '30px',
+            fontSize: '25px',
             color: '#FAA',
             align: 'center',
             padding: {
