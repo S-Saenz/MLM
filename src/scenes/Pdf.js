@@ -7,7 +7,11 @@ class Pdf extends Phaser.Scene {
     preload() {
 
         //this.load.image('audioOff', '././assets/audioOff.png');
-        this.load.image('pdf_bg', '././assets/pdf_ui.png');
+        this.load.image('pdf_bg', '././assets/productGuide.png');
+
+        
+        this.load.image('upButton', '././assets/upButton.png');
+        this.load.image('downButton', '././assets/downButton.png');
 
         //tab stuff
         this.load.image('tabLine', '././assets/tabLine.png');
@@ -68,6 +72,10 @@ class Pdf extends Phaser.Scene {
           },
         }
         
+        //up down buttons
+        this.upButton = this.add.image(game.config.width-200,game.config.height-200, 'upButton');
+
+
         // set up background and tabs
         this.tabLine = this.add.tileSprite(0,0,960,200,'tabLine').setOrigin(0);
         //music tab
@@ -86,7 +94,7 @@ class Pdf extends Phaser.Scene {
         this.tabLinks = ['messengerScene','musicPlayerScene'];
 
 
-        this.bg = this.add.tileSprite(0, 50, 960, 600, 'ui_bg').setOrigin(0, 0);
+        this.bg = this.add.tileSprite(0, 50, 960, 600, 'pdf_bg').setOrigin(0, 0);
         this.chatTab = this.add.text(60,10,'Messenger',buttonConfig);
 
         
