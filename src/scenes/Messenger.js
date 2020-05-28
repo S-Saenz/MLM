@@ -4,12 +4,14 @@ class Messenger extends Phaser.Scene {
     constructor(){
         super("messengerScene");
     }
+    
     preload() {
 
         //load music Scene
         this.load.sceneFile('musicPlayerScene', './MusicPlayer.js');
         //load PDF Scene
         this.load.sceneFile('pdfScene','./Pdf.js');
+
         // load sfx
         this.load.audio('recievedSFX', '././assets/sfx/recieved.wav');
         this.load.audio('sentSFX', '././assets/sfx/sent.wav');
@@ -50,8 +52,14 @@ class Messenger extends Phaser.Scene {
         //launch PDF Scene
         this.scene.launch('pdfScene');
         this.scene.sendToBack('pdfScene');
-        //this.scene.bringToTop('messengerScene');
-
+        //launch Chat Scene
+        this.scene.launch('chatScene');
+        //Chat Scene Variable
+        this.test=this.scene.get('chatScene');
+        //launch Options Scene
+        this.scene.launch('optionScene');
+        //Options Scene Variable
+        this.optionScene=this.scene.get('optionScene');
         this.replied = false;
         var centerX = game.config.width/2;
         var centerY = game.config.height/2;
@@ -144,6 +152,10 @@ class Messenger extends Phaser.Scene {
         this.convoWho = [];
 
         this.convoTabs = [];
+
+        //loadConvo Flag
+        //var loadConvo=false;
+
         var num = 0;
         game.ppl.forEach(person => {
             if(person.aquired){
@@ -200,7 +212,11 @@ class Messenger extends Phaser.Scene {
                 this.convoIndex = game.people.names.indexOf(tab.text);
                 this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
                 if(this.displayName.text != tab.text){
+                    //this.loadConvo(this.convoIndex);
+                    //this.loadConvo=true;
+                    this.scene.bringToTop('chatScene');
                     this.loadConvo(this.convoIndex);
+                    
                 }
                 this.displayName.text = tab.text;
                 this.displayIcon.setTexture(tab.text);
@@ -264,7 +280,9 @@ class Messenger extends Phaser.Scene {
             game.ppl[this.convoIndex].trust--;
         }
         game.people.mHist[this.convoIndex].prog++;
-        this.loadConvo(this.convoIndex)
+        //this.loadConvo(this.convoIndex)
+        //this.loadConvo=true;
+        this.loadConvo(this.convoIndex);
 
     }
 
@@ -292,6 +310,7 @@ class Messenger extends Phaser.Scene {
     }
 
     presentOptions(options){
+        this.scene.bringToTop('optionScene');
         var num = 0;
         //console.log(options);
         let optsTxt=[];
@@ -301,23 +320,14 @@ class Messenger extends Phaser.Scene {
         console.log(optsTxt);
         let optsTower=this.convoHeight(optsTxt)*34;
         let ceiling=optsTower;
-        /*for(var option=0;option<options.length;option++){
-            this.optionsBoxes.push(
-                this.add.image(this.textArea.x,this.textArea.y+this.getHeight(this.extractMsg(options[option])*30),'typeArea').setOrigin(1)
-            );
-            this.optionsTxt.push(
-                this.add.text(this.textArea.x,this.textArea.y+this.getHeight(this.extractMsg(options[option])*30),this.extractMsg(options[option]),this.sentConfig).setOrigin(1)
-            );
-            ceiling-=(this.getHeight(this.extractMsg(options[option])*30));
 
-        }*/
         options.forEach(option => {
             let decisions=this.getHeight(this.extractMsg(option));
             this.optionsBoxes.push(
-                this.add.image(this.textArea.x,this.textArea.y-(20*options.length+ceiling-34*decisions),'typeArea').setOrigin(1).setDisplaySize(700,decisions*34)
+                this.optionScene.displayOptionsBox(this.textArea.x,this.textArea.y-(20*options.length+ceiling+50-34*decisions),'typeArea', 1, 1, 700, decisions*30)
             );
             this.optionsTxt.push(
-                this.add.text(this.textArea.x,this.textArea.y-(20*options.length+ceiling-34*decisions),this.extractMsg(option),this.sentConfig).setOrigin(1)
+                this.optionScene.displayOptionsText(this.textArea.x,this.textArea.y-(20*options.length+ceiling+50-34*decisions),this.extractMsg(option),this.sentConfig, 1, 1)
             );
             ceiling-=(decisions*34+20);
             //console.log(this.sen);
@@ -342,7 +352,7 @@ class Messenger extends Phaser.Scene {
 
     loadConvo(convoIndex){
         //manipulatable conversation height
-        //this.manipConvoH=game.people.mHist[convoIndex].height;
+        
         var optNum = 0;
         this.optionsTxt.forEach(opt => {
             opt.destroy();
@@ -371,7 +381,7 @@ class Messenger extends Phaser.Scene {
             
         }
         let height=this.convoHeight(msgs);
-        game.people.mHist[convoIndex].setHeight(height*34+e*20);
+        game.people.mHist[convoIndex].setHeight(height*34/*+e*20*/);
         var roof=game.people.mHist[convoIndex].heightChecker();
         for(num = 0; num <= game.people.mHist[convoIndex].prog-1; num++){
             var prog = game.people.mHist[convoIndex].prog;
@@ -383,8 +393,8 @@ class Messenger extends Phaser.Scene {
                 var message = this.extractMsg(msg);
                 //var lineRec=this.getHeight(message);
                 
-                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-(roof+10/**this.getHeight(message) - (this.getHeight(message)*34)*/)/**this.getHeight(message)*/, message,this.recievedConfig).setOrigin(0);
-                roof-=(20+this.getHeight(message)*34);
+                var txt = this.test.chatDisplay(this.msgX-(game.config.width/1.3),this.msgStart-(roof - (this.getHeight(message)*34)), message,this.recievedConfig,0,1);
+                roof-=(/*20+*/this.getHeight(message)*34);
                 //console.log('roofRec',roof);
                 /*for(var i1=0;i1<lineRec.length;i1++){
                     
@@ -394,8 +404,9 @@ class Messenger extends Phaser.Scene {
                 //console.log(txt.getWrappedText(this.extractMsg(msg)).length);
             }else if(msg.type() == 'sent'){
                 //var lineSent=this.getHeight(this.extractMsg(msg));
-                var txt = this.add.text(this.msgX,this.msgStart-((roof/**this.getHeight(this.extractMsg(msg))*/ - (10+this.getHeight(this.extractMsg(msg))*34)/**this.getHeight(this.extractMsg(msg))*/)),this.extractMsg(msg),this.sentConfig).setOrigin(1);
-                roof-=(20+this.getHeight(this.extractMsg(msg))*34);
+                var txt = this.test.chatDisplay(this.msgX,this.msgStart-(roof - (this.getHeight(this.extractMsg(msg))*34)),this.extractMsg(msg),this.sentConfig, 1,1);
+                console.log(this.msgX,this.msgStart-(roof - (this.getHeight(this.extractMsg(msg))*34)));
+                roof-=(/*20+*/this.getHeight(this.extractMsg(msg))*34);
                 //console.log('roofSent',roof);
                 /*for(var i2=0;i2<lineSent.length;i2++){
                     var txt = this.add.text(this.msgX,this.msgStart-(((prog+20*i2) - (num+20*i2))*100)-20*i2,lineSent[i2],this.sentConfig).setOrigin(1);
@@ -405,8 +416,8 @@ class Messenger extends Phaser.Scene {
                 
             }else if(msg.type() == 'sentOpts'){
                 //var lineSO=this.getHeight(this.extractMsg(msg.choice));
-                var txt = this.add.text(this.msgX,this.msgStart-(roof - (this.getHeight(this.extractMsg(msg.choice))*34)-10), this.extractMsg(msg.choice),this.sentConfig).setOrigin(1);
-                roof-=((20+this.getHeight(this.extractMsg(msg.choice))*34));
+                var txt = this.test.chatDisplay(this.msgX,this.msgStart-(roof - (this.getHeight(this.extractMsg(msg.choice))*34)/*-10*/), this.extractMsg(msg.choice),this.sentConfig,1,1);
+                roof-=((/*20+*/this.getHeight(this.extractMsg(msg.choice))*34));
                 //console.log('roofOpts',roof);
                 /*for(var i3=0;i3<lineSO.length;i3++){
                     var txt = this.add.text(this.msgX,this.msgStart-(((prog+20*i3) - (num+20*i3))*100)+20*i3, lineSO[i3],this.sentConfig).setOrigin(1);
@@ -437,10 +448,10 @@ class Messenger extends Phaser.Scene {
                 game.people.mHist[this.convoIndex].prog++;
                 var message = this.extractMsg(msg);
                 //var lineRep=this.getHeight(message);
-                game.people.mHist[this.convoIndex].longer(20+this.getHeight(message)*34);
+                game.people.mHist[this.convoIndex].longer(/*20+*/this.getHeight(message)*34);
                 //console.log('roofPreRep',roof);
-                roof+=(20+this.getHeight(message)*34);
-                var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-((/*game.people.mHist[this.convoIndex].prog*/roof-(5+this.getHeight(message)*34)/*num*/)/**100*/), message,this.recievedConfig).setOrigin(0);
+                roof+=(/*20+*/this.getHeight(message)*34);
+                var txt = this.test.chatDisplay(this.msgX-(game.config.width/1.3),this.msgStart-((roof-(this.getHeight(message)*34))), message,this.recievedConfig,0,0);
                 roof-=(this.getHeight(message)*34);
                 //console.log('roofPostRep',roof);
                 /*for(var i4=0;i4<lineRep.length;i4++){
@@ -506,5 +517,46 @@ class Messenger extends Phaser.Scene {
         return lines;
 
 
+    }
+}
+
+
+class Chat extends Phaser.Scene {
+    constructor(){
+        super("chatScene");
+        
+    }
+
+    create(){
+
+        this.cameras.main.setViewport(223,153,737,497);
+        //this.scene.sendToBack("chatScene");
+        //this.messenger=this.scene.get("messengerScene");
+
+       
+        
+    }
+ 
+    chatDisplay(xPos, yPos, post, style, originX,originY){
+
+        this.text=this.add.text(xPos-223, yPos-153, post, style).setOrigin(originX,originY);
+        console.log('called');
+        return this.text;
+    }
+    
+}
+
+class Options extends Phaser.Scene {
+    constructor(){
+        super("optionScene");       
+    }
+
+    displayOptionsBox(xPos, yPos, pic, xOrigin, yOrigin, width, height){
+       this.boxes=this.add.image(xPos, yPos, pic).setOrigin(xOrigin,yOrigin).setDisplaySize(width,height);
+       return this.boxes
+    }
+    displayOptionsText(xPos, yPos, text, style, xOrigin, yOrigin){
+       this.options=this.add.text(xPos, yPos, text, style).setOrigin(xOrigin, yOrigin);
+       return this.options
     }
 }
