@@ -76,22 +76,22 @@ class Pdf extends Phaser.Scene {
         }
         
         //up down buttons
-        this.upButton = this.add.image(game.config.width-100,game.config.height-150, 'upButton').setScale(0.5).setDepth(4);
-        this.downButton = this.add.image(game.config.width-100,game.config.height-50, 'downButton').setScale(0.5).setDepth(4);
+        this.upButton = this.add.image(game.config.width-100,game.config.height-150, 'upButton').setScale(0.5).setDepth(3);
+        this.downButton = this.add.image(game.config.width-100,game.config.height-50, 'downButton').setScale(0.5).setDepth(3);
 
 
         // set up background and tabs
         this.tabLine = this.add.tileSprite(0,0,960,50,'tabLine').setOrigin(0).setDepth(3);
         //music tab
         this.musicPlayerTab = this.add.tileSprite(250,0,270,60,'tab').setOrigin(0).setDepth(3);
-        this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0).setDepth(4);
+        this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0).setDepth(3);
 
         //pdf tab
-        this.tabSelected = this.add.tileSprite(500,0,270,60,'tabSelected').setOrigin(0).setDepth(4);
-        this.pdfTabTxt = this.add.text(450*1.4,10,'pdf',buttonConfig).setOrigin(0.5,0).setDepth(4);
+        this.tabSelected = this.add.tileSprite(500,0,270,60,'tabSelected').setOrigin(0).setDepth(3);
+        this.pdfTabTxt = this.add.text(450*1.4,10,'pdf',buttonConfig).setOrigin(0.5,0).setDepth(3);
         
         this.chatTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0).setDepth(3);
-        this.chatTabTxt = this.add.text(60,10,'Messenger',buttonConfig).setDepth(4);
+        this.chatTabTxt = this.add.text(60,10,'Messenger',buttonConfig).setDepth(3);
 
         this.tabs = [this.chatTab,this.musicPlayerTab];
         this.tabsTxt = [this.chatTabTxt,this.musicPlayerTabTxt];
@@ -114,7 +114,7 @@ class Pdf extends Phaser.Scene {
     
             tab.on('pointerover', () => { 
                 this.sound.play('hover4SFX');
-                tab.setTexture('tabHover').setDepth(4);
+                tab.setTexture('tabHover').setDepth(3);
             });
             tab.on('pointerout', () => { 
                 tab.setTexture('tab').setDepth(3);
