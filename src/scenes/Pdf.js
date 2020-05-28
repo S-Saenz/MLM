@@ -7,7 +7,14 @@ class Pdf extends Phaser.Scene {
     preload() {
 
         //this.load.image('audioOff', '././assets/audioOff.png');
-        this.load.image('pdf_bg', '././assets/pdf_ui.png');
+        this.load.image('pdf_bg', '././assets/productGuide.png');
+
+        
+        this.load.image('upButton', '././assets/upButton.png');
+        this.load.image('downButton', '././assets/downButton.png');
+        
+        this.load.image('upButtonHover', '././assets/upButtonHover.png');
+        this.load.image('downButtonHover', '././assets/downButtonHover.png');
 
         //tab stuff
         this.load.image('tabLine', '././assets/tabLine.png');
@@ -68,25 +75,30 @@ class Pdf extends Phaser.Scene {
           },
         }
         
+        //up down buttons
+        this.upButton = this.add.image(game.config.width-100,game.config.height-150, 'upButton').setScale(0.5).setDepth(4);
+        this.downButton = this.add.image(game.config.width-100,game.config.height-50, 'downButton').setScale(0.5).setDepth(4);
+
+
         // set up background and tabs
-        this.tabLine = this.add.tileSprite(0,0,960,200,'tabLine').setOrigin(0);
+        this.tabLine = this.add.tileSprite(0,0,960,50,'tabLine').setOrigin(0).setDepth(3);
         //music tab
-        this.musicPlayerTab = this.add.tileSprite(250,0,270,60,'tab').setOrigin(0);
-        this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0);
+        this.musicPlayerTab = this.add.tileSprite(250,0,270,60,'tab').setOrigin(0).setDepth(3);
+        this.musicPlayerTabTxt = this.add.text(270*1.4,10,'Music Player',buttonConfig).setOrigin(0.5,0).setDepth(4);
 
         //pdf tab
-        this.tabSelected = this.add.tileSprite(500,0,270,60,'tabSelected').setOrigin(0);
-        this.pdfTabTxt = this.add.text(450*1.4,10,'pdf',buttonConfig).setOrigin(0.5,0);
+        this.tabSelected = this.add.tileSprite(500,0,270,60,'tabSelected').setOrigin(0).setDepth(4);
+        this.pdfTabTxt = this.add.text(450*1.4,10,'pdf',buttonConfig).setOrigin(0.5,0).setDepth(4);
         
-        this.chatTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0);
-        this.chatTabTxt = this.add.text(60,10,'Messenger',buttonConfig);
+        this.chatTab = this.add.tileSprite(0,0,270,60,'tab').setOrigin(0).setDepth(3);
+        this.chatTabTxt = this.add.text(60,10,'Messenger',buttonConfig).setDepth(4);
 
         this.tabs = [this.chatTab,this.musicPlayerTab];
         this.tabsTxt = [this.chatTabTxt,this.musicPlayerTabTxt];
         this.tabLinks = ['messengerScene','musicPlayerScene'];
 
 
-        this.bg = this.add.tileSprite(0, 50, 960, 600, 'ui_bg').setOrigin(0, 0);
+        this.bg = this.add.tileSprite(0, 50, 960, 2200, 'pdf_bg').setOrigin(0, 0);
         this.chatTab = this.add.text(60,10,'Messenger',buttonConfig);
 
         
@@ -104,12 +116,53 @@ class Pdf extends Phaser.Scene {
     
             tab.on('pointerover', () => { 
                 this.sound.play('hover4SFX');
-                tab.setTexture('tabHover');
+                tab.setTexture('tabHover').setDepth(4);
             });
             tab.on('pointerout', () => { 
-                tab.setTexture('tab');
+                tab.setTexture('tab').setDepth(3);
             });
             
+        });
+        
+
+        
+        this.upButton.setInteractive();
+        this.upButton.on('pointerdown', () => { 
+            if(this.bg.y<=0){
+                this.bg.height+=100;
+                this.bg.y+=100;
+                if(this.bg.y >=20){
+                    this.bg.y = 50;
+                }
+            }
+        });
+
+        this.upButton.on('pointerover', () => { 
+            this.sound.play('hover4SFX');
+            this.upButton.setTexture('upButtonHover');
+        });
+        this.upButton.on('pointerout', () => { 
+            this.upButton.setTexture('upButton');
+        });
+
+
+
+        this.downButton.setInteractive();
+        this.downButton.on('pointerdown', () => { 
+            if(this.bg.y>=-1480){
+                this.bg.height+=100;
+                this.bg.y-=100;
+
+            }
+            console.log(this.bg.y);
+        });
+
+        this.downButton.on('pointerover', () => { 
+            this.sound.play('hover4SFX');
+            this.downButton.setTexture('downButtonHover');
+        });
+        this.downButton.on('pointerout', () => { 
+            this.downButton.setTexture('downButton');
         });
 
         
