@@ -26,6 +26,12 @@ game.convo1Vars = {
     uniqueResponse: new ConvoVar('thats dumb')
 }
 
+game.convo2Vars = {
+    amountResp: new ConvoVar("Bro, that's like hella cash, but that's not enough.  I need to show my followers that I could purchase their lives.  They may think life is priceless, but I've got enough money to pay for even that, bro!  my watch is probably worth more than your house"),
+    soRichResp1: new ConvoVar("Well, you could buy multiple beginners kits!  Then not only are you showing your wealth but also show off our products even more!  It's a win-win for both of us!"),
+    imIn: new ConvoVar("Woahhh dude, that’s like, expensive expensive.  That’s like, if-I-buy-it-I’ll-look-even-richer expensive.  I’m in dude.  I can show my facebook fans how awesomely rich and handsome I am, and you guys will get like, hella exposure.  Two birds with one stone, or whatever"),
+}
+
 game.fullConvos = {
     p0: new Convo([
             new Recieved(["Hey Ctharen!  I’ve heard from Joe that you’ve been showing interest in climbing the ranks of our little company here!"]),
@@ -41,6 +47,8 @@ game.fullConvos = {
             new Recieved(["Well had I known that I wouldn’t have hired a private investigator.  Anyways, good luck!  If you end up with enough people working under you, I think you’d make a fine CEO!"]),
 
         ]),
+
+
     p1: new Convo([
             new SentMsg(['Hey Betty! How’s it goin hun? I haven’t seen you in soooo long! I love all your cute animal pictures!  I just wanted to reach out to you because I have a business with MLM and was hoping to let you in on it! I know it can be hard to support all those pets, but MLM makes it sooo much easier to make cash quicker than anyone else! You get to sell amazing products from the comfort of your own home! I think you would really rock at this! I love to share some more information with you if you’re interested?'],[],[],0),
             new Recieved(['Oh thanks dear, I just love cute animals!  I just added a new member to the family recently too!  Her name is Mittens and I love her to bits!']),
@@ -86,12 +94,52 @@ game.fullConvos = {
             new Recieved([game.convo0Vars.recruitResponse]) 
 
         ]),
+
+
     p2: new Convo([
-            new Recieved(['hiya']), 
-            new SentOpts( [new SentMsg(['good evening'],[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['weird','thats interesting I guess'], 1), new SentMsg(['hella hi'],[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['dumb','I hate you and your dumb face'], -1)]), 
-            new Recieved(['wow youre very ', game.convo1Vars.formal]), 
-            new SentMsg(['Yes, I’m quite unique'],[],[], 0), 
-            new Recieved([game.convo1Vars.uniqueResponse])
+            new SentMsg(["Hey Brett! How’s it goin man? I haven’t seen you in soooo long! You look like you’ve been partying a lot recently!  That sounds like so much fun!  I just wanted to reach out to you because I work with MLM and was hoping to let you in on it! I know it can be hard to pay for all those parties, but MLM makes it sooo much easier to make cash quick than anyone else! You get to sell amazing products from the comfort of your own home! I think you would really rock at this! I’d love to share some more information with you if you’re interested?"]),
+            new Recieved(["How much?"]), 
+            new SentOpts( 
+                [new SentMsg(
+                    ["for what?"],
+                    [],
+                    [], 1
+                    ), 
+                new SentMsg(
+                    ["excuse me?"],
+                    [],
+                    [], -1
+                    )]
+                ), 
+            new Recieved(["for the products, bro!  How much do I have to pay for them?"]), 
+            new SentOpts( 
+                [new SentMsg(
+                    ["Oh it’s not much, especially when compared to the money you’ll make selling them! :P"],
+                    [game.convo2Vars.amountResp, game.convo2Vars.soRichResp1],
+                    ["Dude, have you seen my Facebook?  I’m rich AF bro.  My watch is probably worth more than your entire career", "Well, our beginner’s kit is around $500"], 1
+                    ), 
+                new SentMsg(
+                    ["Well, our beginner’s kit is around $500"],
+                    [],
+                    [], -1
+                    )]
+                ),  
+            new Recieved([game.convo2Vars.amountResp]),
+            new SentMsg(["That's nice"],[],[],0),
+            new Recieved(["The guy who sold it to me said that it was the only one in existence.  He said he was gonna give me a discount just cause I look like a good guy, but since I’m such a good (and rich) dude I made him sell it to me for the full price"]),
+            new Recieved(["Anyways what I’m trying to say is that I’m so totally rich I could probably purchase your entire family, so I need to spend more than what most people could even dream of paying"]), 
+            new SentOpts( 
+                [new SentMsg(
+                    [game.convo2Vars.soRichResp1],
+                    [],
+                    [], 1
+                    ), 
+                new SentMsg(
+                    ["Well if you're so focused on the price I can give you a massive discount on it, how's 40% off of $500 sound?"],
+                    [game.imIn],
+                    ["Bro.  Did you just offer me a discount?"], -1
+                    )]
+                ),  
         ])
 }
 
@@ -118,11 +166,11 @@ game.mHistoryWho = {
     p4: [1,1]
 }
 game.people = {
-    names: ['Boss','Betty','Jamie','Brett','Sam','Alex'],
+    names: ['Boss','Betty','Brett','Jamie','Sam','Alex'],
     aquired: [true,true,false,false,false],
-    mHist: [game.fullConvos.p0,game.fullConvos.p1,game.mHistory.p2,/*game.mHistory.p3,game.mHistory.p4*/]
+    mHist: [game.fullConvos.p0,game.fullConvos.p1,game.fullConvos.p2,/*game.mHistory.p3,game.mHistory.p4*/]
 }
-game.ppl = [new Person('Boss',game.fullConvos.p0, 1,true), new Person('Betty',game.fullConvos.p1, 1,true), new Person('Jamie',game.fullConvos.p2, 1,true)];
+game.ppl = [new Person('Boss',game.fullConvos.p0, 1,true), new Person('Betty',game.fullConvos.p1, 1,true), new Person('Brett',game.fullConvos.p2, 1,true)];
 
 game.playlist = [new Song('Faith and Company','Roadside Worship','Wait, There is More','albumCover1'),
                 new Song('Essential Toils','First Stone','Multiple Levels of Love','albumCover2'),
@@ -131,10 +179,3 @@ game.playlist = [new Song('Faith and Company','Roadside Worship','Wait, There is
 game.currSong;
 //how many people have quit
 game.quitters = 0;
-/*
-‘hi’
-‘hello’
-‘wow you’re very formal’
-‘Yes, I’m quite unique’
-‘thats dumb’
-*/

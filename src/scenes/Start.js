@@ -33,7 +33,7 @@ class Start extends Phaser.Scene {
 
         
         //up down buttons
-        this.loginButton = this.add.image(centerX,centerY+100, 'loginButton').setScale(0.5).setDepth(1);
+        this.loginButton = this.add.image(centerX,centerY+120, 'loginButton').setScale(0.5).setDepth(1);
 
 
         
