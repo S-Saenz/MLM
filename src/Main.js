@@ -28,6 +28,20 @@ game.convo1Vars = {
 
 game.fullConvos = {
     p0: new Convo([
+            new Recieved(["Hey Ctharen!  I’ve heard from Joe that you’ve been showing interest in climbing the ranks of our little company here!"]),
+            new SentMsg(["That’s right, but who’s Joe?"],[],[],0),
+            new Recieved(["Unimportant.  Anyways, that’s great!  I’ve always prided myself in being the first being to climb from the bottom of this company all the way to the top, much like my brethren swimming upstream to fulfill their life’s goals."]),
+            new Recieved(["And just like my brethren, now that I have reached the top, I will inevitably die in the next few weeks and thus I’m looking for a worthy successor."]),
+            new SentMsg(["I’m honored you would consider me!"]),
+            new Recieved(["of course, I can’t just blindly hand over the company to someone I just met, so you must prove to me you’re able to handle being in a position of authority."]),
+            new Recieved(["As such, I am placing you in charge of our company in the (area in the game) area.  Those people there are well known for being a… unique bunch, so make sure you choose your words carefully when getting and keeping them on our side. "]),
+            new Recieved(["They love using (Facebook replacement) over there, so why not contact them using that?  I’m sure they’ll respond to you pretty quickly."]),
+            new Recieved(["Oh and make sure you don’t end up having no allies in that area, you don’t wanna end up like the last guy that was in your position."]),
+            new SentMsg(["What happened to them?"]),
+            new Recieved(["Well had I known that I wouldn’t have hired a private investigator.  Anyways, good luck!  If you end up with enough people working under you, I think you’d make a fine CEO!"]),
+
+        ]),
+    p1: new Convo([
             new SentMsg(['Hey Betty! How’s it goin hun? I haven’t seen you in soooo long! I love all your cute animal pictures!  I just wanted to reach out to you because I have a business with MLM and was hoping to let you in on it! I know it can be hard to support all those pets, but MLM makes it sooo much easier to make cash quicker than anyone else! You get to sell amazing products from the comfort of your own home! I think you would really rock at this! I love to share some more information with you if you’re interested?'],[],[],0),
             new Recieved(['Oh thanks dear, I just love cute animals!  I just added a new member to the family recently too!  Her name is Mittens and I love her to bits!']),
             new SentOpts( [
@@ -72,12 +86,13 @@ game.fullConvos = {
             new Recieved([game.convo0Vars.recruitResponse]) 
 
         ]),
-    p1: new Convo([new Recieved(['hiya']), 
+    p2: new Convo([
+            new Recieved(['hiya']), 
             new SentOpts( [new SentMsg(['good evening'],[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['weird','thats interesting I guess'], 1), new SentMsg(['hella hi'],[game.convo1Vars.formal,game.convo1Vars.uniqueResponse],['dumb','I hate you and your dumb face'], -1)]), 
             new Recieved(['wow youre very ', game.convo1Vars.formal]), 
             new SentMsg(['Yes, I’m quite unique'],[],[], 0), 
             new Recieved([game.convo1Vars.uniqueResponse])
-    ])
+        ])
 }
 
 
@@ -103,11 +118,11 @@ game.mHistoryWho = {
     p4: [1,1]
 }
 game.people = {
-    names: ['Brett','Jamie','Betty','Sam','Alex'],
+    names: ['Boss','Betty','Jamie','Brett','Sam','Alex'],
     aquired: [true,true,false,false,false],
-    mHist: [game.fullConvos.p0,game.fullConvos.p1/*,game.mHistory.p2,game.mHistory.p3,game.mHistory.p4*/]
+    mHist: [game.fullConvos.p0,game.fullConvos.p1,game.mHistory.p2,/*game.mHistory.p3,game.mHistory.p4*/]
 }
-game.ppl = [new Person('Brett',game.fullConvos.p0, 1,true), new Person('Jamie',game.fullConvos.p1, 1,true)];
+game.ppl = [new Person('Boss',game.fullConvos.p0, 1,true), new Person('Betty',game.fullConvos.p1, 1,true), new Person('Jamie',game.fullConvos.p2, 1,true)];
 
 game.playlist = [new Song('Faith and Company','Roadside Worship','Wait, There is More','albumCover1'),
                 new Song('Essential Toils','First Stone','Multiple Levels of Love','albumCover2'),

@@ -1,9 +1,8 @@
 /** @type {import("../typings/phaser")} */
 
 class Convo{
-    constructor(messages,variables) {
+    constructor(messages) {
         this.messages = messages;
-        this.variables = variables;
         this.prog = 0;
         //Conversation total height
         this.height=0;
