@@ -245,7 +245,8 @@ class MusicPlayer extends Phaser.Scene {
             tab.on('pointerdown', () => { 
                 this.sound.play('click3SFX');
                 this.scene.bringToTop(this.tabLinks[this.tabs.indexOf(tab)]);
-                this.scene.moveAbove('messengerScene','chatScene');
+                this.scene.moveAbove('messengerScene','scrollerScene');
+                this.scene.moveAbove('scrollerScene','chatScene');
                 this.scene.moveAbove('chatScene','optionScene');
             });
     

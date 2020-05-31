@@ -52,6 +52,10 @@ class Messenger extends Phaser.Scene {
         //launch PDF Scene
         this.scene.launch('pdfScene');
         this.scene.sendToBack('pdfScene');
+        //launch Scroller Scene
+        this.scene.launch('scrollerScene');
+        //scroller scene variable
+        this.scroller=this.scene.get('scrollerScene');
         //launch Chat Scene
         this.scene.launch('chatScene');
         //Chat Scene Variable
@@ -60,6 +64,7 @@ class Messenger extends Phaser.Scene {
         this.scene.launch('optionScene');
         //Options Scene Variable
         this.optionScene=this.scene.get('optionScene');
+
         this.replied = false;
         var centerX = game.config.width/2;
         var centerY = game.config.height/2;
@@ -322,7 +327,7 @@ class Messenger extends Phaser.Scene {
         options.forEach(option => {
             let decisions=this.getHeight(this.extractMsg(option));
             this.optionsBoxes.push(
-                this.optionScene.displayOptionsBox(this.textArea.x,this.textArea.y-(20*options.length+ceiling+50-34*decisions),'typeArea', 1, 1, 700, decisions*30)
+                this.optionScene.displayOptionsBox(this.textArea.x,this.textArea.y-(20*options.length+ceiling+50-34*decisions),'typeArea', 1, 1, 700, decisions*34)
             );
             this.optionsTxt.push(
                 this.optionScene.displayOptionsText(this.textArea.x,this.textArea.y-(20*options.length+ceiling+50-34*decisions),this.extractMsg(option),this.sentConfig, 1, 1)
@@ -366,71 +371,8 @@ class Messenger extends Phaser.Scene {
         var reachedSent = false;
         var num;
         //places current messages into an array
-        var msgs=[];
-        for(var e = 0; e <= game.people.mHist[convoIndex].prog-1; e++){
-            var msg2=game.people.mHist[convoIndex].messages[e];
-            var texts;
-            if(msg2.type()=='sentOpts'){
-                texts=this.extractMsg(msg2.choice);
-            }else{
-                texts=this.extractMsg(msg2);
-            }
-            msgs.push(texts);
-            //console.log('msgs',msgs);
-            
-        }
-        //gets height of all the messages in the array based on message style config
-        let height=this.convoHeight(msgs);
-        //sets height of the convo the messages are from
-        game.people.mHist[convoIndex].setHeight(height*34/*+e*20*/);
-        //temp/manipulatable varible for convo height
-        var roof=game.people.mHist[convoIndex].heightChecker();
-        //convo draw function begin
-        for(num = 0; num <= game.people.mHist[convoIndex].prog-1; num++){
-            var prog = game.people.mHist[convoIndex].prog;
-            var msg = game.people.mHist[convoIndex].messages[num];
-            //console.log('roof',roof);
-            
-            //console.log(msg);
-            if(msg.type() == 'recieved'){
-                var message = this.extractMsg(msg);
-                //var lineRec=this.getHeight(message);
-                
-                var txt = this.chat.chatDisplay(this.msgX-(game.config.width/1.3),this.msgStart-(roof - (this.getHeight(message)*34)), message,this.recievedConfig,0,1);
-                roof-=(/*20+*/this.getHeight(message)*34);
-                //console.log('roofRec',roof);
-                /*for(var i1=0;i1<lineRec.length;i1++){
-                    
-                    var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-(((prog+20*i1) - (num+20*i1))*100)-20*i1, lineRec[i1],this.recievedConfig).setOrigin(0);
-                }*///this.getHeight(message);
-                //console.log(message);
-                //console.log(txt.getWrappedText(this.extractMsg(msg)).length);
-            }else if(msg.type() == 'sent'){
-                //var lineSent=this.getHeight(this.extractMsg(msg));
-                var txt = this.chat.chatDisplay(this.msgX,this.msgStart-(roof - (this.getHeight(this.extractMsg(msg))*34)),this.extractMsg(msg),this.sentConfig, 1,1);
-                //console.log(this.msgX,this.msgStart-(roof - (this.getHeight(this.extractMsg(msg))*34)));
-                roof-=(/*20+*/this.getHeight(this.extractMsg(msg))*34);
-                //console.log('roofSent',roof);
-                /*for(var i2=0;i2<lineSent.length;i2++){
-                    var txt = this.add.text(this.msgX,this.msgStart-(((prog+20*i2) - (num+20*i2))*100)-20*i2,lineSent[i2],this.sentConfig).setOrigin(1);
-                }*///this.getHeight(this.extractMsg(msg));
-                //console.log(this.extractMsg(msg));
-                //console.log(txt.getWrappedText(this.extractMsg(msg)).length);
-                
-            }else if(msg.type() == 'sentOpts'){
-                //var lineSO=this.getHeight(this.extractMsg(msg.choice));
-                var txt = this.chat.chatDisplay(this.msgX,this.msgStart-(roof - (this.getHeight(this.extractMsg(msg.choice))*34)/*-10*/), this.extractMsg(msg.choice),this.sentConfig,1,1);
-                roof-=((/*20+*/this.getHeight(this.extractMsg(msg.choice))*34));
-                //console.log('roofOpts',roof);
-                /*for(var i3=0;i3<lineSO.length;i3++){
-                    var txt = this.add.text(this.msgX,this.msgStart-(((prog+20*i3) - (num+20*i3))*100)+20*i3, lineSO[i3],this.sentConfig).setOrigin(1);
-                }*/
-                //console.log(this.extractMsg(msg.choice));
-                //console.log(txt.getWrappedText(this.extractMsg(msg.choice)).length);
-                
-            }
-            this.convoMsgs.push(txt);
-        }
+        num=this.postMessages(num,convoIndex);
+
         //convo draw function end
         this.lastMsgWasRecieved = false;
         //console.log('roofEnd',roof);
@@ -452,19 +394,24 @@ class Messenger extends Phaser.Scene {
                 game.people.mHist[this.convoIndex].prog++;
                 var message = this.extractMsg(msg);
                 //var lineRep=this.getHeight(message);
-                game.people.mHist[this.convoIndex].longer(/*20+*/this.getHeight(message)*34);
+                //game.people.mHist[this.convoIndex].longer(/*20+*/this.getHeight(message)*34);
                 //console.log('roofPreRep',roof);
-                roof+=(/*20+*/this.getHeight(message)*34);//reset roof
+                //roof+=(/*20+*/this.getHeight(message)*34);//reset roof
                 //insert convo draw function here
-                var txt = this.chat.chatDisplay(this.msgX-(game.config.width/1.3),this.msgStart-((roof-(this.getHeight(message)*34))), message,this.recievedConfig,0,0);
-                roof-=(this.getHeight(message)*34);
+                this.convoMsgs.forEach(msg => {
+                    msg.destroy();
+                });
+                var trash=this.postMessages(num,convoIndex);
+                trash=0;
+                //var txt = this.chat.chatDisplay(this.msgX-(game.config.width/1.3),this.msgStart-((roof-(this.getHeight(message)*34))), message,this.recievedConfig,0,0);
+                //roof-=(this.getHeight(message)*34);
                 //console.log('roofPostRep',roof);
                 /*for(var i4=0;i4<lineRep.length;i4++){
                     var txt = this.add.text(this.msgX-(game.config.width/1.3),this.msgStart-(((game.people.mHist[this.convoIndex].prog+20*i4) - (num+20*i4))*100)+20*i4, lineRep[i4],this.recievedConfig).setOrigin(0);
                 }*///get out of loop and wait
                 this.replied = false;
                 this.lastMsgWasRecieved = true;
-                this.convoMsgs.push(txt);
+                //this.convoMsgs.push(txt);
             }else if(msg.type() == 'sent' && this.lastMsgWasRecieved){
                 if(game.quitters >= 1){
                     this.timer = this.time.delayedCall(5000, () => {
@@ -523,6 +470,53 @@ class Messenger extends Phaser.Scene {
 
 
     }
+
+    postMessages(num,convoIndex){
+        var msgs=[];
+        for(var e = 0; e <= game.people.mHist[convoIndex].prog-1; e++){
+            var msg2=game.people.mHist[convoIndex].messages[e];
+            var texts;
+            if(msg2.type()=='sentOpts'){
+                texts=this.extractMsg(msg2.choice);
+            }else{
+                texts=this.extractMsg(msg2);
+            }
+            msgs.push(texts);
+            //console.log('msgs',msgs);
+            
+        }
+        //gets height of all the messages in the array based on message style config
+        let height=this.convoHeight(msgs);
+        //sets height of the convo the messages are from
+        game.people.mHist[convoIndex].setHeight(height*34);
+        //temp/manipulatable varible for convo height
+        var roof=game.people.mHist[convoIndex].heightChecker();
+        //convo draw function begin
+        for(num = 0; num <= game.people.mHist[convoIndex].prog-1; num++){
+            var prog = game.people.mHist[convoIndex].prog;
+            var msg = game.people.mHist[convoIndex].messages[num];
+
+            if(msg.type() == 'recieved'){
+                var message = this.extractMsg(msg);
+                
+                var txt = this.chat.chatDisplay(this.msgX-(game.config.width/1.3),this.msgStart-(roof - (this.getHeight(message)*34)), message,this.recievedConfig,0,1);
+                roof-=(/*20+*/this.getHeight(message)*34);
+
+            }else if(msg.type() == 'sent'){
+                var txt = this.chat.chatDisplay(this.msgX,this.msgStart-(roof - (this.getHeight(this.extractMsg(msg))*34)),this.extractMsg(msg),this.sentConfig, 1,1);
+                roof-=(/*20+*/this.getHeight(this.extractMsg(msg))*34);
+                
+            }else if(msg.type() == 'sentOpts'){
+                var txt = this.chat.chatDisplay(this.msgX,this.msgStart-(roof - (this.getHeight(this.extractMsg(msg.choice))*34)/*-10*/), this.extractMsg(msg.choice),this.sentConfig,1,1);
+                roof-=((/*20+*/this.getHeight(this.extractMsg(msg.choice))*34));
+                
+            }
+            this.convoMsgs.push(txt);//return txt
+        }
+
+        return num;
+
+    }
 }
 
 
@@ -531,22 +525,56 @@ class Chat extends Phaser.Scene {
         super("chatScene");
         
     }
-
     create(){
-
-        this.cameras.main.setViewport(223,153,737,497);
-        //this.scene.sendToBack("chatScene");
-        //this.messenger=this.scene.get("messengerScene");
-
-       
-        
+        this.camera=this.cameras.main.setViewport(223,153,737,449);
+        this.messenger=this.scene.get("messengerScene");
+        this.scroller=this.scene.get("scrollerScene");
+        this.mover=this.scroller.scrollBarHeight;
+        this.cHeight;
     }
- 
-    chatDisplay(xPos, yPos, post, style, originX,originY){
+    
+    
+    
+    scrollHistory(scrollerheight){
+        
 
-        this.text=this.add.text(xPos-223, yPos-153, post, style).setOrigin(originX,originY);
-        console.log('called');
+        this.camera.scrollY=(-(this.cHeight*((602-scrollerheight))/602));
+        //this.scrollBar.setScrollFactor(1);
+        //console.log('scrollbar x,y ',this.scrollBar.x,this.scrollBar.y);
+
+    }
+    update(){
+        //console.log(this.cHeight);
+        /* if(this.cHeight>449){
+            this.camera.setScroll(this.camera.originX,(this.cHeight*(this.mover/449)));
+        } */
+        
+        //this.cHeight=game.people.mHist[this.messenger.convoIndex].heightChecker();
+        if(this.cHeight>449){
+            //console.log('scrollbar x,y ',this.scrollBar.x,this.scrollBar.y);
+            
+            
+        }
+
+
+    }
+
+ 
+    chatDisplay(xPos, yPos, post, style, originX, originY){
+
+        this.text=this.add.text(xPos-223, yPos, post, style).setOrigin(originX,originY);
+        this.cHeight=game.people.mHist[this.messenger.convoIndex].heightChecker();
+        this.text.setScrollFactor(1);
+        if(this.cHeight<449){
+            this.scroller.scrollBarSpawn()
+        }
+        if(this.cHeight>=449){
+            this.scroller.scrollBarScale(this.cHeight);
+        }
+        
+        //console.log('called');
         return this.text;
+        
     }
     
 }
@@ -564,4 +592,60 @@ class Options extends Phaser.Scene {
        this.options=this.add.text(xPos, yPos, text, style).setOrigin(xOrigin, yOrigin);
        return this.options
     }
+}
+
+class Scroll extends Phaser.Scene {
+    constructor(){
+        super("scrollerScene")
+    }
+    preload(){
+        this.load.image('scrollBar','././assets/scrollBar.png');
+    }
+    create(){
+        //this.camera=this.cameras.main.setViewport(223,153,737,449);
+        
+        var scrollBar=this.add.image(954,602,'scrollBar').setScale(1, 449/244).setOrigin(0.5,1).setVisible(0);
+        scrollBar.setInteractive();
+        this.input.setDraggable(scrollBar);
+        this.input.on('drag', function(pointer,gameObject,dragX,dragY){
+            dragY=Phaser.Math.Clamp(dragY, 153+(gameObject.y-gameObject.getTopCenter().y),602);
+            gameObject.setPosition(954,dragY);
+        });
+        this.scrollBar=scrollBar;
+        this.scrollHigh;
+        this.chat=this.scene.get('chatScene');
+        
+        //this.input.on('pointerdown',this.startDrag,this);
+
+
+        //this.scene.sendToBack("chatScene");
+        //this.messenger=this.scene.get("messengerScene");
+        
+        //this.cHeight=game.people.mHist[this.messenger.convoIndex].heightChecker();
+        
+        //console.log('topCenter',this.scrollBar.getTopCenter());
+
+
+
+       
+        
+    }
+    scrollBarScale(cHeight){
+
+        this.scrollBar.setVisible(true);
+        this.scrollBar.setScale(1,449/cHeight);
+
+     
+    }
+    scrollBarSpawn(){
+        this.scrollBar.setVisible(0);
+        this.scrollBar.setPosition(954,602);
+    }
+    update(){
+
+        this.scrollHigh=this.scrollBar.y/*+this.scrollBar.displayHeight*/;
+        this.try=this.chat.scrollHistory(this.scrollHigh);
+    }
+
+
 }
