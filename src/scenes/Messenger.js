@@ -181,7 +181,7 @@ class Messenger extends Phaser.Scene {
         this.textArea.setInteractive();
         this.textArea.on('pointerdown', () => { 
             this.sound.play('click2SFX');
-
+            //this.playerTalk=true;
             this.presentOptions(this.options);
         });
 
@@ -319,7 +319,7 @@ class Messenger extends Phaser.Scene {
             game.quitters++;
             game.ppl[this.convoIndex].trust--;
         }
-        
+
         if(this.playerTalk){
             game.people.mHist[this.convoIndex].prog++;
         }
@@ -339,7 +339,6 @@ class Messenger extends Phaser.Scene {
             optionBox.on('pointerdown', () => { 
                 this.sound.play('click2SFX');
                 console.log('we innerer');
-                //this.playerTalk=true;
                 this.chooseOption(this.optionsBoxes.indexOf(optionBox));
                 //console.log('hello1');
             });
@@ -382,6 +381,7 @@ class Messenger extends Phaser.Scene {
             num++;
         });
         console.log('we in');
+        this.playerTalk=true;
         this.initializeOptionButtons();
     }
 
