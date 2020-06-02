@@ -10,7 +10,7 @@ class Messenger extends Phaser.Scene {
         //load music Scene
         this.load.sceneFile('musicPlayerScene', './MusicPlayer.js');
         //load PDF Scene
-        this.load.sceneFile('pdfScene','./Pdf.js');
+        //this.load.sceneFile('pdfScene','./Pdf.js');
 
         // load sfx
         this.load.audio('recievedSFX', '././assets/sfx/recieved.wav');
@@ -45,23 +45,27 @@ class Messenger extends Phaser.Scene {
     }
 
     create(){
-
+        //launch PDF Scene
+        /* this.scene.launch('pdfScene');
+        this.scene.bringToTop('pdfScene'); */
+        this.pdf=this.scene.get('pdfScene');
         //launch MusicPlayer Scene
         this.scene.launch('musicPlayerScene');
         this.scene.sendToBack('musicPlayerScene');
-        //launch PDF Scene
-        this.scene.launch('pdfScene');
-        this.scene.sendToBack('pdfScene');
+        this.music=this.scene.get('musicPlayerScene');
         //launch Scroller Scene
         this.scene.launch('scrollerScene');
+        this.scene.moveAbove('messengerScene','scrollerScene');
         //scroller scene variable
         this.scroller=this.scene.get('scrollerScene');
         //launch Chat Scene
         this.scene.launch('chatScene');
+        this.scene.moveAbove('scrollerScene','chatScene');
         //Chat Scene Variable
         this.chat=this.scene.get('chatScene');
         //launch Options Scene
         this.scene.launch('optionScene');
+        this.scene.moveAbove('chatScene','optionScene');
         //Options Scene Variable
         this.optionScene=this.scene.get('optionScene');
 
@@ -149,7 +153,8 @@ class Messenger extends Phaser.Scene {
         this.displayName = this.add.text(centerX-165, 115,"", buttonConfig).setOrigin(0.5);
         this.displayIcon = this.add.image(centerX-225, 125, 'Betty').setScale(0.25);
 
-
+        //flag to prevent game from continuing without player interaction
+        this.playerTalk=true;
         
         this.convoIndex = 0;
         this.convoMsgs = [];
@@ -168,14 +173,15 @@ class Messenger extends Phaser.Scene {
             }
             num++;
         });
-        
+        //this.music.lockInteractives();
+
         //=============================== set interactive ===========================================
 
         //text area is the part where you type your message at the bottom of messenger
         this.textArea.setInteractive();
         this.textArea.on('pointerdown', () => { 
             this.sound.play('click2SFX');
-            //console.log('hello2');
+
             this.presentOptions(this.options);
         });
 
@@ -192,12 +198,19 @@ class Messenger extends Phaser.Scene {
             tab.on('pointerdown', () => { 
                 this.sound.play('click3SFX');
                 this.scene.bringToTop(this.tabLinks[this.tabs.indexOf(tab)]);
+                this.lockInteractives;
+                if(this.tabLinks[this.tabs.indexOf(tab)]=='musicPlayerScene'){
+                    this.music.unlockInteractives();
+                }else if(this.tabLinks[this.tabs.indexOf(tab)]=='pdfScene'){
+                    this.pdf.unlockInteractives();
+                }
                 
             });
     
             tab.on('pointerover', () => { 
                 this.sound.play('hover4SFX');
                 tab.setTexture('tabHover');
+                console.log(this.scene.getIndex('messengerScene'));
             });
             tab.on('pointerout', () => { 
                 tab.setTexture('tab');
@@ -215,13 +228,14 @@ class Messenger extends Phaser.Scene {
                 this.convoIndex = game.people.names.indexOf(tab.text);
                 this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
                 if(this.displayName.text != tab.text){
-                    this.scene.bringToTop('chatScene');
+                    this.scene.moveAbove('scrollerScene','chatScene');
                     this.loadConvo(this.convoIndex);
-                    
+                    this.textArea.setInteractive();
                 }
                 this.displayName.text = tab.text;
                 this.displayIcon.setTexture(tab.text);
                 this.textArea.alpha = 1;
+                this.playerTalk=false;
             });
     
             tab.on('pointerover', () => { 
@@ -248,11 +262,36 @@ class Messenger extends Phaser.Scene {
             callbackScope: this,
             loop: true
         });
-
-        
+        this.scrollBarLoaded=false;
+        this.lockInteractives();
     }
     
     update() {
+    }
+
+    lockInteractives(){
+        this.textArea.disableInteractive();
+        this.optionsBoxes.forEach(optionBox => {
+            optionBox.disableInteractive();
+        });
+        this.convoTabs.forEach(tab =>{
+            tab.disableInteractive();
+        });
+        if(this.scrollBarLoaded){
+            this.scroller.scrollBarDisable();
+            scrollBarLoaded=true;
+        }
+    }
+    unlockInteractives(){
+        this.textArea.setInteractive();
+        this.optionsBoxes.forEach(optionBox => {
+            optionBox.setInteractive();
+        });
+        this.convoTabs.forEach(tab =>{
+            tab.setInteractive();
+        });
+        //this.scroller.scrollBarEnable();
+
     }
 
     progressConvo(){
@@ -262,7 +301,6 @@ class Messenger extends Phaser.Scene {
         this.replied = true;
 
     }
-
     chooseOption(optionIndex){
         //this.currSentOpts.choose(option);
         this.replied = false;
@@ -281,7 +319,12 @@ class Messenger extends Phaser.Scene {
             game.quitters++;
             game.ppl[this.convoIndex].trust--;
         }
-        game.people.mHist[this.convoIndex].prog++;
+        
+        if(this.playerTalk){
+            game.people.mHist[this.convoIndex].prog++;
+        }
+    
+        this.textArea.setInteractive();
         this.loadConvo(this.convoIndex);
 
     }
@@ -296,6 +339,7 @@ class Messenger extends Phaser.Scene {
             optionBox.on('pointerdown', () => { 
                 this.sound.play('click2SFX');
                 console.log('we innerer');
+                //this.playerTalk=true;
                 this.chooseOption(this.optionsBoxes.indexOf(optionBox));
                 //console.log('hello1');
             });
@@ -317,6 +361,7 @@ class Messenger extends Phaser.Scene {
         var num = 0;
         //console.log(options);
         let optsTxt=[];
+        this.textArea.disableInteractive();
         for(var o=0; o<options.length;o++){
             optsTxt.push(this.extractMsg(options[o]));
         }
@@ -391,7 +436,10 @@ class Messenger extends Phaser.Scene {
             }
             var msg = game.people.mHist[this.convoIndex].messages[num];
             if(msg.type() == 'recieved' /*&& this.replied*/){
-                game.people.mHist[this.convoIndex].prog++;
+                console.log('convoProg');
+                if(this.playerTalk){
+                    game.people.mHist[this.convoIndex].prog++;
+                }
                 var message = this.extractMsg(msg);
                 //var lineRep=this.getHeight(message);
                 //game.people.mHist[this.convoIndex].longer(/*20+*/this.getHeight(message)*34);
@@ -628,18 +676,25 @@ class Scroll extends Phaser.Scene {
 
 
        
-        
+       this.scrollBarDisable(); 
     }
     scrollBarScale(cHeight){
 
         this.scrollBar.setVisible(true);
+        this.scrollBar.setInteractive();
         this.scrollBar.setScale(1,449/cHeight);
 
      
     }
     scrollBarSpawn(){
-        this.scrollBar.setVisible(0);
+        this.scrollBar.setVisible(false);
         this.scrollBar.setPosition(954,602);
+    }
+    scrollBarDisable(){
+        this.scrollBar.disableInteractive();
+    }
+    scrollBarEnable(){
+        this.scrollBar.setInteractive();
     }
     update(){
 

@@ -9,7 +9,9 @@ class Pdf extends Phaser.Scene {
         //this.load.image('audioOff', '././assets/audioOff.png');
         this.load.image('pdf_bg', '././assets/productGuide.png');
 
-        
+        this.load.sceneFile('messengerScene','./Messenger.js');
+        this.load.sceneFile('musicPlayerScene','./MusicPlayer.js');
+
         this.load.image('upButton', '././assets/upButton.png');
         this.load.image('downButton', '././assets/downButton.png');
         
@@ -25,6 +27,10 @@ class Pdf extends Phaser.Scene {
     }
 
     create(){
+
+        this.scene.launch('musicPlayerScene');
+        this.scene.launch('messengerScene');
+
         var centerX = game.config.width/2;
         var centerY = game.config.height/2;
 
@@ -97,6 +103,8 @@ class Pdf extends Phaser.Scene {
         this.tabsTxt = [this.chatTabTxt,this.musicPlayerTabTxt];
         this.tabLinks = ['messengerScene','musicPlayerScene'];
 
+        this.music=this.scene.get('musicPlayerScene');
+        this.messenger=this.scene.get('messengerScene');
 
         this.bg = this.add.tileSprite(0, 50, 960, 2200, 'pdf_bg').setOrigin(0, 0);
         this.chatTab = this.add.text(60,10,'Messenger',buttonConfig);
@@ -110,6 +118,12 @@ class Pdf extends Phaser.Scene {
             tab.on('pointerdown', () => { 
                 this.sound.play('click3SFX');
                 this.scene.bringToTop(this.tabLinks[this.tabs.indexOf(tab)]);
+                this.lockInteractives();
+                if(this.tabLinks[this.tabs.indexOf(tab)]=='messengerScene'){
+                    this.messenger.unlockInteractives();
+                }else if(this.tabLinks[this.tabs.indexOf(tab)]=='musicPlayerScene'){
+                    this.music.unlockInteractives();
+                }
                 this.scene.moveAbove('messengerScene','scrollerScene');
                 this.scene.moveAbove('scrollerScene','chatScene');
                 this.scene.moveAbove('chatScene','optionScene');
@@ -118,6 +132,7 @@ class Pdf extends Phaser.Scene {
             tab.on('pointerover', () => { 
                 this.sound.play('hover4SFX');
                 tab.setTexture('tabHover').setDepth(3);
+                console.log(this.scene.getIndex('pdfScene'));
             });
             tab.on('pointerout', () => { 
                 tab.setTexture('tab').setDepth(3);
@@ -153,7 +168,6 @@ class Pdf extends Phaser.Scene {
             if(this.bg.y>=-1480){
                 this.bg.height+=100;
                 this.bg.y-=100;
-
             }
             console.log(this.bg.y);
         });
@@ -161,6 +175,7 @@ class Pdf extends Phaser.Scene {
         this.downButton.on('pointerover', () => { 
             this.sound.play('hover4SFX');
             this.downButton.setTexture('downButtonHover');
+            
         });
         this.downButton.on('pointerout', () => { 
             this.downButton.setTexture('downButton');
@@ -171,6 +186,13 @@ class Pdf extends Phaser.Scene {
     
     update() {
     }
-
+    unlockInteractives(){
+        this.upButton.setInteractive();
+        this.downButton.setInteractive();
+    }
+    lockInteractives(){
+        this.upButton.disableInteractive();
+        this.downButton.disableInteractive();
+    }
     
 }

@@ -48,7 +48,8 @@ class Start extends Phaser.Scene {
 
         this.loginButton.setInteractive();
         this.loginButton.on('pointerdown', () => { 
-            this.scene.start("messengerScene");
+            //this.scene.start("messengerScene");
+            this.scene.start('pdfScene');
         });
 
         this.loginButton.on('pointerover', () => { 

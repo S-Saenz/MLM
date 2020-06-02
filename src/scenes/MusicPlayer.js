@@ -125,6 +125,8 @@ class MusicPlayer extends Phaser.Scene {
             },
         }
         
+        
+
         this.playlistSongAreas = [];
         this.playlistNotes = [];
         var playlistNum = 0;
@@ -178,6 +180,8 @@ class MusicPlayer extends Phaser.Scene {
 
         this.tabs = [this.chatTab,this.pdfTab];
         this.tabLinks = ['messengerScene','pdfScene'];
+        this.messenger=this.scene.get('messengerScene');
+        this.pdf=this.scene.get('pdfScene');
 
         //music player ui buttons
         
@@ -245,6 +249,12 @@ class MusicPlayer extends Phaser.Scene {
             tab.on('pointerdown', () => { 
                 this.sound.play('click3SFX');
                 this.scene.bringToTop(this.tabLinks[this.tabs.indexOf(tab)]);
+                this.lockInteractives();
+                if(this.tabLinks[this.tabs.indexOf(tab)]=='messengerScene'){
+                    this.messenger.unlockInteractives();
+                }else if(this.tabLinks[this.tabs.indexOf(tab)]=='pdfScene'){
+                    this.pdf.unlockInteractives();
+                }
                 this.scene.moveAbove('messengerScene','scrollerScene');
                 this.scene.moveAbove('scrollerScene','chatScene');
                 this.scene.moveAbove('chatScene','optionScene');
@@ -253,6 +263,7 @@ class MusicPlayer extends Phaser.Scene {
             tab.on('pointerover', () => { 
                 this.sound.play('hover4SFX');
                 tab.setTexture('tabHover');
+                console.log(this.scene.getIndex('musicPlayerScene'));
             });
             tab.on('pointerout', () => { 
                 tab.setTexture('tab');
@@ -327,6 +338,7 @@ class MusicPlayer extends Phaser.Scene {
                 this.smallPlay.setTexture('smallPause');
             }
         });
+        this.lockInteractives();
         
     }
     
@@ -338,5 +350,18 @@ class MusicPlayer extends Phaser.Scene {
         game.currSong = song;
         game.currSong.play(this.musicConfig);
     }
-    
+    unlockInteractives(){
+        this.audio.setInteractive();
+        this.smallPlay.setInteractive();
+        this.playlistSongAreas.forEach(area =>{
+            area.setInteractive();
+        });
+    }
+    lockInteractives(){
+        this.audio.disableInteractive;
+        this.smallPlay.disableInteractive;
+        this.playlistSongAreas.forEach(area =>{
+            area.disableInteractive();
+        });
+    }
 }
