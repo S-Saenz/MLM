@@ -76,7 +76,7 @@ class Messenger extends Phaser.Scene {
             fontFamily: 'Helvetica',
             fontStyle: 'bold',
             fontSize: '25px',
-            color: '#FACADE',
+            color: '#D5558B',
             align: 'center',
             padding: {
                 right: 10,
@@ -90,7 +90,7 @@ class Messenger extends Phaser.Scene {
             fontFamily: 'Helvetica',
             fontStyle: 'bold',
             fontSize: '25px',
-            color: '#FAA',
+            color: '#AA3939',
             align: 'center',
             padding: {
                 right: 10,
@@ -210,7 +210,7 @@ class Messenger extends Phaser.Scene {
             tab.on('pointerover', () => { 
                 this.sound.play('hover4SFX');
                 tab.setTexture('tabHover');
-                console.log(this.scene.getIndex('messengerScene'));
+                //console.log(this.scene.getIndex('messengerScene'));
             });
             tab.on('pointerout', () => { 
                 tab.setTexture('tab');
@@ -229,7 +229,9 @@ class Messenger extends Phaser.Scene {
                 this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
                 if(this.displayName.text != tab.text){
                     this.scene.moveAbove('scrollerScene','chatScene');
+
                     this.loadConvo(this.convoIndex);
+                    //this.postMessages(this.convoIndex);
                     this.textArea.setInteractive();
                 }
                 this.displayName.text = tab.text;
