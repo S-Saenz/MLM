@@ -132,7 +132,7 @@ class Pdf extends Phaser.Scene {
             tab.on('pointerover', () => { 
                 this.sound.play('hover4SFX');
                 tab.setTexture('tabHover').setDepth(3);
-                console.log(this.scene.getIndex('pdfScene'));
+                //console.log(this.scene.getIndex('pdfScene'));
             });
             tab.on('pointerout', () => { 
                 tab.setTexture('tab').setDepth(3);

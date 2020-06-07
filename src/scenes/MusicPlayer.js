@@ -263,7 +263,7 @@ class MusicPlayer extends Phaser.Scene {
             tab.on('pointerover', () => { 
                 this.sound.play('hover4SFX');
                 tab.setTexture('tabHover');
-                console.log(this.scene.getIndex('musicPlayerScene'));
+                //console.log(this.scene.getIndex('musicPlayerScene'));
             });
             tab.on('pointerout', () => { 
                 tab.setTexture('tab');
@@ -284,7 +284,7 @@ class MusicPlayer extends Phaser.Scene {
             if(game.musicPlay){
                 game.currSong.setMute(!this.musicConfig.mute);
             }
-            console.log(game.currSong);
+            //console.log(game.currSong);
             this.musicConfig.mute = !this.musicConfig.mute;
         });
 

@@ -154,7 +154,7 @@ class Messenger extends Phaser.Scene {
         this.displayIcon = this.add.image(centerX-225, 125, 'Betty').setScale(0.25);
 
         //flag to prevent game from continuing without player interaction
-        this.playerTalk=true;
+        //this.playerTalk=true;
         
         this.convoIndex = 0;
         this.convoMsgs = [];
@@ -163,6 +163,10 @@ class Messenger extends Phaser.Scene {
 
         this.convoTabs = [];
 
+
+        this.recieved='recieved';
+        this.sent='sent';
+        this.sentOpts='sentOpts';
 
         var num = 0;
         game.ppl.forEach(person => {
@@ -229,7 +233,7 @@ class Messenger extends Phaser.Scene {
                 this.convo = game.people.mHist[game.people.names.indexOf(tab.text)];
                 if(this.displayName.text != tab.text){
                     this.scene.moveAbove('scrollerScene','chatScene');
-
+                    //this.playerTalk=false;
                     this.loadConvo(this.convoIndex);
                     //this.postMessages(this.convoIndex);
                     this.textArea.setInteractive();
@@ -237,7 +241,7 @@ class Messenger extends Phaser.Scene {
                 this.displayName.text = tab.text;
                 this.displayIcon.setTexture(tab.text);
                 this.textArea.alpha = 1;
-                this.playerTalk=false;
+                
             });
     
             tab.on('pointerover', () => { 
@@ -309,22 +313,22 @@ class Messenger extends Phaser.Scene {
         this.sound.play('sentSFX');
         if(this.options.length > 1){
             //let tall=this.getHeight(this.extractMsg(game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].options[optionIndex])).length;
-            console.log('we innest');
+            //console.log('we innest');
             game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].choose(game.people.mHist[this.convoIndex].messages[this.currOptionsIndex].options[optionIndex]);
             //increase conversation height
             //game.people.mHist[this.convoIndex].longer(tall*30);
             //console.log(game.people.mHist[this.convoIndex].height);
         }
-        console.log('we out');
+        //console.log('we out');
         game.ppl[this.convoIndex].trust += this.options[optionIndex].effect;
         if(game.ppl[this.convoIndex].trust == 0){
             game.quitters++;
             game.ppl[this.convoIndex].trust--;
         }
 
-        if(this.playerTalk){
-            game.people.mHist[this.convoIndex].prog++;
-        }
+        //if(this.playerTalk){
+        game.people.mHist[this.convoIndex].prog++;
+        //}
     
         this.textArea.setInteractive();
         this.loadConvo(this.convoIndex);
@@ -337,10 +341,10 @@ class Messenger extends Phaser.Scene {
         this.optionsBoxes.forEach(optionBox => {
             optionBox.setInteractive();
             //if over optionBox
-            console.log('we inner');
+            //console.log('we inner');
             optionBox.on('pointerdown', () => { 
                 this.sound.play('click2SFX');
-                console.log('we innerer');
+                //console.log('we innerer');
                 this.chooseOption(this.optionsBoxes.indexOf(optionBox));
                 //console.log('hello1');
             });
@@ -382,8 +386,8 @@ class Messenger extends Phaser.Scene {
             //console.log(this.sen);
             num++;
         });
-        console.log('we in');
-        this.playerTalk=true;
+        //console.log('we in');
+        //this.playerTalk=true;
         this.initializeOptionButtons();
     }
 
@@ -418,7 +422,7 @@ class Messenger extends Phaser.Scene {
         var reachedSent = false;
         var num;
         //places current messages into an array
-        num=this.postMessages(num,convoIndex);
+        num=this.postMessages(convoIndex);
 
         //convo draw function end
         this.lastMsgWasRecieved = false;
@@ -431,18 +435,21 @@ class Messenger extends Phaser.Scene {
         }
         
         while(!reachedSent){
-            if(num >= game.people.mHist[this.convoIndex].messages.length){
+            //console.log('convoProg',game.people.mHist[convoIndex].prog);
+            if(num >= game.people.mHist[convoIndex].messages.length){
                 this.options = [];
+                //console.log('hello');
                 reachedSent = true;
                 break;
             }
-            var msg = game.people.mHist[this.convoIndex].messages[num];
+            //console.log('convoIndex', convoIndex);
+            //console.log('this.convoIndex', this.convoIndex);
+            var msg = game.people.mHist[convoIndex].messages[num];
             if(msg.type() == 'recieved' /*&& this.replied*/){
-                console.log('convoProg');
-                if(this.playerTalk){
-                    game.people.mHist[this.convoIndex].prog++;
-                }
+                //console.log('convoProg',game.people.mHist[this.convoIndex].prog++);
+                    game.people.mHist[convoIndex].prog++;
                 var message = this.extractMsg(msg);
+                
                 //var lineRep=this.getHeight(message);
                 //game.people.mHist[this.convoIndex].longer(/*20+*/this.getHeight(message)*34);
                 //console.log('roofPreRep',roof);
@@ -451,8 +458,9 @@ class Messenger extends Phaser.Scene {
                 this.convoMsgs.forEach(msg => {
                     msg.destroy();
                 });
-                var trash=this.postMessages(num,convoIndex);
-                trash=0;
+                /*num=*/this.postMessages(convoIndex);
+
+                
                 //var txt = this.chat.chatDisplay(this.msgX-(game.config.width/1.3),this.msgStart-((roof-(this.getHeight(message)*34))), message,this.recievedConfig,0,0);
                 //roof-=(this.getHeight(message)*34);
                 //console.log('roofPostRep',roof);
@@ -461,6 +469,7 @@ class Messenger extends Phaser.Scene {
                 }*///get out of loop and wait
                 this.replied = false;
                 this.lastMsgWasRecieved = true;
+                num++;
                 //this.convoMsgs.push(txt);
             }else if(msg.type() == 'sent' && this.lastMsgWasRecieved){
                 if(game.quitters >= 1){
@@ -472,6 +481,7 @@ class Messenger extends Phaser.Scene {
                 }
                 this.options = [msg];
                 reachedSent = true;
+                num++;
             }else if(msg.type() == 'sentOpts' && this.lastMsgWasRecieved){
                 if(game.quitters >= 2){
                     this.timer = this.time.delayedCall(500, () => {
@@ -481,14 +491,46 @@ class Messenger extends Phaser.Scene {
                     }, null, this);
                 }
                 this.currOptionsIndex = num;
-                this.options = msg.options;
-                this.currSentOpts = msg;
+                this.options = game.people.mHist[convoIndex].messages[num].options;
+                this.currSentOpts = game.people.mHist[convoIndex].messages[num];
+                reachedSent = true;
+                num++;
+            }else{
+                //console.log('msg.type()',msg.type());
+                if(msg.type() == 'sent'){
+                    if(game.quitters >= 1){
+                        this.timer = this.time.delayedCall(5000, () => {
+                            this.scene.remove("musicPlayerScene");
+                            this.scene.remove("pdfScene");
+                            this.scene.start("endScene");
+                        }, null, this);
+                    }
+                    this.options = [game.people.mHist[convoIndex].messages[num]];
+                    reachedSent = true;
+                    num++;
+                }else if(msg.type() == 'sentOpts'){
+                    if(game.quitters >= 2){
+                        this.timer = this.time.delayedCall(500, () => {
+                            this.scene.remove("musicPlayerScene");
+                            this.scene.remove("pdfScene");
+                            this.scene.start("endScene");
+                        }, null, this);
+                    }
+                    this.currOptionsIndex = num;
+                    this.options = game.people.mHist[convoIndex].messages[num].options;
+                    this.currSentOpts = game.people.mHist[convoIndex].messages[num];
+                    reachedSent = true;
+                    num++;
+                }
                 reachedSent = true;
             }
-            if(num == game.people.mHist[this.convoIndex].messages.length){
+            if(num == game.people.mHist[convoIndex].messages.length){
                 reachedSent = true;
             }
-            num++;
+            //console.log('num', num);
+            //num++;
+
+            
 
         }
         
@@ -521,7 +563,7 @@ class Messenger extends Phaser.Scene {
 
     }
 
-    postMessages(num,convoIndex){
+    postMessages(convoIndex){
         var msgs=[];
         for(var e = 0; e <= game.people.mHist[convoIndex].prog-1; e++){
             var msg2=game.people.mHist[convoIndex].messages[e];
@@ -542,7 +584,7 @@ class Messenger extends Phaser.Scene {
         //temp/manipulatable varible for convo height
         var roof=game.people.mHist[convoIndex].heightChecker();
         //convo draw function begin
-        for(num = 0; num <= game.people.mHist[convoIndex].prog-1; num++){
+        for(var num = 0; num <= game.people.mHist[convoIndex].prog-1; num++){
             var prog = game.people.mHist[convoIndex].prog;
             var msg = game.people.mHist[convoIndex].messages[num];
 
