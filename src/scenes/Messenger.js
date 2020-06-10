@@ -374,18 +374,18 @@ class Messenger extends Phaser.Scene {
             optsTxt.push(this.extractMsg(options[o]));
         }
         //console.log(optsTxt);
-        let optsTower=this.convoHeight(optsTxt)*34;
+        let optsTower=this.convoHeight(optsTxt)*30;
         let ceiling=optsTower;
 
         options.forEach(option => {
             let decisions=this.getHeight(this.extractMsg(option));
             this.optionsBoxes.push(
-                this.optionScene.displayOptionsBox(this.textArea.x,this.textArea.y-(20*options.length+ceiling+50-34*decisions), 1, 1, 700, decisions*34)
+                this.optionScene.displayOptionsBox(this.textArea.x,this.textArea.y-(20*options.length+ceiling+50-30*decisions), 1, 1, 700, decisions*30)
             );
             this.optionsTxt.push(
-                this.optionScene.displayOptionsText(this.textArea.x,this.textArea.y-(20*options.length+ceiling+50-34*decisions),this.extractMsg(option),this.sentConfig, 1, 1)
+                this.optionScene.displayOptionsText(this.textArea.x,this.textArea.y-(20*options.length+ceiling+50-30*decisions),this.extractMsg(option),this.sentConfig, 1, 1)
             );
-            ceiling-=(decisions*34+20);
+            ceiling-=(decisions*30+20);
             //console.log(this.sen);
             num++;
         });
