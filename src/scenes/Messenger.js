@@ -608,7 +608,7 @@ class Messenger extends Phaser.Scene {
             this.textArea.alpha = 0;
         }
         if(game.people.mHist[0].exhausted){
-            this.timer = this.time.delayedCall(5000, () => {
+            this.timer = this.time.delayedCall(60000, () => {
                 this.scene.remove("musicPlayerScene");
                 this.scene.remove("chatScene");
                 this.scene.remove("optionScene");
