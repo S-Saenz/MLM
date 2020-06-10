@@ -1,8 +1,9 @@
 /** @type {import("../typings/phaser")} */
 
 class ConvoVar{
-    constructor(str) {
+    constructor(str,stopped) {
         this.txt = str;
+        this.stopPoint=stopped||false;
     }
 
     set(str){

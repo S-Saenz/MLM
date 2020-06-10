@@ -71,6 +71,8 @@ class End extends Phaser.Scene {
         this.add.text(0, centerY+30,"Lead Artist & Producer", creditsInfoConfig).setOrigin(0);
         this.king = this.add.text(0, centerY+80,"Saenz", creditsConfig).setOrigin(0);
         this.king = this.add.text(0, centerY+110,"Programmer, Voice Actor & King", creditsInfoConfig).setOrigin(0);
+        this.nerd = this.add.text(0,centerY+160,"Sean Carpenter",creditsConfig).setOrigin(0);
+        this.nerd = this.add.text(0,centerY+190,"Programmer & Debugger",creditsInfoConfig).setOrigin(0);
 
 
         

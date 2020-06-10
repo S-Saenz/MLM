@@ -2,8 +2,10 @@
 
 
 class Recieved{
-    constructor(msg) {
+    constructor(msg,stopped,convoEnd) {
         this.txtArr = msg;
+        this.stopPoint=stopped||false;
+        this.convoEx=convoEnd||false;
     }
 
     type(){

@@ -106,7 +106,8 @@ class Pdf extends Phaser.Scene {
         this.music=this.scene.get('musicPlayerScene');
         this.messenger=this.scene.get('messengerScene');
 
-        this.bg = this.add.tileSprite(0, 50, 960, 2200, 'pdf_bg').setOrigin(0, 0);
+        //combine tutorial to pdf_bg
+        this.bg = this.add.tileSprite(0, 50, 960, 3441, 'pdf_bg').setOrigin(0, 0);
         this.chatTab = this.add.text(60,10,'Messenger',buttonConfig);
 
         
@@ -165,7 +166,7 @@ class Pdf extends Phaser.Scene {
 
         this.downButton.setInteractive();
         this.downButton.on('pointerdown', () => { 
-            if(this.bg.y>=-1480){
+            if(this.bg.y>=-2721){
                 this.bg.height+=100;
                 this.bg.y-=100;
             }
